@@ -1,0 +1,7 @@
+
+Bin
+*.user
+*.suo
+Notifier/obj/*
+Tests/bin/*
+Tests/obj/*
