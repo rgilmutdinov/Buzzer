@@ -28,34 +28,72 @@
       /// </summary>
       private void InitializeComponent()
       {
-         this.button1 = new System.Windows.Forms.Button();
+         this._menuStrip = new System.Windows.Forms.MenuStrip();
+         this.creditsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+         this._notificationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+         this._contractsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+         this._menuStrip.SuspendLayout();
          this.SuspendLayout();
          // 
-         // button1
+         // _menuStrip
          // 
-         this.button1.Location = new System.Drawing.Point(12, 227);
-         this.button1.Name = "button1";
-         this.button1.Size = new System.Drawing.Size(75, 23);
-         this.button1.TabIndex = 0;
-         this.button1.Text = "button1";
-         this.button1.UseVisualStyleBackColor = true;
-         this.button1.Click += new System.EventHandler(this.button1_Click);
+         this._menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.creditsToolStripMenuItem});
+         this._menuStrip.Location = new System.Drawing.Point(0, 0);
+         this._menuStrip.Name = "_menuStrip";
+         this._menuStrip.Size = new System.Drawing.Size(284, 24);
+         this._menuStrip.TabIndex = 1;
+         this._menuStrip.Text = "menuStrip1";
+         // 
+         // creditsToolStripMenuItem
+         // 
+         this.creditsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._notificationToolStripMenuItem,
+            this._contractsToolStripMenuItem});
+         this.creditsToolStripMenuItem.Name = "creditsToolStripMenuItem";
+         this.creditsToolStripMenuItem.Size = new System.Drawing.Size(66, 20);
+         this.creditsToolStripMenuItem.Text = "Кредиты";
+         // 
+         // _notificationToolStripMenuItem
+         // 
+         this._notificationToolStripMenuItem.Name = "_notificationToolStripMenuItem";
+         this._notificationToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+         this._notificationToolStripMenuItem.Text = "Оповещение";
+         this._notificationToolStripMenuItem.Click += new System.EventHandler(this.notificationToolStripMenuItemClick);
+         // 
+         // _contractsToolStripMenuItem
+         // 
+         this._contractsToolStripMenuItem.Name = "_contractsToolStripMenuItem";
+         this._contractsToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+         this._contractsToolStripMenuItem.Text = "Контракты";
+         this._contractsToolStripMenuItem.Click += new System.EventHandler(this.contractsToolStripMenuItemClick);
          // 
          // MainForm
          // 
          this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
          this.ClientSize = new System.Drawing.Size(284, 262);
-         this.Controls.Add(this.button1);
+         this.Controls.Add(this._menuStrip);
+         this.IsMdiContainer = true;
+         this.MainMenuStrip = this._menuStrip;
          this.Name = "MainForm";
-         this.Text = "Form1";
+         this.Text = "Notifier";
+         this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+         this.Shown += new System.EventHandler(this.mainFormShown);
+         this._menuStrip.ResumeLayout(false);
+         this._menuStrip.PerformLayout();
          this.ResumeLayout(false);
+         this.PerformLayout();
 
       }
 
       #endregion
 
-      private System.Windows.Forms.Button button1;
+      private System.Windows.Forms.MenuStrip _menuStrip;
+      private System.Windows.Forms.ToolStripMenuItem creditsToolStripMenuItem;
+      private System.Windows.Forms.ToolStripMenuItem _notificationToolStripMenuItem;
+      private System.Windows.Forms.ToolStripMenuItem _contractsToolStripMenuItem;
+
    }
 }
 

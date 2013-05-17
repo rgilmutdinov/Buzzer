@@ -1,4 +1,4 @@
-using System;
+п»їusing System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Notifier.Common;
@@ -6,26 +6,22 @@ using Excel = Microsoft.Office.Interop.Excel;
 
 namespace Notifier.Parser
 {
-   public sealed class ContractParser
+   public static class ContractParser
    {
-      private readonly string _filename;
+      private const string ContractNumberPattern = ".+в„–\\s+(\\d+-\\d+)";
 
-      public ContractParser(string filename)
+      public static ContractData Parse(string filename)
       {
          Check.NotNull(filename, "filename");
-         _filename = filename;
-      }
 
-      public ContractData Parse()
-      {
          ExcelApplication excelApplication = null;
 
          try
          {
-            excelApplication = ExcelApplication.Load(_filename);
+            excelApplication = ExcelApplication.Load(filename);
 
             var excelData = excelApplication.Range;
-            var contractNumber = readContracNumber(excelData);
+            var contractNumber = readContractNumber(excelData);
             var borrowerName = readBorrowerName(excelData);
             var exchangeRate = readExchangeRate(excelData);
             var payments = readPayments(excelData);
@@ -55,11 +51,11 @@ namespace Notifier.Parser
          return (T) value;
       }
 
-      private static string readContracNumber(Excel.Range excelData)
+      private static string readContractNumber(Excel.Range excelData)
       {
-         const string message = "Не задан номер контракта. Ячейка H2.";
+         const string message = "РќРµ Р·Р°РґР°РЅ РЅРѕРјРµСЂ РєРѕРЅС‚СЂР°РєС‚Р°. РЇС‡РµР№РєР° H2.";
          string value = tryGetValue(excelData.Cells[2, 8].Text, message);
-         var regex = Regex.Match(value, ".+№\\s+(\\d+-\\d+)");
+         var regex = Regex.Match(value, ContractNumberPattern);
 
          if (!regex.Success)
             throw new ParseContractException(message);
@@ -69,33 +65,36 @@ namespace Notifier.Parser
 
       private static string readBorrowerName(Excel.Range excelData)
       {
-         const string message = "Не задано наименование заемщика. Ячейка E8.";
+         const string message = "РќРµ Р·Р°РґР°РЅРѕ РЅР°РёРјРµРЅРѕРІР°РЅРёРµ Р·Р°РµРјС‰РёРєР°. РЇС‡РµР№РєР° E8.";
          return (string) tryGetValue(excelData.Cells[8, 5].Text, message);
       }
 
       private static decimal readExchangeRate(Excel.Range excelData)
       {
-         const string message = "Не задан курс доллара США. Ячейка H10.";
+         const string message = "РќРµ Р·Р°РґР°РЅ РєСѓСЂСЃ РґРѕР»Р»Р°СЂР° РЎРЁРђ. РЇС‡РµР№РєР° H10.";
          string value = tryGetValue(excelData.Cells[10, 8].Text, message);
          return Convert.ToDecimal(value);
       }
 
-      private static Payment[] readPayments(Excel.Range excelData)
+      private static PaymentData[] readPayments(Excel.Range excelData)
       {
-         const string noPaymentDateMessage = "Не задана Дата погашения процентов по займу.";
-         const string noPaymentAmountMessage = "Не задано значение Всего к оплате в долларах США.";
+         const int firstRow = 16;
+         const string noPaymentDateMessage = "РќРµ Р·Р°РґР°РЅР° Р”Р°С‚Р° РїРѕРіР°С€РµРЅРёСЏ РїСЂРѕС†РµРЅС‚РѕРІ РїРѕ Р·Р°Р№РјСѓ.";
+         const string noPaymentAmountMessage = "РќРµ Р·Р°РґР°РЅРѕ Р·РЅР°С‡РµРЅРёРµ Р’СЃРµРіРѕ Рє РѕРїР»Р°С‚Рµ РІ РґРѕР»Р»Р°СЂР°С… РЎРЁРђ.";
 
-         var result = new List<Payment>();
-         var row = 16;
+         var result = new List<PaymentData>();
+         var row = firstRow;
 
          while (excelData.Cells[row, 1].Value2 != null)
          {
             double seconds = tryGetValue<double>(excelData.Cells[row, 2].Value2,
-                                                 noPaymentDateMessage + " Ячейка B" + row + ".");
-            var date = DateTime.FromOADate(seconds);
+                                                 noPaymentDateMessage + " РЇС‡РµР№РєР° B" + row + ".");
+            var date = DateTime.FromOADate(seconds).Date;
             string amount = tryGetValue(excelData.Cells[row, 11].Text,
-                                        noPaymentAmountMessage + " Ячейка K" + row + ".");
-            result.Add(new Payment(Convert.ToDecimal(amount), date));
+                                        noPaymentAmountMessage + " РЇС‡РµР№РєР° K" + row + ".");
+            var isNotified = date < DateTime.Today;
+
+            result.Add(new PaymentData(Convert.ToDecimal(amount), date, isNotified));
             row++;
          }
 

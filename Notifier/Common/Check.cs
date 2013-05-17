@@ -2,7 +2,7 @@
 
 namespace Notifier.Common
 {
-   internal static class Check
+   public static class Check
    {
       internal static void NotNull(object value, string name)
       {

@@ -32,6 +32,8 @@ namespace Notifier.Parser
 
       public static ExcelApplication Load(string filename)
       {
+         Check.NotNull(filename, "filename");
+
          var excelApplication = new Application();
          var workBook = excelApplication.Workbooks.Open(filename);
          _Worksheet workSheet = workBook.Sheets[1];

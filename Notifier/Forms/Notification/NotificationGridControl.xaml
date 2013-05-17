@@ -1,0 +1,67 @@
+﻿<UserControl x:Class="Notifier.Forms.Notification.NotificationGridControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="600">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        
+        <DataGrid Grid.Row="0" Grid.Column="0"
+                  ItemsSource="{Binding Path=Payments, Mode=OneWay}"
+                  AutoGenerateColumns="False" SelectionMode="Single"
+                  CanUserAddRows="False" CanUserDeleteRows="False">
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="Background" Value="{Binding Path=Brush}"/>
+                </Style>
+            </DataGrid.RowStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Номер контракта" Binding="{Binding Path=ContractNumber, Mode=OneWay}" Width="*"/>
+                <DataGridTextColumn Header="Наименование заемщика" Binding="{Binding Path=BorrowerName, Mode=OneWay}" Width="*"/>
+
+                <DataGridTemplateColumn Header="Номер телефона" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <xctk:MaskedTextBox Mask="(000) 00-00-00" ValueDataType="{x:Type System:String}"
+                                                Value="{Binding Path=PhoneNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+                                                        NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                                                IncludeLiteralsInValue="False" IncludePromptInValue="False"
+                                                Background="{Binding Path=Brush}">
+<!--                                <xctk:MaskedTextBox.Style>-->
+<!--                                    <Style TargetType="{x:Type xctk:MaskedTextBox}">-->
+<!--                                        <Style.Triggers>-->
+<!--                                            <Trigger Property="Validation.HasError" Value="true">-->
+<!--                                                <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self},-->
+<!--                                                                                   Path=(Validation.Errors)[0].ErrorContent}" />-->
+<!--                                            </Trigger>-->
+<!--                                        </Style.Triggers>-->
+<!--                                    </Style>-->
+<!--                                </xctk:MaskedTextBox.Style>-->
+                            </xctk:MaskedTextBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+                <DataGridTextColumn Header="Курс доллара США" Binding="{Binding Path=ExchangeRate, Mode=OneWay}" Width="*"/>
+                <DataGridTextColumn Header="Сумма оплаты" Binding="{Binding Path=PaymentAmount, Mode=OneWay}" Width="*"/>
+                <DataGridTextColumn Header="Дата оплаты" Binding="{Binding Path=PaymentDate, Mode=OneWay}" Width="*"/>
+                
+                <DataGridTemplateColumn Header="Отправить SMS" Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="SMS" Command="{Binding Path=SendSms}" IsEnabled="{Binding Path=IsPhoneNumberCorrect}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

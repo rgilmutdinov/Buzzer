@@ -7,7 +7,6 @@ namespace Notifier.Parser
       public ParseContractException(string message)
          : base(message)
       {
-
       }
    }
 }

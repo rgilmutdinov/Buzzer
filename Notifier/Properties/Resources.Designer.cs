@@ -59,5 +59,73 @@ namespace Notifier.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ошибка.
+        /// </summary>
+        internal static string Error {
+            get {
+                return ResourceManager.GetString("Error", resourceCulture);
+            }
+        }
+        
+        internal static System.Drawing.Bitmap RefreshIcon {
+            get {
+                object obj = ResourceManager.GetObject("RefreshIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Возникла ошибка при обновлении списка оповещения. См. логи..
+        /// </summary>
+        internal static string RefreshNotificationListError {
+            get {
+                return ResourceManager.GetString("RefreshNotificationListError", resourceCulture);
+            }
+        }
+        
+        internal static System.Drawing.Bitmap SaveIcon {
+            get {
+                object obj = ResourceManager.GetObject("SaveIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Возникла ошибка при сохранении номеров телефонов. См. логи..
+        /// </summary>
+        internal static string SavePhoneNumbersError {
+            get {
+                return ResourceManager.GetString("SavePhoneNumbersError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Возникла ошибка при попытке отправить СМС. См. логи..
+        /// </summary>
+        internal static string SendSmsError {
+            get {
+                return ResourceManager.GetString("SendSmsError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Возникла ошибка при попытке отобразить форму Оповещение. См. логи..
+        /// </summary>
+        internal static string ShowNotificationFormError {
+            get {
+                return ResourceManager.GetString("ShowNotificationFormError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Указан неизвестный мобильный провайдер..
+        /// </summary>
+        internal static string UnknownMobileProvider {
+            get {
+                return ResourceManager.GetString("UnknownMobileProvider", resourceCulture);
+            }
+        }
     }
 }
