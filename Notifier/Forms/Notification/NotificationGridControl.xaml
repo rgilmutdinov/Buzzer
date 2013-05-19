@@ -5,7 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:Notification="clr-namespace:Notifier.Forms.Notification"
              mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="600">
+    <UserControl.Resources>
+        <Notification:BooleanToBrushConverter x:Key="booleanToBrushConverter"/>
+        <Notification:DateConverter x:Key="dateConverter"/>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -20,21 +25,21 @@
                   CanUserAddRows="False" CanUserDeleteRows="False">
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
-                    <Setter Property="Background" Value="{Binding Path=Brush}"/>
+                    <Setter Property="Background" Value="{Binding Path=IsNotified, Mode=OneWay, Converter={StaticResource booleanToBrushConverter}}"/>
                 </Style>
             </DataGrid.RowStyle>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Номер контракта" Binding="{Binding Path=ContractNumber, Mode=OneWay}" Width="*"/>
-                <DataGridTextColumn Header="Наименование заемщика" Binding="{Binding Path=BorrowerName, Mode=OneWay}" Width="*"/>
+                <DataGridTextColumn Header="Номер контракта" Binding="{Binding Path=ContractNumber, Mode=OneWay}" Width="10*"/>
+                <DataGridTextColumn Header="Наименование заемщика" Binding="{Binding Path=BorrowerName, Mode=OneWay}" Width="50*"/>
 
-                <DataGridTemplateColumn Header="Номер телефона" Width="*">
+                <DataGridTemplateColumn Header="Номер телефона" Width="10*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <xctk:MaskedTextBox Mask="(000) 00-00-00" ValueDataType="{x:Type System:String}"
                                                 Value="{Binding Path=PhoneNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
                                                         NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
                                                 IncludeLiteralsInValue="False" IncludePromptInValue="False"
-                                                Background="{Binding Path=Brush}">
+                                                Background="{Binding Path=IsNotified, Mode=OneWay, Converter={StaticResource booleanToBrushConverter}}">
 <!--                                <xctk:MaskedTextBox.Style>-->
 <!--                                    <Style TargetType="{x:Type xctk:MaskedTextBox}">-->
 <!--                                        <Style.Triggers>-->
@@ -50,9 +55,9 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 
-                <DataGridTextColumn Header="Курс доллара США" Binding="{Binding Path=ExchangeRate, Mode=OneWay}" Width="*"/>
-                <DataGridTextColumn Header="Сумма оплаты" Binding="{Binding Path=PaymentAmount, Mode=OneWay}" Width="*"/>
-                <DataGridTextColumn Header="Дата оплаты" Binding="{Binding Path=PaymentDate, Mode=OneWay}" Width="*"/>
+                <DataGridTextColumn Header="Курс доллара США" Binding="{Binding Path=ExchangeRate, Mode=OneWay}" Width="10*"/>
+                <DataGridTextColumn Header="Сумма оплаты" Binding="{Binding Path=PaymentAmount, Mode=OneWay}" Width="10*"/>
+                <DataGridTextColumn Header="Дата оплаты" Binding="{Binding Path=PaymentDate, Mode=OneWay, Converter={StaticResource dateConverter}}" Width="10*"/>
                 
                 <DataGridTemplateColumn Header="Отправить SMS" Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>

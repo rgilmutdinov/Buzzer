@@ -19,7 +19,6 @@ namespace Notifier.Database
       private const string PaymentDate = "PaymentDate";
       private const string PaymentAmount = "PaymentAmount";
       private const string IsNotified = "IsNotified";
-      private const string PaymentId = "PaymentID";
 
       private const string IdParameter = "@id";
       private const string ContractNumberParameter = "@contractNumber";
@@ -84,75 +83,6 @@ namespace Notifier.Database
                            }
 
                            return payments.ToArray();
-                        }
-                     }
-                  }
-               );
-      }
-      
-      [Obsolete("Не использовать данный метод")]
-      public ContractLight[] GetNotNotifiedPayments()
-      {
-         var selectQuery =
-            string.Format(
-               "SELECT {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7} FROM NotNotified;",
-               ContractId, ContractNumber, BorrowerName, PhoneNumber, ExchangeRate,
-               PaymentId, PaymentDate, PaymentAmount
-               );
-
-         return
-            execute(
-               connection =>
-                  {
-                     using (var command = connection.CreateCommand())
-                     {
-                        command.CommandText = selectQuery;
-                        
-                        using (var reader = command.ExecuteReader())
-                        {
-                           var result = new List<ContractLight>();
-
-                           while (reader.Read())
-                           {
-                              var contractId = reader.GetInt32(0);
-                              var paymentId = reader.GetInt32(5);
-                              var paymentDate = reader.GetDateTime(6);
-                              var paymentAmount = reader.GetDecimal(7);
-                              var payment = new PaymentLight
-                                               {
-                                                  Id = paymentId,
-                                                  PaymentDate = paymentDate,
-                                                  PaymentAmount = paymentAmount
-                                               };
-
-                              var contract = result.FirstOrDefault(item => item.Id == contractId);
-
-                              if (contract != null)
-                              {
-                                 contract.AddPayment(payment);
-                              }
-                              else
-                              {
-                                 var contractNumber = reader.GetString(1);
-                                 var borrowerName = reader.GetString(2);
-                                 var phoneNumber = reader[PhoneNumber] == DBNull.Value ? null : reader.GetString(3);
-                                 var exchangeRate = reader.GetDecimal(4);
-
-                                 var newContract = new ContractLight
-                                                   {
-                                                      Id = contractId,
-                                                      BorrowerName = borrowerName,
-                                                      PhoneNumber = phoneNumber,
-                                                      ExchangeRate = exchangeRate,
-                                                      ContractNumber = contractNumber
-                                                   };
-                                 newContract.AddPayment(payment);
-
-                                 result.Add(newContract);
-                              }
-                           }
-
-                           return result.ToArray();
                         }
                      }
                   }
@@ -243,6 +173,28 @@ namespace Notifier.Database
                      command.CommandText = updateQuery;
                      command.Parameters.Add(createParameter(command, PhoneNumberParameter, phoneNumber, DbType.String));
                      command.Parameters.Add(createParameter(command, IdParameter, contractId, DbType.Int32));
+                     command.ExecuteNonQuery();
+                  }
+               }
+            );
+      }
+
+      public void UpdateIsNotified(int paymentId, bool isNotified)
+      {
+         var updateQuery =
+            string.Format(
+               "UPDATE Payments SET {0} = {1} WHERE {2} = {3}",
+               IsNotified, IsNotifiedParameter, Id, IdParameter
+               );
+
+         executeInTransaction(
+            connection =>
+               {
+                  using (var command = connection.CreateCommand())
+                  {
+                     command.CommandText = updateQuery;
+                     command.Parameters.Add(createParameter(command, IsNotifiedParameter, isNotified, DbType.Boolean));
+                     command.Parameters.Add(createParameter(command, IdParameter, paymentId, DbType.Int32));
                      command.ExecuteNonQuery();
                   }
                }

@@ -78,6 +78,8 @@
     <Compile Include="Database\PaymentLight.cs" />
     <Compile Include="Database\Repository.cs" />
     <Compile Include="Forms\CommandDelegate.cs" />
+    <Compile Include="Forms\Notification\BooleanToBrushConverter.cs" />
+    <Compile Include="Forms\Notification\DateConverter.cs" />
     <Compile Include="Forms\Notification\NotificationForm.cs">
       <SubType>Form</SubType>
     </Compile>

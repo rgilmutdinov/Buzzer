@@ -63,7 +63,7 @@ namespace Notifier.Forms.Notification
       {
          var today = DateTime.Today;
          var contracts = _repository.GetContracts(today.AddDays(TwoWeeksDiff), today);
-         return contracts.SelectMany(NotNotifiedPayment.CreateFromContract);
+         return contracts.SelectMany(contract => NotNotifiedPayment.CreateFromContract(contract, _repository));
       }
    }
 }

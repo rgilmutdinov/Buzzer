@@ -59,9 +59,9 @@ namespace Notifier.Database
          _repository.UpdatePhoneNumber(contractId, phoneNumber);
       }
 
-      public void UpdateIsNotified(int paymentId, bool value)
+      public void UpdateIsNotified(int paymentId, bool isNotified)
       {
-         
+         _repository.UpdateIsNotified(paymentId, isNotified);
       }
    }
 }

@@ -1,9 +1,8 @@
-using System;
+ï»¿using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Input;
-using System.Windows.Media;
 using NLog;
 using Notifier.Common;
 using Notifier.Database;
@@ -16,16 +15,17 @@ namespace Notifier.Forms.Notification
    {
       private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-      public static NotNotifiedPayment[] CreateFromContract(ContractLight contract)
+      public static NotNotifiedPayment[] CreateFromContract(ContractLight contract, ContractRepositoryDecorator repository)
       {
          Check.NotNull(contract, "contract");
+         Check.NotNull(repository, "repository");
 
          var payments = contract.Payments.ToArray();
          var result = new NotNotifiedPayment[payments.Length];
 
          for (var i = 0; i < result.Length; i++)
          {
-            result[i] = new NotNotifiedPayment(contract, payments[i]);
+            result[i] = new NotNotifiedPayment(contract, payments[i], repository);
          }
 
          return result;
@@ -33,14 +33,17 @@ namespace Notifier.Forms.Notification
 
       private readonly ContractLight _contract;
       private readonly PaymentLight _payment;
+      private readonly ContractRepositoryDecorator _repository;
 
-      private NotNotifiedPayment(ContractLight contract, PaymentLight payment)
+      private NotNotifiedPayment(ContractLight contract, PaymentLight payment, ContractRepositoryDecorator repository)
       {
          Check.NotNull(contract, "contract");
          Check.NotNull(payment, "payment");
+         Check.NotNull(repository, "repository");
 
          _contract = contract;
          _payment = payment;
+         _repository = repository;
       }
 
       public int Id
@@ -88,6 +91,11 @@ namespace Notifier.Forms.Notification
          get { return _payment.PaymentDate; }
       }
 
+      public bool IsNotified
+      {
+         get { return _payment.IsNotified; }
+      }
+
       public ICommand SendSms
       {
          get
@@ -98,7 +106,11 @@ namespace Notifier.Forms.Notification
                      try
                      {
                         var smsSender = SmsSenderFactory.GetSmsSender(PhoneNumber);
-                        smsSender.Send("Hello world!!!");
+                        smsSender.Send("MKK Standart Kredit, 1242000270769677, Bakai 124001. Prosim Vas proizvesti ezhemesyachnuyu vyplatu po kreditu.");
+
+                        _repository.UpdateIsNotified(_payment.Id, true);
+                        _payment.IsNotified = true;
+                        propertyChanged("IsNotified");
                      }
                      catch (UnknownMobileProviderException)
                      {
@@ -122,13 +134,8 @@ namespace Notifier.Forms.Notification
       {
          get { return PhoneNumber != null && PhoneNumberRegex.PhoneNumberMatcher.IsMatch(PhoneNumber); }
       }
-
-      public Brush Brush
-      {
-         get { return _payment.IsNotified ? Brushes.GreenYellow : Brushes.Pink; }
-      }
-
-      [Todo("Ñäåëàòü âàëèäàöèþ íîìåðà òåëåôîíà")]
+      
+      [Todo("Ð¡Ð´ÐµÐ»Ð°Ñ‚ÑŒ Ð²Ð°Ð»Ð¸Ð´Ð°Ñ†Ð¸ÑŽ Ð½Ð¾Ð¼ÐµÑ€Ð° Ñ‚ÐµÐ»ÐµÑ„Ð¾Ð½Ð°")]
       public string this[string columnName]
       {
          get { return null; }

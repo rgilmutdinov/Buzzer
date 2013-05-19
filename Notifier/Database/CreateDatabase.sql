@@ -18,11 +18,3 @@ create table Payments
 	foreign key(ContractID) references Contracts(ID)
 );
 go;
-
-create view NotNotified as
-select
-	c.ID as ContractID, ContractNumber, BorrowerName, PhoneNumber, ExchangeRate,
-	p.ID as PaymentID, PaymentDate, PaymentAmount
-from Contracts as c, Payments as p
-where c.ID = p.ContractID and date(PaymentDate) <= date('now') and IsNotified = 0;
-go;

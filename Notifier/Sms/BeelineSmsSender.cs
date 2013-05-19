@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading;
-using Notifier.Common;
+﻿using Notifier.Common;
 using WatiN.Core;
 
 namespace Notifier.Sms
@@ -21,6 +19,7 @@ namespace Notifier.Sms
          browser.SelectList(Find.ByName("code")).Select(_phoneNumber.Code);
          browser.TextField(Find.ByName("phone")).TypeText(_phoneNumber.Phone);
          browser.TextField(Find.ByName("message2")).TypeText(message);
+         browser.TextField(Find.ByName("uid")).Focus();
       }
    }
 }

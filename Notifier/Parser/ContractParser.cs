@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text.RegularExpressions;
 using Notifier.Common;
 using Excel = Microsoft.Office.Interop.Excel;
@@ -87,9 +88,9 @@ namespace Notifier.Parser
 
          while (excelData.Cells[row, 1].Value2 != null)
          {
-            double seconds = tryGetValue<double>(excelData.Cells[row, 2].Value2,
-                                                 noPaymentDateMessage + " Ячейка B" + row + ".");
-            var date = DateTime.FromOADate(seconds).Date;
+            string dateString = tryGetValue(excelData.Cells[row, 2].Text,
+                                            noPaymentDateMessage + " Ячейка B" + row + ".");
+            var date = DateTime.ParseExact(dateString, "d.M.yyyy", CultureInfo.InvariantCulture);
             string amount = tryGetValue(excelData.Cells[row, 11].Text,
                                         noPaymentAmountMessage + " Ячейка K" + row + ".");
             var isNotified = date < DateTime.Today;

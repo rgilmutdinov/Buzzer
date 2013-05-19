@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using NUnit.Framework;
 using Notifier.Parser;
 
@@ -8,6 +9,14 @@ namespace Tests.ParserTests
    public sealed class ParserTests
    {
       private static readonly string BaseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+
+      [Test]
+      public void SimpleTest()
+      {
+         var date = DateTime.ParseExact("22.12.2013", "d.M.yyyy", CultureInfo.InvariantCulture);
+         var rate = Convert.ToDecimal("12.34");
+         var x = 0;
+      }
 
       [Test]
       public void ParseContractTest()

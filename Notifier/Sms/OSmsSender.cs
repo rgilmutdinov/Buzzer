@@ -1,15 +1,26 @@
+using Notifier.Common;
+using WatiN.Core;
+
 namespace Notifier.Sms
 {
    public sealed class OSmsSender : ISmsSender
    {
+      private readonly PhoneNumber _phoneNumber;
+
       public OSmsSender(PhoneNumber phoneNumber)
       {
-         throw new System.NotImplementedException();
+         Check.NotNull(phoneNumber, "phoneNumber");
+         _phoneNumber = phoneNumber;
       }
 
       public void Send(string message)
       {
-         throw new System.NotImplementedException();
+         var browser = new FireFox("http://www.o.kg/pages/show/?id=306");
+         var frame = browser.Frame(Find.BySrc("http://portal.o.kg/SMS/?lang=ru"));
+         frame.SelectList("MSISDN_PREFIX").Select(_phoneNumber.Code);
+         frame.TextField("_MSISDN").TypeText(_phoneNumber.Phone);
+         frame.TextField("TEXT_SMS").TypeText(message);
+         frame.TextField("CAPTCHA_CODE").Focus();
       }
    }
 }
