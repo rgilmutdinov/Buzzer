@@ -40,6 +40,7 @@ namespace Notifier.Forms.Notification
                _repository.UpdatePhoneNumber(payment.Id, payment.PhoneNumber);
                Logger.Info("Номер телефона \"{0}\" контракта \"{1}\" сохранен.",
                            payment.PhoneNumber, payment.ContractNumber);
+               _repository.UpdateIsNotified(payment.PaymentId, payment.IsNotified);
                payment.IsChanged = false;
             }
          }

@@ -25,6 +25,11 @@ namespace Notifier.Forms.Notification
          _elementHost.Child = new NotificationGridControl(_viewModel);
       }
 
+      private void addDateTimePickers()
+      {
+         
+      }
+
       private void saveButtonClick(object sender, EventArgs e)
       {
          try

@@ -29,6 +29,8 @@
                 </Style>
             </DataGrid.RowStyle>
             <DataGrid.Columns>
+                <DataGridCheckBoxColumn Header="Оповещен?" Binding="{Binding Path=IsNotified, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="10*"/>
+
                 <DataGridTextColumn Header="Номер контракта" Binding="{Binding Path=ContractNumber, Mode=OneWay}" Width="10*"/>
                 <DataGridTextColumn Header="Наименование заемщика" Binding="{Binding Path=BorrowerName, Mode=OneWay}" Width="50*"/>
 

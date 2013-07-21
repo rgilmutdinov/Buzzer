@@ -81,6 +81,11 @@ namespace Notifier.Forms.Notification
          get { return _contract.ExchangeRate; }
       }
 
+      public int PaymentId
+      {
+         get { return _payment.Id; }
+      }
+
       public decimal PaymentAmount
       {
          get { return _payment.PaymentAmount; }
@@ -94,6 +99,16 @@ namespace Notifier.Forms.Notification
       public bool IsNotified
       {
          get { return _payment.IsNotified; }
+         set
+         {
+            if (_payment.IsNotified == value)
+               return;
+
+            _payment.IsNotified = value;
+            IsChanged = true;
+
+            propertyChanged("IsNotified");
+         }
       }
 
       public ICommand SendSms
