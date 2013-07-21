@@ -15,7 +15,7 @@ namespace Notifier.Database
          _repository = repository;
       }
 
-      public ContractLight[] GetContracts(DateTime begin, DateTime end)
+      public ContractLight[] GetContracts()
       {
          var contracts = _repository.GetContracts();
          var result = new List<ContractLight>();
@@ -33,18 +33,15 @@ namespace Notifier.Database
 
             foreach (var payment in contract.Payments)
             {
-               if (begin <= payment.PaymentDate && payment.PaymentDate <= end)
-               {
-                  contractLight.AddPayment(
-                     new PaymentLight
-                        {
-                           Id = payment.Id,
-                           PaymentAmount = payment.PaymentAmount,
-                           PaymentDate = payment.PaymentDate,
-                           IsNotified = payment.IsNotified
-                        }
-                     );
-               }
+               contractLight.AddPayment(
+                  new PaymentLight
+                     {
+                        Id = payment.Id,
+                        PaymentAmount = payment.PaymentAmount,
+                        PaymentDate = payment.PaymentDate,
+                        IsNotified = payment.IsNotified
+                     }
+                  );
             }
 
             if (contractLight.Payments.Any())

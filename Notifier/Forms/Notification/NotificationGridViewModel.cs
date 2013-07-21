@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows.Data;
 using NLog;
 using Notifier.Common;
 using Notifier.Database;
@@ -11,29 +12,37 @@ namespace Notifier.Forms.Notification
 {
    public sealed class NotificationGridViewModel : INotifyPropertyChanged
    {
-      private const int TwoWeeksDiff = -13;
-
       private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
       private readonly ContractRepositoryDecorator _repository;
-      private ObservableCollection<NotNotifiedPayment> _payments;
+      private ListCollectionView _payments;
 
-      public NotificationGridViewModel(ContractRepositoryDecorator repository)
+      private DateTime _dateFrom;
+      private DateTime _dateTo;
+
+      public NotificationGridViewModel(ContractRepositoryDecorator repository, DateTime dateFrom, DateTime dateTo)
       {
          Check.NotNull(repository, "repository");
          _repository = repository;
 
-         _payments = new ObservableCollection<NotNotifiedPayment>(getPayments());
+         _dateFrom = dateFrom;
+         _dateTo = dateTo;
+
+         _payments =
+            new ListCollectionView(new ObservableCollection<NotNotifiedPayment>(getPayments()))
+               {
+                  Filter = getFilter(_dateFrom, _dateTo)
+               };
       }
 
-      public ObservableCollection<NotNotifiedPayment> Payments
+      public ListCollectionView Payments
       {
          get { return _payments; }
       }
 
       public void SaveChangedPayments()
       {
-         foreach (var payment in _payments)
+         foreach (NotNotifiedPayment payment in _payments)
          {
             if (payment.IsChanged)
             {
@@ -48,8 +57,19 @@ namespace Notifier.Forms.Notification
 
       public void RefreshPayments()
       {
-         _payments = new ObservableCollection<NotNotifiedPayment>(getPayments());
+         _payments =
+            new ListCollectionView(new ObservableCollection<NotNotifiedPayment>(getPayments()))
+               {
+                  Filter = getFilter(_dateFrom, _dateTo)
+               };
          propertyChanged("Payments");
+      }
+
+      public void SetPeriod(DateTime dateFrom, DateTime dateTo)
+      {
+         _dateFrom = dateFrom;
+         _dateTo = dateTo;
+         _payments.Filter = getFilter(_dateFrom, _dateTo);
       }
 
       public event PropertyChangedEventHandler PropertyChanged;
@@ -62,9 +82,17 @@ namespace Notifier.Forms.Notification
 
       private IEnumerable<NotNotifiedPayment> getPayments()
       {
-         var today = DateTime.Today;
-         var contracts = _repository.GetContracts(today.AddDays(TwoWeeksDiff), today);
+         var contracts = _repository.GetContracts();
          return contracts.SelectMany(contract => NotNotifiedPayment.CreateFromContract(contract, _repository));
+      }
+
+      private static Predicate<object> getFilter(DateTime dateFrom, DateTime dateTo)
+      {
+         return item =>
+                   {
+                      var payment = (NotNotifiedPayment) item;
+                      return dateFrom <= payment.PaymentDate && payment.PaymentDate <= dateTo;
+                   };
       }
    }
 }
