@@ -123,9 +123,9 @@ namespace Notifier.Forms.Notification
                         var smsSender = SmsSenderFactory.GetSmsSender(PhoneNumber);
                         smsSender.Send("MKK Standart Kredit, 1242000270769677, Bakai 124001. Prosim Vas proizvesti ezhemesyachnuyu vyplatu po kreditu.");
 
-                        _repository.UpdateIsNotified(_payment.Id, true);
-                        _payment.IsNotified = true;
-                        propertyChanged("IsNotified");
+//                        _repository.UpdateIsNotified(_payment.Id, true);
+//                        _payment.IsNotified = true;
+//                        propertyChanged("IsNotified");
                      }
                      catch (UnknownMobileProviderException)
                      {

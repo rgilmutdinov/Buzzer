@@ -1,0 +1,293 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="BuzzerDatabaseModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="BuzzerDatabaseModelStoreContainer">
+          <EntitySet Name="Credits" EntityType="BuzzerDatabaseModel.Store.Credits" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Persons" EntityType="BuzzerDatabaseModel.Store.Persons" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="PersonsToCredits" EntityType="BuzzerDatabaseModel.Store.PersonsToCredits" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="PhoneNumbers" EntityType="BuzzerDatabaseModel.Store.PhoneNumbers" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK__PersonsTo__Credi__173876EA" Association="BuzzerDatabaseModel.Store.FK__PersonsTo__Credi__173876EA">
+            <End Role="Credits" EntitySet="Credits" />
+            <End Role="PersonsToCredits" EntitySet="PersonsToCredits" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PersonsTo__Perso__182C9B23" Association="BuzzerDatabaseModel.Store.FK__PersonsTo__Perso__182C9B23">
+            <End Role="Persons" EntitySet="Persons" />
+            <End Role="PersonsToCredits" EntitySet="PersonsToCredits" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PhoneNumb__Perso__0BC6C43E" Association="BuzzerDatabaseModel.Store.FK__PhoneNumb__Perso__0BC6C43E">
+            <End Role="Persons" EntitySet="Persons" />
+            <End Role="PhoneNumbers" EntitySet="PhoneNumbers" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Credits">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CreditNumber" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="CreditAmount" Type="decimal" />
+          <Property Name="CreditIssueDate" Type="date" />
+          <Property Name="MonthsCount" Type="int" />
+          <Property Name="DiscountRate" Type="decimal" Scale="4" />
+          <Property Name="EffectiveDiscountRate" Type="decimal" Scale="4" />
+          <Property Name="ExchangeRate" Type="decimal" Scale="4" />
+        </EntityType>
+        <EntityType Name="Persons">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="RegistrationAddress" Type="nvarchar" MaxLength="255" />
+          <Property Name="FactAddress" Type="nvarchar" MaxLength="255" />
+          <Property Name="PassportNumber" Type="nvarchar" MaxLength="100" />
+          <Property Name="PassportIssueDate" Type="date" />
+          <Property Name="PassportIssuer" Type="nvarchar" MaxLength="100" />
+          <Property Name="IsValid" Type="bit" />
+        </EntityType>
+        <EntityType Name="PersonsToCredits">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CreditID" Type="int" Nullable="false" />
+          <Property Name="PersonID" Type="int" Nullable="false" />
+          <Property Name="IsBorrower" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PhoneNumbers">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="PersonID" Type="int" Nullable="false" />
+          <Property Name="PhoneNumber" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="IsValid" Type="bit" />
+        </EntityType>
+        <Association Name="FK__PersonsTo__Credi__173876EA">
+          <End Role="Credits" Type="BuzzerDatabaseModel.Store.Credits" Multiplicity="1" />
+          <End Role="PersonsToCredits" Type="BuzzerDatabaseModel.Store.PersonsToCredits" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Credits">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PersonsToCredits">
+              <PropertyRef Name="CreditID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PersonsTo__Perso__182C9B23">
+          <End Role="Persons" Type="BuzzerDatabaseModel.Store.Persons" Multiplicity="1" />
+          <End Role="PersonsToCredits" Type="BuzzerDatabaseModel.Store.PersonsToCredits" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Persons">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PersonsToCredits">
+              <PropertyRef Name="PersonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PhoneNumb__Perso__0BC6C43E">
+          <End Role="Persons" Type="BuzzerDatabaseModel.Store.Persons" Multiplicity="1" />
+          <End Role="PhoneNumbers" Type="BuzzerDatabaseModel.Store.PhoneNumbers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Persons">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PhoneNumbers">
+              <PropertyRef Name="PersonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BuzzerDatabaseModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="BuzzerDatabaseEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Credits" EntityType="BuzzerDatabaseModel.Credit" />
+          <EntitySet Name="Persons" EntityType="BuzzerDatabaseModel.Person" />
+          <EntitySet Name="PersonsToCredits" EntityType="BuzzerDatabaseModel.PersonsToCredit" />
+          <EntitySet Name="PhoneNumbers" EntityType="BuzzerDatabaseModel.PhoneNumber" />
+          <AssociationSet Name="FK__PersonsTo__Credi__173876EA" Association="BuzzerDatabaseModel.FK__PersonsTo__Credi__173876EA">
+            <End Role="Credits" EntitySet="Credits" />
+            <End Role="PersonsToCredits" EntitySet="PersonsToCredits" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PersonsTo__Perso__182C9B23" Association="BuzzerDatabaseModel.FK__PersonsTo__Perso__182C9B23">
+            <End Role="Persons" EntitySet="Persons" />
+            <End Role="PersonsToCredits" EntitySet="PersonsToCredits" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PhoneNumb__Perso__0BC6C43E" Association="BuzzerDatabaseModel.FK__PhoneNumb__Perso__0BC6C43E">
+            <End Role="Persons" EntitySet="Persons" />
+            <End Role="PhoneNumbers" EntitySet="PhoneNumbers" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Credit">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CreditNumber" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="CreditAmount" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="CreditIssueDate" Type="DateTime" />
+          <Property Name="MonthsCount" Type="Int32" />
+          <Property Name="DiscountRate" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="EffectiveDiscountRate" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="ExchangeRate" Type="Decimal" Precision="18" Scale="4" />
+          <NavigationProperty Name="PersonsToCredits" Relationship="BuzzerDatabaseModel.FK__PersonsTo__Credi__173876EA" FromRole="Credits" ToRole="PersonsToCredits" />
+        </EntityType>
+        <EntityType Name="Person">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="RegistrationAddress" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="FactAddress" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="PassportNumber" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="PassportIssueDate" Type="DateTime" />
+          <Property Name="PassportIssuer" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="IsValid" Type="Boolean" />
+          <NavigationProperty Name="PersonsToCredits" Relationship="BuzzerDatabaseModel.FK__PersonsTo__Perso__182C9B23" FromRole="Persons" ToRole="PersonsToCredits" />
+          <NavigationProperty Name="PhoneNumbers" Relationship="BuzzerDatabaseModel.FK__PhoneNumb__Perso__0BC6C43E" FromRole="Persons" ToRole="PhoneNumbers" />
+        </EntityType>
+        <EntityType Name="PersonsToCredit">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CreditID" Type="Int32" Nullable="false" />
+          <Property Name="PersonID" Type="Int32" Nullable="false" />
+          <Property Name="IsBorrower" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Credit" Relationship="BuzzerDatabaseModel.FK__PersonsTo__Credi__173876EA" FromRole="PersonsToCredits" ToRole="Credits" />
+          <NavigationProperty Name="Person" Relationship="BuzzerDatabaseModel.FK__PersonsTo__Perso__182C9B23" FromRole="PersonsToCredits" ToRole="Persons" />
+        </EntityType>
+        <EntityType Name="PhoneNumber">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PersonID" Type="Int32" Nullable="false" />
+          <Property Name="Number" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="IsValid" Type="Boolean" />
+          <NavigationProperty Name="Person" Relationship="BuzzerDatabaseModel.FK__PhoneNumb__Perso__0BC6C43E" FromRole="PhoneNumbers" ToRole="Persons" />
+        </EntityType>
+        <Association Name="FK__PersonsTo__Credi__173876EA">
+          <End Role="Credits" Type="BuzzerDatabaseModel.Credit" Multiplicity="1" />
+          <End Role="PersonsToCredits" Type="BuzzerDatabaseModel.PersonsToCredit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Credits">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PersonsToCredits">
+              <PropertyRef Name="CreditID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PersonsTo__Perso__182C9B23">
+          <End Role="Persons" Type="BuzzerDatabaseModel.Person" Multiplicity="1" />
+          <End Role="PersonsToCredits" Type="BuzzerDatabaseModel.PersonsToCredit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Persons">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PersonsToCredits">
+              <PropertyRef Name="PersonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PhoneNumb__Perso__0BC6C43E">
+          <End Role="Persons" Type="BuzzerDatabaseModel.Person" Multiplicity="1" />
+          <End Role="PhoneNumbers" Type="BuzzerDatabaseModel.PhoneNumber" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Persons">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PhoneNumbers">
+              <PropertyRef Name="PersonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BuzzerDatabaseModelStoreContainer" CdmEntityContainer="BuzzerDatabaseEntities">
+          <EntitySetMapping Name="Credits"><EntityTypeMapping TypeName="BuzzerDatabaseModel.Credit"><MappingFragment StoreEntitySet="Credits">
+            <ScalarProperty Name="ID" ColumnName="ID" />
+            <ScalarProperty Name="CreditNumber" ColumnName="CreditNumber" />
+            <ScalarProperty Name="CreditAmount" ColumnName="CreditAmount" />
+            <ScalarProperty Name="CreditIssueDate" ColumnName="CreditIssueDate" />
+            <ScalarProperty Name="MonthsCount" ColumnName="MonthsCount" />
+            <ScalarProperty Name="DiscountRate" ColumnName="DiscountRate" />
+            <ScalarProperty Name="EffectiveDiscountRate" ColumnName="EffectiveDiscountRate" />
+            <ScalarProperty Name="ExchangeRate" ColumnName="ExchangeRate" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Persons"><EntityTypeMapping TypeName="BuzzerDatabaseModel.Person"><MappingFragment StoreEntitySet="Persons">
+            <ScalarProperty Name="ID" ColumnName="ID" />
+            <ScalarProperty Name="Name" ColumnName="Name" />
+            <ScalarProperty Name="RegistrationAddress" ColumnName="RegistrationAddress" />
+            <ScalarProperty Name="FactAddress" ColumnName="FactAddress" />
+            <ScalarProperty Name="PassportNumber" ColumnName="PassportNumber" />
+            <ScalarProperty Name="PassportIssueDate" ColumnName="PassportIssueDate" />
+            <ScalarProperty Name="PassportIssuer" ColumnName="PassportIssuer" />
+            <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="PersonsToCredits"><EntityTypeMapping TypeName="BuzzerDatabaseModel.PersonsToCredit"><MappingFragment StoreEntitySet="PersonsToCredits">
+            <ScalarProperty Name="ID" ColumnName="ID" />
+            <ScalarProperty Name="CreditID" ColumnName="CreditID" />
+            <ScalarProperty Name="PersonID" ColumnName="PersonID" />
+            <ScalarProperty Name="IsBorrower" ColumnName="IsBorrower" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="PhoneNumbers"><EntityTypeMapping TypeName="BuzzerDatabaseModel.PhoneNumber"><MappingFragment StoreEntitySet="PhoneNumbers">
+            <ScalarProperty Name="ID" ColumnName="ID" />
+            <ScalarProperty Name="PersonID" ColumnName="PersonID" />
+            <ScalarProperty Name="Number" ColumnName="PhoneNumber" />
+            <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="BuzzerDatabaseModel">
+        <EntityTypeShape EntityType="BuzzerDatabaseModel.Credit" Width="1.5" PointX="0.75" PointY="2" Height="2.7494921874999996" IsExpanded="true" />
+        <EntityTypeShape EntityType="BuzzerDatabaseModel.Person" Width="1.5" PointX="5.625" PointY="1.875" Height="2.9417936197916656" IsExpanded="true" />
+        <EntityTypeShape EntityType="BuzzerDatabaseModel.PersonsToCredit" Width="1.5" PointX="3.125" PointY="2.125" Height="2.1725878906249996" IsExpanded="true" />
+        <EntityTypeShape EntityType="BuzzerDatabaseModel.PhoneNumber" Width="1.5" PointX="8" PointY="2.25" Height="1.9802864583333335" IsExpanded="true" />
+        <AssociationConnector Association="BuzzerDatabaseModel.FK__PersonsTo__Credi__173876EA" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="3.2112939453125" />
+          <ConnectorPoint PointX="3.125" PointY="3.2112939453125" />
+        </AssociationConnector>
+        <AssociationConnector Association="BuzzerDatabaseModel.FK__PersonsTo__Perso__182C9B23" ManuallyRouted="false">
+          <ConnectorPoint PointX="5.625" PointY="3.2112939453125" />
+          <ConnectorPoint PointX="4.625" PointY="3.2112939453125" />
+        </AssociationConnector>
+        <AssociationConnector Association="BuzzerDatabaseModel.FK__PhoneNumb__Perso__0BC6C43E" ManuallyRouted="false">
+          <ConnectorPoint PointX="7.125" PointY="3.2401432291666667" />
+          <ConnectorPoint PointX="8" PointY="3.2401432291666667" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

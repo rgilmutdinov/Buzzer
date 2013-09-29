@@ -1,0 +1,67 @@
+﻿<UserControl x:Class="Buzzer.View.CreditsListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:CreditsList="clr-namespace:Buzzer.ViewModel.CreditsList" mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="600"
+             d:DataContext="{d:DesignInstance CreditsList:CreditsListViewModel}">
+   
+   <UserControl.Resources>
+      <ResourceDictionary Source="/MainWindowResources.xaml" />
+   </UserControl.Resources>
+   
+   <Grid Margin="4">
+      <Grid.ColumnDefinitions>
+         <ColumnDefinition />
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+         <RowDefinition />
+      </Grid.RowDefinitions>
+
+      <DataGrid
+         Grid.Row="0" Grid.Column="0"
+         AutoGenerateColumns="False"
+         SelectionMode="Single"
+         CanUserAddRows="False"
+         CanUserDeleteRows="False"
+         CanUserSortColumns="False"
+         ItemsSource="{Binding Path=CreditsList, Mode=OneWay}"
+         >
+         <DataGrid.Columns>
+            
+            <DataGridTextColumn
+               Header="№"
+               Binding="{Binding Path=CreditNumber, Mode=OneWay}"
+               Width="10*"
+               />
+            <DataGridTextColumn
+               Header="ФИО"
+               Binding="{Binding Path=BorrowerName, Mode=OneWay}"
+               Width="30*"
+               />
+            <DataGridTextColumn
+               Header="Сумма кредита"
+               Binding="{Binding Path=CreditAmount, Mode=OneWay}"
+               Width="20*"
+               />
+            <DataGridTextColumn
+               Header="Дата выдачи"
+               Binding="{Binding Path=CreditIssueDate, Mode=OneWay, Converter={StaticResource dateConverter}}"
+               Width="20*"
+               />
+            <DataGridTextColumn
+               Header="Дата окончания"
+               Binding="{Binding Path=CreditEndDate, Mode=OneWay, Converter={StaticResource dateConverter}}"
+               Width="20*"
+               />
+            <DataGridTextColumn
+               Header="Процентная ставка"
+               Binding="{Binding Path=DiscountRate, Mode=OneWay}"
+               Width="20*"
+               />
+            
+         </DataGrid.Columns>
+      </DataGrid>
+   </Grid>
+</UserControl>

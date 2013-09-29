@@ -5,3 +5,5 @@ Bin
 Notifier/obj/*
 Tests/bin/*
 Tests/obj/*
+Buzzer/bin/*
+Buzzer/obj/*

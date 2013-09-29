@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notifier", "Notifier\Notifi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{0CD7B862-8646-47F3-8EAD-E88F1818CACF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buzzer", "Buzzer\Buzzer.csproj", "{271B7A8A-80B9-40B0-9BB5-F5C241D7BE07}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,16 @@ Global
 		{0CD7B862-8646-47F3-8EAD-E88F1818CACF}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{0CD7B862-8646-47F3-8EAD-E88F1818CACF}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{0CD7B862-8646-47F3-8EAD-E88F1818CACF}.Release|x86.ActiveCfg = Release|Any CPU
+		{271B7A8A-80B9-40B0-9BB5-F5C241D7BE07}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{271B7A8A-80B9-40B0-9BB5-F5C241D7BE07}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{271B7A8A-80B9-40B0-9BB5-F5C241D7BE07}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{271B7A8A-80B9-40B0-9BB5-F5C241D7BE07}.Debug|x86.ActiveCfg = Debug|x86
+		{271B7A8A-80B9-40B0-9BB5-F5C241D7BE07}.Debug|x86.Build.0 = Debug|x86
+		{271B7A8A-80B9-40B0-9BB5-F5C241D7BE07}.Release|Any CPU.ActiveCfg = Release|x86
+		{271B7A8A-80B9-40B0-9BB5-F5C241D7BE07}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{271B7A8A-80B9-40B0-9BB5-F5C241D7BE07}.Release|Mixed Platforms.Build.0 = Release|x86
+		{271B7A8A-80B9-40B0-9BB5-F5C241D7BE07}.Release|x86.ActiveCfg = Release|x86
+		{271B7A8A-80B9-40B0-9BB5-F5C241D7BE07}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
