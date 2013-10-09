@@ -1,6 +1,6 @@
 using System;
 
-namespace Buzzer.Common
+namespace Common
 {
    [AttributeUsage(AttributeTargets.All, AllowMultiple = true, Inherited = false)]
    public class TodoAttribute : Attribute

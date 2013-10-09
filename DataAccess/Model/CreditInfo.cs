@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using Buzzer.Common;
-using Buzzer.Properties;
+using Common;
+using DataAccess.Properties;
 
-namespace Buzzer.Model
+namespace DataAccess.Model
 {
-   public sealed class CreditInfo : IDataErrorInfo
+   public sealed class CreditInfo : RepositoryItem, IDataErrorInfo
    {
       private CreditInfo()
       {
@@ -24,8 +24,6 @@ namespace Buzzer.Model
                             };
          return newCredit;
       }
-
-      public int Id { get; set; }
 
       // Номер кредитного договора.
       public string CreditNumber { get; set; }
@@ -79,14 +77,14 @@ namespace Buzzer.Model
       }
 
       // Курс доллара США.
-      public decimal? UsdRate { get; set; }
+      public decimal? ExchangeRate { get; set; }
 
-      private string validateUsdRate()
+      private string validateExchangeRate()
       {
-         if (!UsdRate.HasValue)
+         if (!ExchangeRate.HasValue)
             return null;
 
-         return UsdRate.Value <= decimal.Zero ? Resources.IncorrectValue : null;
+         return ExchangeRate.Value <= decimal.Zero ? Resources.IncorrectValue : null;
       }
 
       // Заемщик.
@@ -135,8 +133,8 @@ namespace Buzzer.Model
                case "EffectiveDiscountRate":
                   return validateEffectiveDiscountRate();
 
-               case "UsdRate":
-                  return validateUsdRate();
+               case "ExchangeRate":
+                  return validateExchangeRate();
 
                case "Guarantors":
                   return validateGuarantors();

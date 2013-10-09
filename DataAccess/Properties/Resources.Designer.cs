@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Buzzer.Properties {
+namespace DataAccess.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Buzzer.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Buzzer.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("DataAccess.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -57,6 +57,42 @@ namespace Buzzer.Properties {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Необходимо указать хотя бы одного поручителя.
+        /// </summary>
+        internal static string AtLeastOneGuarantorMustBeSpecified {
+            get {
+                return ResourceManager.GetString("AtLeastOneGuarantorMustBeSpecified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Необходимо указать хотя бы один номер телефона.
+        /// </summary>
+        internal static string AtLeastOnePhoneNumberMustBeSpecified {
+            get {
+                return ResourceManager.GetString("AtLeastOnePhoneNumberMustBeSpecified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Поле должно быть заполнено.
+        /// </summary>
+        internal static string FieldMustBeFilled {
+            get {
+                return ResourceManager.GetString("FieldMustBeFilled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Неверное значение поля.
+        /// </summary>
+        internal static string IncorrectValue {
+            get {
+                return ResourceManager.GetString("IncorrectValue", resourceCulture);
             }
         }
     }

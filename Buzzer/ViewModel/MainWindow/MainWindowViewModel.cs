@@ -1,8 +1,7 @@
-using Buzzer.DataAccess;
-using Buzzer.Model;
 using Buzzer.ViewModel.Common;
 using Buzzer.ViewModel.CreditContract;
-using Buzzer.ViewModel.CreditsList;
+using DataAccess.Model;
+using DataAccess.Repository;
 
 namespace Buzzer.ViewModel.MainWindow
 {
@@ -10,7 +9,7 @@ namespace Buzzer.ViewModel.MainWindow
    {
       public MainWindowViewModel()
       {
-         var creditRepository = new CreditRepository();
+         var creditRepository = new Repository("Server=localhost;Database=BuzzerDatabase;Trusted_Connection=True;");
 
          var creditInfo = CreditInfo.CreatNew();
          var creditContractViewModel = new CreditContractViewModel(creditInfo, creditRepository);

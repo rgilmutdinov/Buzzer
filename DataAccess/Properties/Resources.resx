@@ -117,4 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AtLeastOneGuarantorMustBeSpecified" xml:space="preserve">
+    <value>Необходимо указать хотя бы одного поручителя</value>
+  </data>
+  <data name="AtLeastOnePhoneNumberMustBeSpecified" xml:space="preserve">
+    <value>Необходимо указать хотя бы один номер телефона</value>
+  </data>
+  <data name="FieldMustBeFilled" xml:space="preserve">
+    <value>Поле должно быть заполнено</value>
+  </data>
+  <data name="IncorrectValue" xml:space="preserve">
+    <value>Неверное значение поля</value>
+  </data>
 </root>

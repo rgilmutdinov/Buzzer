@@ -7,7 +7,7 @@ create table Persons
 	PassportNumber nvarchar(100),
 	PassportIssueDate date,
 	PassportIssuer nvarchar(100),
-	IsValid bit
+	IsValid bit not null
 );
 go
 
@@ -15,8 +15,7 @@ create table PhoneNumbers
 (
 	ID integer primary key identity(1, 1) not null,
 	PersonID integer not null references Persons(ID),
-	PhoneNumber nvarchar(100) not null,
-	IsValid bit
+	PhoneNumber nvarchar(100) not null
 );
 go
 
@@ -35,7 +34,6 @@ go
 
 create table PersonsToCredits
 (
-	ID integer primary key identity(1, 1) not null,
 	CreditID integer not null references Credits(ID),
 	PersonID integer not null references Persons(ID),
 	IsBorrower bit not null

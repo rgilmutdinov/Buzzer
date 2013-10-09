@@ -63,21 +63,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Calculation\PaymentScheduleBuilder.cs" />
-    <Compile Include="Common\Check.cs" />
-    <Compile Include="Common\NullValues.cs" />
-    <Compile Include="Common\TodoAttribute.cs" />
     <Compile Include="Calculation\CreditPayment.cs" />
-    <Compile Include="DataAccess\BuzzerDatabaseModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>BuzzerDatabaseModel.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="DataAccess\Credit.cs" />
-    <Compile Include="DataAccess\CreditRepository.cs" />
-    <Compile Include="Model\PersonInfo.cs" />
-    <Compile Include="Model\CreditInfo.cs" />
-    <Compile Include="Model\PaymentInfo.cs" />
-    <Compile Include="Model\PhoneNumberInfo.cs" />
     <Compile Include="ViewModel\Common\CommandDelegate.cs" />
     <Compile Include="ViewModel\Common\CommandViewModel.cs" />
     <Compile Include="ViewModel\Common\WorkspaceViewModel.cs" />
@@ -147,10 +133,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EntityDeploy Include="DataAccess\BuzzerDatabaseModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>BuzzerDatabaseModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
     <None Include="App.Config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -158,11 +140,16 @@
     </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Helpers\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="DataAccess\CreateBuzzerDatabase.sql" />
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{033C871F-F8CB-42F9-BBD3-1F7DC0444DC8}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataAccess\DataAccess.csproj">
+      <Project>{6969B395-557B-4D67-AC08-28BA7374E250}</Project>
+      <Name>DataAccess</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

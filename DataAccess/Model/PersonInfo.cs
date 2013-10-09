@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using Buzzer.Common;
-using Buzzer.Properties;
+using Common;
+using DataAccess.Properties;
 
-namespace Buzzer.Model
+namespace DataAccess.Model
 {
-   public sealed class PersonInfo : IDataErrorInfo
+   public sealed class PersonInfo : RepositoryItem, IDataErrorInfo
    {
       private PersonInfo()
       {
@@ -21,8 +21,6 @@ namespace Buzzer.Model
                       PhoneNumbers = new List<PhoneNumberInfo>()
                    };
       }
-
-      public int Id { get; set; }
 
       // ิศฮ.
       public string PersonName { get; set; }

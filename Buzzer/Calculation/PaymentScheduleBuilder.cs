@@ -1,5 +1,5 @@
 using System;
-using Buzzer.Model;
+using DataAccess.Model;
 
 namespace Buzzer.Calculation
 {

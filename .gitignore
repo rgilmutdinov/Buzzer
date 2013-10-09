@@ -7,3 +7,7 @@ Tests/bin/*
 Tests/obj/*
 Buzzer/bin/*
 Buzzer/obj/*
+Common/bin/Debug/*
+Common/obj/*
+DataAccess/bin/*
+DataAccess/obj/*

@@ -1,10 +1,10 @@
 using System.ComponentModel;
-using Buzzer.Common;
-using Buzzer.Properties;
+using Common;
+using DataAccess.Properties;
 
-namespace Buzzer.Model
+namespace DataAccess.Model
 {
-   public sealed class PhoneNumberInfo : IDataErrorInfo
+   public sealed class PhoneNumberInfo : RepositoryItem, IDataErrorInfo
    {
       private PhoneNumberInfo()
       {
@@ -15,8 +15,6 @@ namespace Buzzer.Model
          return new PhoneNumberInfo {Id = NullValues.Id};
       }
 
-      public int Id { get; set; }
-
       // Номер телефона.
       public string PhoneNumber { get; set; }
 
@@ -24,6 +22,9 @@ namespace Buzzer.Model
       {
          return string.IsNullOrEmpty(PhoneNumber) ? Resources.FieldMustBeFilled : null;
       }
+
+      // Идентификатор владельца телефона.
+      public int PersonId { get; set; }
 
       string IDataErrorInfo.this[string columnName]
       {

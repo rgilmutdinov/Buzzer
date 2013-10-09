@@ -1,5 +1,5 @@
 using System.Windows.Input;
-using Buzzer.Common;
+using Common;
 
 namespace Buzzer.ViewModel.Common
 {

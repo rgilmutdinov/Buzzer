@@ -1,6 +1,6 @@
 using System;
 
-namespace Buzzer.Common
+namespace Common
 {
    public static class NullValues
    {

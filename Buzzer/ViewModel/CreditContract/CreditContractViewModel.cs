@@ -4,16 +4,16 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
 using Buzzer.Calculation;
-using Buzzer.Common;
-using Buzzer.DataAccess;
-using Buzzer.Model;
 using Buzzer.ViewModel.Common;
+using Common;
+using DataAccess.Model;
+using DataAccess.Repository;
 
 namespace Buzzer.ViewModel.CreditContract
 {
    public sealed class CreditContractViewModel : WorkspaceViewModel, IDataErrorInfo
    {
-      private readonly CreditRepository _creditRepository;
+      private readonly Repository _repository;
       private readonly CreditInfo _creditInfo;
       private readonly PersonInfo _borrower;
       private bool _isUsdRateEnabled;
@@ -23,17 +23,17 @@ namespace Buzzer.ViewModel.CreditContract
       private ICommand _removeGuarantorCommand;
       private ICommand _saveCommand;
 
-      public CreditContractViewModel(CreditInfo creditInfo, CreditRepository creditRepository)
+      public CreditContractViewModel(CreditInfo creditInfo, Repository repository)
       {
          Check.NotNull(creditInfo, "creditInfo");
-         Check.NotNull(creditRepository, "creditRepository");
+         Check.NotNull(repository, "creditRepository");
          
          _creditInfo = creditInfo;
-         _creditRepository = creditRepository;
+         _repository = repository;
 
          _borrower = _creditInfo.Borrower;
          Borrower = new PersonInfoViewModel(_borrower);
-         _isUsdRateEnabled = _creditInfo.UsdRate.HasValue;
+         _isUsdRateEnabled = _creditInfo.ExchangeRate.HasValue;
 
          Guarantors = 
             new ObservableCollection<PersonInfoViewModel>(
@@ -123,13 +123,13 @@ namespace Buzzer.ViewModel.CreditContract
 
       public decimal UsdRate
       {
-         get { return _creditInfo.UsdRate.HasValue ? _creditInfo.UsdRate.Value : decimal.Zero; }
+         get { return _creditInfo.ExchangeRate.HasValue ? _creditInfo.ExchangeRate.Value : decimal.Zero; }
          set
          {
-            if (_creditInfo.UsdRate == value)
+            if (_creditInfo.ExchangeRate == value)
                return;
 
-            _creditInfo.UsdRate = value;
+            _creditInfo.ExchangeRate = value;
             propertyChanged("UsdRate");
          }
       }
@@ -146,7 +146,7 @@ namespace Buzzer.ViewModel.CreditContract
                return;
 
             if (!value)
-               _creditInfo.UsdRate = null;
+               _creditInfo.ExchangeRate = null;
 
             _isUsdRateEnabled = value;
 
@@ -231,8 +231,11 @@ namespace Buzzer.ViewModel.CreditContract
                case "MonthsCount":
                case "DiscountRate":
                case "EffectiveDiscountRate":
-               case "UsdRate":
                case "Guarantors":
+                  error = (_creditInfo as IDataErrorInfo)[columnName];
+                  break;
+
+               case "ExchangeRate":
                   error = (_creditInfo as IDataErrorInfo)[columnName];
                   break;
             }
@@ -252,7 +255,7 @@ namespace Buzzer.ViewModel.CreditContract
       
       private void buildPaymentsSchedule()
       {
-         var payments = CreditCalculator.Annuity(CreditAmount, MonthsCount, DiscountRate, _creditInfo.UsdRate);
+         var payments = CreditCalculator.Annuity(CreditAmount, MonthsCount, DiscountRate, _creditInfo.ExchangeRate);
          _creditInfo.PaymentsSchedule = PaymentScheduleBuilder.Build(payments, CreditIssueDate, MonthsCount);
 
          PaymentsSchedule = new PaymentInfoViewModel[MonthsCount];
@@ -302,9 +305,10 @@ namespace Buzzer.ViewModel.CreditContract
          return SelectedGuarantor != null;
       }
 
+      [Todo]
       private void save()
       {
-         _creditRepository.InsertOrUpdate(_creditInfo);
+         _repository.Save(_creditInfo);
       }
 
       private bool canSave()
