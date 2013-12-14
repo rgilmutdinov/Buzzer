@@ -14,17 +14,6 @@ namespace Buzzer.ViewModel.CreditsList
          Check.NotNull(creditInfo, "creditInfo");
          _creditInfo = creditInfo;
       }
-
-      public CreditViewModel(
-         string creditNumber,
-         string borrowerName,
-         decimal? creditAmount,
-         DateTime? creditIssueDate,
-         DateTime? creditEndDate,
-         decimal? discountRate)
-      {
-         
-      }
       
       public string CreditNumber
       {

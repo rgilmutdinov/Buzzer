@@ -1,58 +1,57 @@
 ﻿using System;
-using System.Linq;
+using System.Data.SqlClient;
+using DataAccess.Model;
+using DataAccess.Repository;
 using NUnit.Framework;
-using Notifier.Database;
 
 namespace Tests.DatabaseTests
 {
    [TestFixture]
    public sealed class DatabaseTests
    {
+      private string _connectionString;
+
+      [TestFixtureSetUp]
+      public void SetUpTests()
+      {
+         _connectionString = "Server=localhost;Database=TestBuzzerDatabase;Trusted_Connection=True;";
+
+         using (var connection = new SqlConnection(_connectionString))
+         {
+            connection.Open();
+
+            using (var command = connection.CreateCommand())
+            {
+               command.CommandText =
+                  "DELETE FROM PhoneNumbers;" +
+                  "DELETE FROM Persons;" +
+                  "DELETE FROM Credits;";
+               command.ExecuteNonQuery();
+            }
+         }
+      }
+
       [Test]
-      public void AddContractTest()
+      public void InsertContractTest()
       {
          // Arrange.
-         var payments = new[]
-                           {
-                              new Payment(new DateTime(2010, 1, 1), 100.0001M, true), 
-                              new Payment(new DateTime(2010, 2, 1), 200.0002M, false)
-                           };
-         var repository = new Repository();
-         var contractCreator = new ContractCreator(repository);
-         var contract = contractCreator.Create("67-2010", "Имя заемщика", 45.0123M, "0 555 123456", payments);
+         var database = new BuzzerDatabase(_connectionString);
+         var credit = CreditInfo.CreatNew();
+
+         credit.CreditNumber = "1";
+         credit.CreditAmount = 2.0M;
+         credit.CreditIssueDate = DateTime.Today;
+         credit.MonthsCount = 3;
+         credit.DiscountRate = 36.1234M;
+         credit.EffectiveDiscountRate = 5;
+         credit.ExchangeRate = null;
+
+         credit.Borrower.PersonName = "Borrower";
 
          // Act.
-         repository.SaveContract(contract);
+         database.SaveCredit(credit);
 
          // Assert.
-         Assert.AreNotEqual(0, contract.Id);
-         Assert.AreNotEqual(0, payments[0].Id);
-         Assert.AreNotEqual(0, payments[1].Id);
-
-         Assert.AreEqual(contract.Id, payments[0].ContractId);
-         Assert.AreEqual(contract.Id, payments[1].ContractId);
-
-         var contractFromDb = repository.GetContract(contract.Id);
-
-         Assert.IsNotNull(contractFromDb);
-         Assert.AreEqual(contract.Id, contractFromDb.Id);
-         Assert.AreEqual(contract.ContractNumber, contractFromDb.ContractNumber);
-         Assert.AreEqual(contract.BorrowerName, contractFromDb.BorrowerName);
-         Assert.AreEqual(contract.ExchangeRate, contractFromDb.ExchangeRate);
-         Assert.AreEqual(contract.PhoneNumber, contractFromDb.PhoneNumber);
-         Assert.AreEqual(contract.Payments.Length, contractFromDb.Payments.Length);
-
-         var orderPayments = contract.Payments.OrderBy(p => p.Id).ToArray();
-         var orderPaymentsFromDb = contractFromDb.Payments.OrderBy(p => p.Id).ToArray();
-
-         for (var i = 0; i < orderPayments.Length; i++)
-         {
-            Assert.AreEqual(orderPayments[i].Id, orderPaymentsFromDb[i].Id);
-            Assert.AreEqual(orderPayments[i].ContractId, orderPaymentsFromDb[i].ContractId);
-            Assert.AreEqual(orderPayments[i].PaymentDate, orderPaymentsFromDb[i].PaymentDate);
-            Assert.AreEqual(orderPayments[i].PaymentAmount, orderPaymentsFromDb[i].PaymentAmount);
-            Assert.AreEqual(orderPayments[i].IsNotified, orderPaymentsFromDb[i].IsNotified);
-         }
       }
    }
 }

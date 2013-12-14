@@ -31,6 +31,19 @@ namespace Buzzer.ViewModel.CreditContract
 
       public PersonInfo Original { get; private set; }
 
+      public string PersonalNumber
+      {
+         get { return Original.PersonalNumber; }
+         set
+         {
+            if (Original.PersonalNumber == value)
+               return;
+
+            Original.PersonalNumber = value;
+            propertyChanged("PersonalNumber");
+         }
+      }
+
       public string PersonName
       {
          get { return Original.PersonName; }
@@ -165,6 +178,7 @@ namespace Buzzer.ViewModel.CreditContract
 
             switch (columnName)
             {
+               case "PersonalNumber":
                case "PersonName":
                case "RegistrationAddress":
                case "FactAddress":
@@ -191,8 +205,7 @@ namespace Buzzer.ViewModel.CreditContract
 
       private void addPhoneNumber()
       {
-         var phoneNumberInfo = PhoneNumberInfo.CreateNew();
-         Original.PhoneNumbers.Add(phoneNumberInfo);
+         var phoneNumberInfo = Original.AddPhoneNumber();
          PhoneNumbers.Add(new PhoneNumberViewModel(phoneNumberInfo));
 
          if (PhoneNumbers.Count == 1)
@@ -203,7 +216,7 @@ namespace Buzzer.ViewModel.CreditContract
       {
          var original = SelectedPhoneNumber.Original;
          PhoneNumbers.Remove(SelectedPhoneNumber);
-         Original.PhoneNumbers.Remove(original);
+         Original.RemovePhoneNumber(original);
 
          if (PhoneNumbers.Count == 0)
             propertyChanged("PhoneNumbers");

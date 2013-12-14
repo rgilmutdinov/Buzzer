@@ -1,39 +1,66 @@
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using DataAccess.Common;
 using DataAccess.Helpers;
 using DataAccess.Model;
 
 namespace DataAccess.Repository
 {
-   public sealed class PhoneNumbersRepository : RepositoryBase<PhoneNumberInfo>
+   internal sealed class PhoneNumbersRepository : RepositoryBase<PhoneNumberInfo>
    {
-      private static readonly FieldInfo Id = new FieldInfo("ID", SqlDbType.Int);
-      private static readonly FieldInfo PersonId = new FieldInfo("PersonID", SqlDbType.Int);
+      internal static readonly FieldInfo PersonId = new FieldInfo("PersonID", SqlDbType.Int);
       private static readonly FieldInfo PhoneNumber = new FieldInfo("PhoneNumber", SqlDbType.NVarChar, true);
 
       public PhoneNumbersRepository(string connectionString) : base(connectionString)
       {
       }
 
-      protected override void save(PhoneNumberInfo phoneNumberInfo, SqlConnection connection, SqlTransaction transaction)
+      protected override PhoneNumberInfo[] query(string whereClause, SqlConnection connection)
       {
-         if (phoneNumberInfo.IsNew)
-            insertPhoneNumber(phoneNumberInfo, connection, transaction);
-         else
-            updatePhoneNumber(phoneNumberInfo, connection, transaction);
+         var selectPhoneNumbersQuery = string.Format("SELECT * FROM PhoneNumbers {0}", whereClause);
+
+         using (var command = connection.CreateCommand())
+         {
+            command.CommandText = selectPhoneNumbersQuery;
+
+            using (var reader = command.ExecuteReader())
+            {
+               var result = new List<PhoneNumberInfo>();
+
+               while (reader.Read())
+               {
+                  result.Add(
+                     PhoneNumberInfo.Create(
+                        Convert.ToInt32(reader[Id.Name]),
+                        Convert.ToInt32(reader[PersonId.Name]),
+                        Convert.ToString(reader[PhoneNumber.Name])
+                        )
+                     );
+               }
+
+               return result.ToArray();
+            }
+         }
       }
 
-      protected override void delete(PhoneNumberInfo item, SqlConnection connection, SqlTransaction transaction)
+      protected override void insert(PhoneNumberInfo phoneNumberInfo, SqlConnection connection)
       {
-         throw new NotImplementedException();
+         insertPhoneNumber(phoneNumberInfo, connection);
       }
 
-      private static void insertPhoneNumber(
-         PhoneNumberInfo phoneNumber,
-         SqlConnection connection,
-         SqlTransaction transaction
-         )
+      protected override void update(PhoneNumberInfo phoneNumberInfo, SqlConnection connection)
+      {
+         updatePhoneNumber(phoneNumberInfo, connection);
+      }
+
+      protected override void delete(PhoneNumberInfo item, SqlConnection connection)
+      {
+         deletePhoneNumber(item.Id, connection);
+      }
+
+      private static void insertPhoneNumber(PhoneNumberInfo phoneNumber, SqlConnection connection)
       {
          var insertPhoneNumberQuery =
             string.Format(
@@ -45,7 +72,6 @@ namespace DataAccess.Repository
 
          using (var command = connection.CreateCommand())
          {
-            command.Transaction = transaction;
             command.CommandText = insertPhoneNumberQuery;
             command.AddParameter(phoneNumber.PersonId, PersonId);
             command.AddParameter(phoneNumber.PhoneNumber, PhoneNumber);
@@ -53,11 +79,7 @@ namespace DataAccess.Repository
          }
       }
 
-      private static void updatePhoneNumber(
-         PhoneNumberInfo phoneNumber,
-         SqlConnection connection,
-         SqlTransaction transaction
-         )
+      private static void updatePhoneNumber(PhoneNumberInfo phoneNumber, SqlConnection connection)
       {
          var updatePhoneNumberQuery =
             string.Format(
@@ -68,7 +90,6 @@ namespace DataAccess.Repository
 
          using (var command = connection.CreateCommand())
          {
-            command.Transaction = transaction;
             command.CommandText = updatePhoneNumberQuery;
             command.AddParameter(phoneNumber.PhoneNumber, PhoneNumber);
             command.AddParameter(phoneNumber.Id, Id);
@@ -76,11 +97,7 @@ namespace DataAccess.Repository
          }
       }
 
-      private static void deletePhoneNumber(
-         int phoneNumberId,
-         SqlConnection connection,
-         SqlTransaction transaction
-         )
+      private static void deletePhoneNumber(int phoneNumberId, SqlConnection connection)
       {
          var deletePhoneNumberQuery =
             string.Format(
@@ -90,7 +107,6 @@ namespace DataAccess.Repository
 
          using (var command = connection.CreateCommand())
          {
-            command.Transaction = transaction;
             command.CommandText = deletePhoneNumberQuery;
             command.AddParameter(phoneNumberId, Id);
             command.ExecuteNonQuery();

@@ -1,6 +1,6 @@
 ﻿using System.Windows;
-using Buzzer.ViewModel;
 using Buzzer.ViewModel.MainWindow;
+using DataAccess.Repository;
 
 namespace Buzzer
 {
@@ -10,7 +10,10 @@ namespace Buzzer
       {
          base.OnStartup(e);
 
-         var viewModel = new MainWindowViewModel();
+         var connectionString = "Server=localhost;Database=BuzzerDatabase;Trusted_Connection=True;";
+         var buzzerDatabase = new BuzzerDatabase(connectionString);
+
+         var viewModel = new MainWindowViewModel(buzzerDatabase);
          var mainView = new MainWindow {DataContext = viewModel};
          mainView.Show();
       }

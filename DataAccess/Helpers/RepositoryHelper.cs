@@ -1,6 +1,6 @@
 using System;
 using System.Data.SqlClient;
-using DataAccess.Repository;
+using DataAccess.Common;
 
 namespace DataAccess.Helpers
 {

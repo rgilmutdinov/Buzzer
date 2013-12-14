@@ -1,7 +1,7 @@
 using System.Data;
 using Common;
 
-namespace DataAccess.Repository
+namespace DataAccess.Common
 {
    internal sealed class FieldInfo
    {

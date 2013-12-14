@@ -117,4 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BuzzerErrorMessageBoxCaption" xml:space="preserve">
+    <value>Buzzer: Ошибка</value>
+  </data>
+  <data name="MainWindowViewModel_BuzzerCaption" xml:space="preserve">
+    <value>Buzzer</value>
+  </data>
+  <data name="ErrorWhileSavingInformationToDatabase" xml:space="preserve">
+    <value>При сохранении информации в базу данных возникла ошибка. См. логи.</value>
+  </data>
+  <data name="MainWindowViewModel_CreditsList" xml:space="preserve">
+    <value>Список кредитов</value>
+  </data>
+  <data name="MainWindowViewModel_GuaranteeCredit" xml:space="preserve">
+    <value>Поручительство</value>
+  </data>
 </root>

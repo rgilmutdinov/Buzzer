@@ -7,6 +7,7 @@ namespace Notifier.Forms
    {
       private readonly Action _invoker;
       private readonly Func<bool> _predicate;
+      private bool _hasChange;
 
       public CommandDelegate(Action invoker)
       {
@@ -24,8 +25,6 @@ namespace Notifier.Forms
       {
          _invoker.Invoke();
       }
-
-      private bool _hasChange = false;
 
       public bool CanExecute(object parameter)
       {

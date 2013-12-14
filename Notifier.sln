@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notifier", "Notifier\Notifier.csproj", "{C1112E03-B612-44E8-B10E-C89DB8E35F47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{0CD7B862-8646-47F3-8EAD-E88F1818CACF}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buzzer", "Buzzer\Buzzer.csproj", "{271B7A8A-80B9-40B0-9BB5-F5C241D7BE07}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{6969B395-557B-4D67-AC08-28BA7374E250}"
@@ -31,16 +29,6 @@ Global
 		{C1112E03-B612-44E8-B10E-C89DB8E35F47}.Release|Mixed Platforms.Build.0 = Release|x86
 		{C1112E03-B612-44E8-B10E-C89DB8E35F47}.Release|x86.ActiveCfg = Release|x86
 		{C1112E03-B612-44E8-B10E-C89DB8E35F47}.Release|x86.Build.0 = Release|x86
-		{0CD7B862-8646-47F3-8EAD-E88F1818CACF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0CD7B862-8646-47F3-8EAD-E88F1818CACF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0CD7B862-8646-47F3-8EAD-E88F1818CACF}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{0CD7B862-8646-47F3-8EAD-E88F1818CACF}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{0CD7B862-8646-47F3-8EAD-E88F1818CACF}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{0CD7B862-8646-47F3-8EAD-E88F1818CACF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0CD7B862-8646-47F3-8EAD-E88F1818CACF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0CD7B862-8646-47F3-8EAD-E88F1818CACF}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{0CD7B862-8646-47F3-8EAD-E88F1818CACF}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{0CD7B862-8646-47F3-8EAD-E88F1818CACF}.Release|x86.ActiveCfg = Release|Any CPU
 		{271B7A8A-80B9-40B0-9BB5-F5C241D7BE07}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{271B7A8A-80B9-40B0-9BB5-F5C241D7BE07}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{271B7A8A-80B9-40B0-9BB5-F5C241D7BE07}.Debug|Mixed Platforms.Build.0 = Debug|x86

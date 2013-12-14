@@ -1,7 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-
-namespace Buzzer.Calculation
+﻿namespace Buzzer.Calculation
 {
    public static class CreditCalculator
    {
@@ -16,33 +13,27 @@ namespace Buzzer.Calculation
          decimal monthlyRate = discountRate / 12;
          decimal power = pow(1 + monthlyRate, months);
          decimal factor = monthlyRate * power / (power - 1);
-         decimal monthlySum = round(creditSum * factor);
+         decimal monthlySum = creditSum * factor;
          decimal rest = creditSum;
          CreditPayment[] result = new CreditPayment[months];
 
          for (var i = 0; i < months; i++)
          {
             decimal totalSum = monthlySum;
-            decimal percent = round(rest * monthlyRate);
-            decimal baseSum = round(totalSum - percent);
-            decimal tax = round(percent * TaxRate);
-            decimal paymentAmount = round(totalSum + tax);
+            decimal percent = rest * monthlyRate;
+            decimal baseSum = totalSum - percent;
+            decimal tax = percent * TaxRate;
+            decimal paymentAmount = totalSum + tax;
 
-            result[i] = new CreditPayment
-                           {
-                              CreditSum = rest,
-                              CurrencyCreditSum = getCurrencyValue(rest, currencyRate),
-                              PercentSum = percent,
-                              BaseSum = baseSum,
-                              TotalSum = totalSum,
-                              Tax = tax,
-                              PaymentAmount = paymentAmount,
-                              CurrencyPaymentAmount = getCurrencyValue(paymentAmount, currencyRate)
-                           };
-
-            rest = round(rest - baseSum);
-
-            Debug.Assert(totalSum == percent + baseSum);
+            result[i] = new CreditPayment(round(rest),
+                                          getCurrencyValue(rest, currencyRate),
+                                          round(percent),
+                                          round(baseSum),
+                                          round(totalSum),
+                                          round(tax),
+                                          round(paymentAmount),
+                                          getCurrencyValue(paymentAmount, currencyRate));
+            rest -= baseSum;
          }
 
          return result;
@@ -65,7 +56,7 @@ namespace Buzzer.Calculation
 
       private static decimal round(decimal value)
       {
-         return Math.Round(value);
+         return decimal.Round(value);
       }
    }
 }

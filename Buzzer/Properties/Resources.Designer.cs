@@ -59,5 +59,50 @@ namespace Buzzer.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Buzzer: Ошибка.
+        /// </summary>
+        internal static string BuzzerErrorMessageBoxCaption {
+            get {
+                return ResourceManager.GetString("BuzzerErrorMessageBoxCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to При сохранении информации в базу данных возникла ошибка. См. логи..
+        /// </summary>
+        internal static string ErrorWhileSavingInformationToDatabase {
+            get {
+                return ResourceManager.GetString("ErrorWhileSavingInformationToDatabase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Buzzer.
+        /// </summary>
+        internal static string MainWindowViewModel_BuzzerCaption {
+            get {
+                return ResourceManager.GetString("MainWindowViewModel_BuzzerCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Список кредитов.
+        /// </summary>
+        internal static string MainWindowViewModel_CreditsList {
+            get {
+                return ResourceManager.GetString("MainWindowViewModel_CreditsList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Поручительство.
+        /// </summary>
+        internal static string MainWindowViewModel_GuaranteeCredit {
+            get {
+                return ResourceManager.GetString("MainWindowViewModel_GuaranteeCredit", resourceCulture);
+            }
+        }
     }
 }

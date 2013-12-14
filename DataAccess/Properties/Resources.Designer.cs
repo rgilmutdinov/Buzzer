@@ -88,11 +88,29 @@ namespace DataAccess.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Длина ИНН должна составлять 14 символов.
+        /// </summary>
+        internal static string IncorrectPersonalNumberLength {
+            get {
+                return ResourceManager.GetString("IncorrectPersonalNumberLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Неверное значение поля.
         /// </summary>
         internal static string IncorrectValue {
             get {
                 return ResourceManager.GetString("IncorrectValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Длина поля не должна превышать {0} символов.
+        /// </summary>
+        internal static string MaxLengthExceeded {
+            get {
+                return ResourceManager.GetString("MaxLengthExceeded", resourceCulture);
             }
         }
     }

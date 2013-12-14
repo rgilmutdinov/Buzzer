@@ -1,20 +1,31 @@
+using System;
+using System.Windows.Input;
+
 namespace Buzzer.ViewModel.Common
 {
    public abstract class WorkspaceViewModel : ViewModelBase
    {
-      private string _name;
+      private ICommand _closeCommand;
 
-      public string Name
+      public ICommand CloseCommand
       {
-         get { return _name; }
-         set
+         get
          {
-            if (_name == value)
-               return;
+            if (_closeCommand != null)
+               return _closeCommand;
 
-            _name = value;
-            propertyChanged("Name");
+            _closeCommand = new CommandDelegate(onRequestClose);
+
+            return _closeCommand;
          }
+      }
+
+      public event EventHandler RequestClose;
+
+      private void onRequestClose()
+      {
+         if (RequestClose != null)
+            RequestClose(this, EventArgs.Empty);
       }
    }
 }

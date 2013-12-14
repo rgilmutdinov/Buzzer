@@ -126,7 +126,13 @@
   <data name="FieldMustBeFilled" xml:space="preserve">
     <value>Поле должно быть заполнено</value>
   </data>
+  <data name="IncorrectPersonalNumberLength" xml:space="preserve">
+    <value>Длина ИНН должна составлять 14 символов</value>
+  </data>
   <data name="IncorrectValue" xml:space="preserve">
     <value>Неверное значение поля</value>
+  </data>
+  <data name="MaxLengthExceeded" xml:space="preserve">
+    <value>Длина поля не должна превышать {0} символов</value>
   </data>
 </root>

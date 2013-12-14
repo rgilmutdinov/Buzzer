@@ -2,18 +2,23 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 using Buzzer.Calculation;
+using Buzzer.Properties;
 using Buzzer.ViewModel.Common;
 using Common;
 using DataAccess.Model;
 using DataAccess.Repository;
+using NLog;
 
 namespace Buzzer.ViewModel.CreditContract
 {
    public sealed class CreditContractViewModel : WorkspaceViewModel, IDataErrorInfo
    {
-      private readonly Repository _repository;
+      private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+      private readonly BuzzerDatabase _buzzerDatabase;
       private readonly CreditInfo _creditInfo;
       private readonly PersonInfo _borrower;
       private bool _isUsdRateEnabled;
@@ -23,13 +28,13 @@ namespace Buzzer.ViewModel.CreditContract
       private ICommand _removeGuarantorCommand;
       private ICommand _saveCommand;
 
-      public CreditContractViewModel(CreditInfo creditInfo, Repository repository)
+      public CreditContractViewModel(CreditInfo creditInfo, BuzzerDatabase buzzerDatabase)
       {
          Check.NotNull(creditInfo, "creditInfo");
-         Check.NotNull(repository, "creditRepository");
+         Check.NotNull(buzzerDatabase, "buzzerDatabase");
          
          _creditInfo = creditInfo;
-         _repository = repository;
+         _buzzerDatabase = buzzerDatabase;
 
          _borrower = _creditInfo.Borrower;
          Borrower = new PersonInfoViewModel(_borrower);
@@ -97,26 +102,26 @@ namespace Buzzer.ViewModel.CreditContract
 
       public decimal DiscountRate
       {
-         get { return _creditInfo.DiscountRate; }
+         get { return _creditInfo.DiscountRate * 100; }
          set
          {
             if (_creditInfo.DiscountRate == value)
                return;
 
-            _creditInfo.DiscountRate = value;
+            _creditInfo.DiscountRate = value / 100;
             propertyChanged("DiscountRate");
          }
       }
 
       public decimal? EffectiveDiscountRate
       {
-         get { return _creditInfo.EffectiveDiscountRate; }
+         get { return _creditInfo.EffectiveDiscountRate * 100; }
          set
          {
             if (_creditInfo.EffectiveDiscountRate == value)
                return;
 
-            _creditInfo.EffectiveDiscountRate = value;
+            _creditInfo.EffectiveDiscountRate = value / 100;
             propertyChanged("EffectiveDiscountRate");
          }
       }
@@ -172,7 +177,7 @@ namespace Buzzer.ViewModel.CreditContract
             if (_buildPaymentsScheduleCommand != null)
                return _buildPaymentsScheduleCommand;
 
-            _buildPaymentsScheduleCommand = new CommandDelegate(buildPaymentsSchedule, canbBuildPaymentsSchedule);
+            _buildPaymentsScheduleCommand = new CommandDelegate(buildPaymentsSchedule, canBuildPaymentsSchedule);
             return _buildPaymentsScheduleCommand;
          }
       }
@@ -235,8 +240,8 @@ namespace Buzzer.ViewModel.CreditContract
                   error = (_creditInfo as IDataErrorInfo)[columnName];
                   break;
 
-               case "ExchangeRate":
-                  error = (_creditInfo as IDataErrorInfo)[columnName];
+               case "UsdRate":
+                  error = (_creditInfo as IDataErrorInfo)["ExchangeRate"];
                   break;
             }
 
@@ -269,7 +274,7 @@ namespace Buzzer.ViewModel.CreditContract
          propertyChanged("PaymentsSchedule");
       }
 
-      private bool canbBuildPaymentsSchedule()
+      private bool canBuildPaymentsSchedule()
       {
          var info = this as IDataErrorInfo;
          return
@@ -282,8 +287,7 @@ namespace Buzzer.ViewModel.CreditContract
 
       private void addGuarantor()
       {
-         var personInfo = PersonInfo.CreateNew();
-         _creditInfo.Guarantors.Add(personInfo);
+         var personInfo = _creditInfo.AddGuarantor();
          Guarantors.Add(new PersonInfoViewModel(personInfo));
 
          if (Guarantors.Count == 1)
@@ -293,7 +297,7 @@ namespace Buzzer.ViewModel.CreditContract
       private void removeGuarantor()
       {
          var personInfo = SelectedGuarantor.Original;
-         _creditInfo.Guarantors.Remove(personInfo);
+         _creditInfo.RemoveGuarantor(personInfo);
          Guarantors.Remove(SelectedGuarantor);
 
          if (Guarantors.Count == 0)
@@ -305,15 +309,25 @@ namespace Buzzer.ViewModel.CreditContract
          return SelectedGuarantor != null;
       }
 
-      [Todo]
       private void save()
       {
-         _repository.Save(_creditInfo);
+         try
+         {
+            _buzzerDatabase.SaveCredit(_creditInfo);
+         }
+         catch (Exception e)
+         {
+            MessageBox.Show(Resources.ErrorWhileSavingInformationToDatabase,
+                            Resources.BuzzerErrorMessageBoxCaption,
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Error);
+            Logger.Error(e);
+         }
       }
 
       private bool canSave()
       {
-         return _creditInfo.CanSave();
+         return _creditInfo.IsValid();
       }
    }
 }

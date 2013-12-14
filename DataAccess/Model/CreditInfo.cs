@@ -1,14 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using Common;
+using System.Collections.ObjectModel;
+using DataAccess.Common;
+using DataAccess.Helpers;
 using DataAccess.Properties;
 
 namespace DataAccess.Model
 {
-   public sealed class CreditInfo : RepositoryItem, IDataErrorInfo
+   public sealed class CreditInfo : RepositoryItem
    {
+      private decimal _creditAmount;
+      private decimal _discountRate;
+      private decimal? _effectiveDiscountRate;
+      private decimal? _exchangeRate;
+      private PersonInfo _borrower;
+      private List<PersonInfo> _guarantors;
+
       private CreditInfo()
       {
       }
@@ -19,54 +26,208 @@ namespace DataAccess.Model
                             {
                                Id = NullValues.Id,
                                CreditIssueDate = DateTime.Today,
-                               Borrower = PersonInfo.CreateNew(),
-                               Guarantors = new List<PersonInfo>()
+                               _borrower = PersonInfo.CreateNew(NullValues.Id),
+                               _guarantors = new List<PersonInfo>()
                             };
+         newCredit._borrower.IsBorrower = true;
          return newCredit;
+      }
+
+      internal static CreditInfo Create(
+         int id,
+         string creditNumber,
+         decimal creditAmount,
+         DateTime creditIssueDate,
+         int monthsCount,
+         decimal discountRate,
+         decimal? effectiveDiscountRate,
+         decimal? exchangeRate
+         )
+      {
+         return new CreditInfo
+                   {
+                      Id = id,
+                      CreditNumber = creditNumber,
+                      CreditAmount = creditAmount,
+                      CreditIssueDate = creditIssueDate,
+                      MonthsCount = monthsCount,
+                      DiscountRate = discountRate,
+                      EffectiveDiscountRate = effectiveDiscountRate,
+                      ExchangeRate = exchangeRate
+                   };
       }
 
       // Номер кредитного договора.
       public string CreditNumber { get; set; }
 
-      private string validateCreditNumber()
+      // Сумма кредита.
+      public decimal CreditAmount
       {
-         return string.IsNullOrEmpty(CreditNumber) ? Resources.FieldMustBeFilled : null;
+         get { return _creditAmount; }
+         set { _creditAmount = decimal.Round(value); }
       }
 
-      // Сумма кредита.
-      public decimal CreditAmount { get; set; }
+      // Дата выдачи кредита.
+      public DateTime CreditIssueDate { get; set; }
+
+      // Число месяцев.
+      public int MonthsCount { get; set; }
+
+      // Процентная ставка.
+      public decimal DiscountRate
+      {
+         get { return _discountRate; }
+         set { _discountRate = decimal.Round(value, 4); }
+      }
+
+      // Эффективная процентная ставка.
+      public decimal? EffectiveDiscountRate
+      {
+         get { return _effectiveDiscountRate; }
+         set { _effectiveDiscountRate = value.HasValue ? decimal.Round(value.Value, 4) : (decimal?) null; }
+      }
+
+      // Курс доллара США.
+      public decimal? ExchangeRate
+      {
+         get { return _exchangeRate; }
+         set { _exchangeRate = value.HasValue ? decimal.Round(value.Value, 4) : (decimal?) null; }
+      }
+
+      // Заемщик.
+      public PersonInfo Borrower
+      {
+         get
+         {
+            initializePersons();
+            return _borrower;
+         }
+      }
+
+      // Поручители.
+      public ReadOnlyCollection<PersonInfo> Guarantors
+      {
+         get
+         {
+            initializePersons();
+            return _guarantors.AsReadOnly();
+         }
+      }
+
+      // График погашений платежей.
+      public PaymentInfo[] PaymentsSchedule { get; set; }
+
+      public PersonInfo AddGuarantor()
+      {
+         var newGuarantor = PersonInfo.CreateNew(Id);
+         newGuarantor.IsBorrower = false;
+         _guarantors.Add(newGuarantor);
+         return newGuarantor;
+      }
+
+      public void RemoveGuarantor(PersonInfo guarantor)
+      {
+         _guarantors.Remove(guarantor);
+      }
+
+      public override bool IsValid()
+      {
+         var isValid = base.IsValid() && Borrower.IsValid();
+
+         foreach (var guarantor in _guarantors)
+            isValid &= guarantor.IsValid();
+
+         return isValid;
+      }
+
+      protected override string getErrorInfo(string columnName)
+      {
+         switch (columnName)
+         {
+            case "CreditNumber":
+               return validateCreditNumber();
+
+            case "CreditAmount":
+               return validateCreditAmount();
+
+            case "CreditIssueDate":
+               return validateCreditIssueDate();
+
+            case "MonthsCount":
+               return validateMonthsCount();
+
+            case "DiscountRate":
+               return validateDiscountRate();
+
+            case "EffectiveDiscountRate":
+               return validateEffectiveDiscountRate();
+
+            case "ExchangeRate":
+               return validateExchangeRate();
+
+            case "Guarantors":
+               return validateGuarantors();
+         }
+
+         throw new ArgumentException(columnName, "columnName");
+      }
+
+      protected override IEnumerable<string> getRequiredFields()
+      {
+         return new[]
+                   {
+                      "CreditNumber",
+                      "CreditAmount",
+                      "CreditIssueDate",
+                      "MonthsCount",
+                      "DiscountRate"
+                   };
+      }
+
+      private void initializePersons()
+      {
+         if (_borrower == null && _guarantors == null)
+         {
+            var persons = Context.GetPersons(Id);
+            _guarantors = new List<PersonInfo>();
+
+            foreach (var person in persons)
+            {
+               if (person.IsBorrower)
+                  _borrower = person;
+               else
+                  _guarantors.Add(person);
+            }
+         }
+      }
+
+      private string validateCreditNumber()
+      {
+         if (CreditNumber.SafeGetLength() > 100)
+            return string.Format(Resources.MaxLengthExceeded, 100);
+
+         return string.IsNullOrEmpty(CreditNumber) ? Resources.FieldMustBeFilled : null;
+      }
 
       private string validateCreditAmount()
       {
          return CreditAmount <= decimal.Zero ? Resources.IncorrectValue : null;
       }
 
-      // Дата выдачи кредита.
-      public DateTime CreditIssueDate { get; set; }
-
       private string validateCreditIssueDate()
       {
          return CreditIssueDate <= NullValues.DateTime ? Resources.IncorrectValue : null;
       }
-
-      // Число месяцев.
-      public int MonthsCount { get; set; }
 
       private string validateMonthsCount()
       {
          return MonthsCount <= 0 ? Resources.IncorrectValue : null;
       }
 
-      // Процентная ставка.
-      public decimal DiscountRate { get; set; }
-
       private string validateDiscountRate()
       {
          return DiscountRate <= decimal.Zero ? Resources.IncorrectValue : null;
       }
-
-      // Эффективная процентная ставка.
-      public decimal? EffectiveDiscountRate { get; set; }
 
       private string validateEffectiveDiscountRate()
       {
@@ -76,9 +237,6 @@ namespace DataAccess.Model
          return EffectiveDiscountRate.Value <= decimal.Zero ? Resources.IncorrectValue : null;
       }
 
-      // Курс доллара США.
-      public decimal? ExchangeRate { get; set; }
-
       private string validateExchangeRate()
       {
          if (!ExchangeRate.HasValue)
@@ -87,66 +245,9 @@ namespace DataAccess.Model
          return ExchangeRate.Value <= decimal.Zero ? Resources.IncorrectValue : null;
       }
 
-      // Заемщик.
-      public PersonInfo Borrower { get; private set; }
-
-      // Поручители.
-      public List<PersonInfo> Guarantors { get; private set; }
-
       private string validateGuarantors()
       {
-         return Guarantors.Count == 0 ? Resources.AtLeastOneGuarantorMustBeSpecified : null;
-      }
-
-      // График погашений платежей.
-      public PaymentInfo[] PaymentsSchedule { get; set; }
-
-      // Проверяет, можно ли сохранить объект.
-      public bool CanSave()
-      {
-         return validateCreditNumber() == null &&
-                Borrower.CanSave() &&
-                Guarantors.All(person => person.CanSave());
-      }
-
-      string IDataErrorInfo.this[string columnName]
-      {
-         get
-         {
-            switch (columnName)
-            {
-               case "CreditNumber":
-                  return validateCreditNumber();
-
-               case "CreditAmount":
-                  return validateCreditAmount();
-
-               case "CreditIssueDate":
-                  return validateCreditIssueDate();
-
-               case "MonthsCount":
-                  return validateMonthsCount();
-
-               case "DiscountRate":
-                  return validateDiscountRate();
-
-               case "EffectiveDiscountRate":
-                  return validateEffectiveDiscountRate();
-
-               case "ExchangeRate":
-                  return validateExchangeRate();
-
-               case "Guarantors":
-                  return validateGuarantors();
-            }
-
-            return null;
-         }
-      }
-
-      string IDataErrorInfo.Error
-      {
-         get { return null; }
+         return _guarantors.Count == 0 ? Resources.AtLeastOneGuarantorMustBeSpecified : null;
       }
    }
 }

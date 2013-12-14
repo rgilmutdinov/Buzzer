@@ -1,12 +1,16 @@
 using System;
+using System.Data;
 using System.Data.SqlClient;
 using Common;
+using DataAccess.Common;
 using DataAccess.Model;
 
 namespace DataAccess.Repository
 {
-   public abstract class RepositoryBase<T> where T : RepositoryItem
+   internal abstract class RepositoryBase<T> where T : RepositoryItem
    {
+      protected static readonly FieldInfo Id = new FieldInfo("ID", SqlDbType.Int);
+
       private readonly string _connectionString;
 
       protected RepositoryBase(string connectionString)
@@ -15,24 +19,60 @@ namespace DataAccess.Repository
          _connectionString = connectionString;
       }
 
-      public void Save(T item)
+      public T Select(int id)
       {
-         executeInTransaction(
-            (connection, transaction) => save(item, connection, transaction)
-            );
+         var condition = string.Format("{0}={1}", Id.Name, id);
+         var result = Select(condition);
+         return result.Length == 0 ? null : result[0];
+      }
+
+      public T[] SelectAll()
+      {
+         return execute(connection => query(string.Empty, connection));
+      }
+
+      public T[] Select(string condition)
+      {
+         var whereClause = string.Format("WHERE {0}", condition);
+         return execute(connection => query(whereClause, connection));
+      }
+
+      public void Insert(T item)
+      {
+         execute(connection => insert(item, connection));
+      }
+
+      public void Update(T item)
+      {
+         execute(connection => update(item, connection));
       }
 
       public void Delete(T item)
       {
-         executeInTransaction(
-            (connection, transaction) => delete(item, connection, transaction)
-            );
+         execute(connection => delete(item, connection));
       }
 
-      protected abstract void save(T item, SqlConnection connection, SqlTransaction transaction);
-      protected abstract void delete(T item, SqlConnection connection, SqlTransaction transaction);
-      
-      protected void execute(Action<SqlConnection> query)
+      protected abstract T[] query(string whereClause, SqlConnection connection);
+      protected abstract void insert(T item, SqlConnection connection);
+      protected abstract void update(T item, SqlConnection connection);
+      protected abstract void delete(T item, SqlConnection connection);
+
+      protected TValue? get<TValue>(object value, Func<object, TValue> converter) where TValue : struct
+      {
+         return value == DBNull.Value ? (TValue?) null : converter(value);
+      }
+
+      private T[] execute(Func<SqlConnection, T[]> query)
+      {
+         using (var connection = new SqlConnection())
+         {
+            connection.ConnectionString = _connectionString;
+            connection.Open();
+            return query(connection);
+         }
+      }
+
+      private void execute(Action<SqlConnection> query)
       {
          using (var connection = new SqlConnection())
          {
@@ -40,31 +80,6 @@ namespace DataAccess.Repository
             connection.Open();
             query(connection);
          }
-      }
-
-      protected void executeInTransaction(Action<SqlConnection, SqlTransaction> query)
-      {
-         execute(
-            connection =>
-               {
-                  var transaction = connection.BeginTransaction();
-
-                  try
-                  {
-                     query(connection, transaction);
-                     transaction.Commit();
-                  }
-                  catch (Exception)
-                  {
-                     transaction.Rollback();
-                     throw;
-                  }
-                  finally
-                  {
-                     transaction.Dispose();
-                  }
-               }
-            );
       }
    }
 }

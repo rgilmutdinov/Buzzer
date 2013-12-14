@@ -3,7 +3,7 @@ using Common;
 
 namespace Buzzer.ViewModel.Common
 {
-   public class CommandViewModel
+   public class CommandViewModel : ViewModelBase
    {
       public CommandViewModel(string displayName, ICommand command)
       {
@@ -14,7 +14,6 @@ namespace Buzzer.ViewModel.Common
          Command = command;
       }
 
-      public string DisplayName { get; private set; }
       public ICommand Command { get; private set; }
    }
 }
