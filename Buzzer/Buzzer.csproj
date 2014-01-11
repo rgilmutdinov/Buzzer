@@ -75,6 +75,7 @@
     <Compile Include="ViewModel\CreditContract\CreditContractViewModel.cs" />
     <Compile Include="ViewModel\CreditsList\CreditsListViewModel.cs" />
     <Compile Include="ViewModel\CreditsList\CreditViewModel.cs" />
+    <Compile Include="ViewModel\MainWindow\IWorkspaceManager.cs" />
     <Compile Include="ViewModel\MainWindow\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\CreditContract\PaymentInfoViewModel.cs" />
     <Compile Include="ViewModel\CreditContract\PersonInfoViewModel.cs" />

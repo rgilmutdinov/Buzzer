@@ -10,7 +10,7 @@ namespace Common
             throw new ArgumentNullException(name);
       }
 
-      public static void NotIsNullAndEmpty(string value, string name)
+      public static void NotNullAndEmpty(string value, string name)
       {
          if (string.IsNullOrEmpty(value))
             throw new ArgumentException(name);

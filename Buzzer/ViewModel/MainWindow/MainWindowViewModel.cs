@@ -14,7 +14,7 @@ using DataAccess.Repository;
 
 namespace Buzzer.ViewModel.MainWindow
 {
-   public sealed class MainWindowViewModel : ViewModelBase
+   public sealed class MainWindowViewModel : ViewModelBase, IWorkspaceManager
    {
       private readonly BuzzerDatabase _buzzerDatabase;
       private ObservableCollection<WorkspaceViewModel> _workspaces;
@@ -67,6 +67,18 @@ namespace Buzzer.ViewModel.MainWindow
          }
       }
 
+      public void ShowCreditInfo(CreditInfo credit)
+      {
+         var workspace = new CreditContractViewModel(credit, _buzzerDatabase);
+         addWorkspace(workspace);
+      }
+
+      private void addWorkspace(WorkspaceViewModel workspace)
+      {
+         Workspaces.Add(workspace);
+         setActiveWorkspace(workspace);
+      }
+
       private void onWorkspacesChanged(object sender, NotifyCollectionChangedEventArgs e)
       {
          if (e.NewItems != null && e.NewItems.Count != 0)
@@ -96,20 +108,18 @@ namespace Buzzer.ViewModel.MainWindow
       {
          var workspace =
             Workspaces.FirstOrDefault(item => item is CreditsListViewModel) as CreditsListViewModel;
+         
          if (workspace == null)
-         {
-            workspace = new CreditsListViewModel(_buzzerDatabase);
-            Workspaces.Add(workspace);
-         }
-         setActiveWorkspace(workspace);
+            addWorkspace(new CreditsListViewModel(_buzzerDatabase, this));
+         else
+            setActiveWorkspace(workspace);
       }
 
       private void createNewGuaranteeCredit()
       {
          var credit = CreditInfo.CreatNew();
          var workspace = new CreditContractViewModel(credit, _buzzerDatabase);
-         Workspaces.Add(workspace);
-         setActiveWorkspace(workspace);
+         addWorkspace(workspace);
       }
    }
 }

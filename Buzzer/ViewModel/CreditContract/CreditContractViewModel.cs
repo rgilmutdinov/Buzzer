@@ -260,7 +260,8 @@ namespace Buzzer.ViewModel.CreditContract
       
       private void buildPaymentsSchedule()
       {
-         var payments = CreditCalculator.Annuity(CreditAmount, MonthsCount, DiscountRate, _creditInfo.ExchangeRate);
+         var payments = CreditCalculator.Annuity(_creditInfo.CreditAmount, _creditInfo.MonthsCount,
+                                                 _creditInfo.DiscountRate, _creditInfo.ExchangeRate);
          _creditInfo.PaymentsSchedule = PaymentScheduleBuilder.Build(payments, CreditIssueDate, MonthsCount);
 
          PaymentsSchedule = new PaymentInfoViewModel[MonthsCount];

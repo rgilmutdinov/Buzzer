@@ -12,3 +12,5 @@ Common/obj/*
 DataAccess/bin/*
 DataAccess/obj/*
 TestData/Folder with contracts/*
+Buzzer.Tests/bin
+Buzzer.Tests/obj

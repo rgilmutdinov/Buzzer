@@ -1,5 +1,7 @@
 using System;
+using System.Windows.Input;
 using Buzzer.ViewModel.Common;
+using Buzzer.ViewModel.MainWindow;
 using Common;
 using DataAccess.Model;
 
@@ -8,11 +10,13 @@ namespace Buzzer.ViewModel.CreditsList
    public sealed class CreditViewModel : ViewModelBase
    {
       private readonly CreditInfo _creditInfo;
+      private readonly IWorkspaceManager _workspaceManager;
 
-      public CreditViewModel(CreditInfo creditInfo)
+      public CreditViewModel(CreditInfo creditInfo, IWorkspaceManager workspaceManager)
       {
          Check.NotNull(creditInfo, "creditInfo");
          _creditInfo = creditInfo;
+         _workspaceManager = workspaceManager;
       }
       
       public string CreditNumber
@@ -43,6 +47,17 @@ namespace Buzzer.ViewModel.CreditsList
       public decimal DiscountRate
       {
          get { return _creditInfo.DiscountRate; }
+      }
+
+      public ICommand OpenCredit
+      {
+         get
+         {
+            return
+               new CommandDelegate(
+                  () => _workspaceManager.ShowCreditInfo(_creditInfo)
+                  );
+         }
       }
    }
 }

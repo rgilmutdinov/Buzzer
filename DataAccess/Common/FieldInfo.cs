@@ -7,7 +7,7 @@ namespace DataAccess.Common
    {
       public FieldInfo(string name, SqlDbType dbType, bool isNullable = false)
       {
-         Check.NotIsNullAndEmpty(name, "name");
+         Check.NotNullAndEmpty(name, "name");
          
          Name = name;
          ParameterName = "@" + name;

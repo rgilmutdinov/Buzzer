@@ -15,34 +15,33 @@
       <Grid.RowDefinitions>
          <RowDefinition />
       </Grid.RowDefinitions>
+            
+      <ItemsControl
+         Grid.Row="0"
+         Grid.Column="0"
+         Margin="5"
+         MinWidth="200"
+         IsTabStop="False"
+         ItemsSource="{Binding Path=Commands, Mode=OneWay}"
+         >
+         <ItemsControl.ItemTemplate>
+            <DataTemplate>
+               <Button
+                  Margin="2"
+                  Content="{Binding Path=DisplayName}"
+                  Command="{Binding Path=Command}"
+                  />
+            </DataTemplate>
+         </ItemsControl.ItemTemplate>
+      </ItemsControl>
       
-      <Border
-         Grid.Row="0" Grid.Column="0"
+      <TabControl
+         Grid.Row="0"
+         Grid.Column="1"
          Margin="5"
-         Style="{StaticResource MainBorderStyle}"
-         MinWidth="200">
-         
-         <HeaderedContentControl
-            Content="{Binding Path=Commands, Mode=OneWay}"
-            ContentTemplate="{StaticResource CommandsTemplate}"
-            Header="Control Panel"
-            Style="{StaticResource MainHCCStyle}"
-            />
-         
-      </Border>
-
-      <Border
-         Grid.Row="0" Grid.Column="1"
-         Margin="5"
-         Style="{StaticResource MainBorderStyle}">
-
-         <HeaderedContentControl
-            Content="{Binding Path=Workspaces}"
-            ContentTemplate="{StaticResource WorkspacesTemplate}"
-            Header="Workspaces"
-            Style="{StaticResource MainHCCStyle}"
-            />
-
-      </Border>
+         IsSynchronizedWithCurrentItem="True" 
+         ItemsSource="{Binding Path=Workspaces}" 
+         ItemTemplate="{StaticResource ClosableTabItemTemplate}"
+         />
    </Grid>
 </Window>
