@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using Buzzer.DomainModel.Properties;
 using Common;
-using DataAccess.Common;
-using DataAccess.Helpers;
-using DataAccess.Properties;
 
-namespace DataAccess.Model
+namespace Buzzer.DomainModel.Models
 {
    public sealed class PersonInfo : RepositoryItem
    {
@@ -27,7 +26,7 @@ namespace DataAccess.Model
                    };
       }
 
-      internal static PersonInfo Create(
+      public static PersonInfo Create(
          int id,
          int creditId,
          string personalNumber,
@@ -37,7 +36,8 @@ namespace DataAccess.Model
          string passportNumber,
          DateTime passportIssueDate,
          string passportIssuer,
-         bool isBorrower
+         bool isBorrower,
+         IEnumerable<PhoneNumberInfo> phoneNumbers 
          )
       {
          return new PersonInfo
@@ -51,12 +51,13 @@ namespace DataAccess.Model
                       PassportNumber = passportNumber,
                       PassportIssueDate = passportIssueDate,
                       PassportIssuer = passportIssuer,
-                      IsBorrower = isBorrower
+                      IsBorrower = isBorrower,
+                      _phoneNumbers = phoneNumbers.ToList()
                    };
       }
 
       // Идентификатор кредита, к которому относится заемщик/поручитель.
-      public int CreditId { get; internal set; }
+      public int CreditId { get; set; }
 
       // ИНН.
       public string PersonalNumber { get; set; }
@@ -82,11 +83,7 @@ namespace DataAccess.Model
       // Номера телефонов.
       public ReadOnlyCollection<PhoneNumberInfo> PhoneNumbers
       {
-         get
-         {
-            initializePhoneNumbers();
-            return _phoneNumbers.AsReadOnly();
-         }
+         get { return _phoneNumbers.AsReadOnly(); }
       }
       
       // Заемщик/Поручитель.
@@ -158,16 +155,6 @@ namespace DataAccess.Model
                       "PassportIssueDate",
                       "PassportIssuer"
                    };
-      }
-
-      private void initializePhoneNumbers()
-      {
-         if (_phoneNumbers == null)
-         {
-            var phoneNumbers = Context.GetPhoneNumbers(Id);
-            _phoneNumbers = new List<PhoneNumberInfo>();
-            _phoneNumbers.AddRange(phoneNumbers);
-         }
       }
 
       private string validatePersonalNumber()

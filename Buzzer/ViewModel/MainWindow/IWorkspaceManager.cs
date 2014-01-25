@@ -1,4 +1,4 @@
-using DataAccess.Model;
+using Buzzer.DomainModel.Models;
 
 namespace Buzzer.ViewModel.MainWindow
 {

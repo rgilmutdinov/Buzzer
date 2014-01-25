@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
-using DataAccess.Model;
-using DataAccess.Repository;
+using Buzzer.DataAccess.Repository;
+using Buzzer.DomainModel.Models;
 using NUnit.Framework;
 
 namespace Buzzer.Tests.DatabaseTests

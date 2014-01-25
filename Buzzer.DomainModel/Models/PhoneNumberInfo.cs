@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
-using DataAccess.Common;
-using DataAccess.Helpers;
-using DataAccess.Properties;
+using Buzzer.DomainModel.Properties;
 
-namespace DataAccess.Model
+namespace Buzzer.DomainModel.Models
 {
    public sealed class PhoneNumberInfo : RepositoryItem
    {
@@ -21,7 +19,7 @@ namespace DataAccess.Model
                    };
       }
 
-      internal static PhoneNumberInfo Create(int id, int personId, string phoneNumber)
+      public static PhoneNumberInfo Create(int id, int personId, string phoneNumber)
       {
          return new PhoneNumberInfo
                    {
@@ -32,7 +30,7 @@ namespace DataAccess.Model
       }
 
       // Идентификатор владельца телефона.
-      public int PersonId { get; internal set; }
+      public int PersonId { get; set; }
 
       // Номер телефона.
       public string PhoneNumber { get; set; }

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Buzzer.DataAccess.Properties {
+namespace Buzzer.DomainModel.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Buzzer.DataAccess.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Buzzer.DataAccess.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Buzzer.DomainModel.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -57,6 +57,60 @@ namespace Buzzer.DataAccess.Properties {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Необходимо указать хотя бы одного поручителя.
+        /// </summary>
+        internal static string AtLeastOneGuarantorMustBeSpecified {
+            get {
+                return ResourceManager.GetString("AtLeastOneGuarantorMustBeSpecified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Необходимо указать хотя бы один номер телефона.
+        /// </summary>
+        internal static string AtLeastOnePhoneNumberMustBeSpecified {
+            get {
+                return ResourceManager.GetString("AtLeastOnePhoneNumberMustBeSpecified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Поле должно быть заполнено.
+        /// </summary>
+        internal static string FieldMustBeFilled {
+            get {
+                return ResourceManager.GetString("FieldMustBeFilled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Длина ИНН должна составлять 14 символов.
+        /// </summary>
+        internal static string IncorrectPersonalNumberLength {
+            get {
+                return ResourceManager.GetString("IncorrectPersonalNumberLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Неверное значение поля.
+        /// </summary>
+        internal static string IncorrectValue {
+            get {
+                return ResourceManager.GetString("IncorrectValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Длина поля не должна превышать {0} символов.
+        /// </summary>
+        internal static string MaxLengthExceeded {
+            get {
+                return ResourceManager.GetString("MaxLengthExceeded", resourceCulture);
             }
         }
     }

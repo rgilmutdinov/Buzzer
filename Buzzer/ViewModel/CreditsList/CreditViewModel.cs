@@ -1,9 +1,9 @@
 using System;
 using System.Windows.Input;
+using Buzzer.DomainModel.Models;
 using Buzzer.ViewModel.Common;
 using Buzzer.ViewModel.MainWindow;
 using Common;
-using DataAccess.Model;
 
 namespace Buzzer.ViewModel.CreditsList
 {

@@ -2,12 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using DataAccess.Common;
-using DataAccess.Helpers;
-using DataAccess.Model;
+using Buzzer.DataAccess.Common;
+using Buzzer.DataAccess.Helpers;
+using Buzzer.DomainModel.Models;
 
-namespace DataAccess.Repository
+namespace Buzzer.DataAccess.Repository
 {
+   [Obsolete("Delete", true)]
    internal sealed class PhoneNumbersRepository : RepositoryBase<PhoneNumberInfo>
    {
       internal static readonly FieldInfo PersonId = new FieldInfo("PersonID", SqlDbType.Int);

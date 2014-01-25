@@ -1,7 +1,7 @@
 using System;
+using Buzzer.DomainModel.Models;
 using Buzzer.ViewModel.Common;
 using Common;
-using DataAccess.Model;
 
 namespace Buzzer.ViewModel.CreditContract
 {

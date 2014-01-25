@@ -4,13 +4,13 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Windows.Data;
+using Buzzer.DataAccess.Repository;
+using Buzzer.DomainModel.Models;
 using Buzzer.Properties;
 using Buzzer.ViewModel.Common;
 using Buzzer.ViewModel.CreditContract;
 using Buzzer.ViewModel.CreditsList;
 using Common;
-using DataAccess.Model;
-using DataAccess.Repository;
 
 namespace Buzzer.ViewModel.MainWindow
 {

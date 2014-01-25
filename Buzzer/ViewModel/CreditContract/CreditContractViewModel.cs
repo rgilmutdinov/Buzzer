@@ -5,11 +5,11 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using Buzzer.Calculation;
+using Buzzer.DataAccess.Repository;
+using Buzzer.DomainModel.Models;
 using Buzzer.Properties;
 using Buzzer.ViewModel.Common;
 using Common;
-using DataAccess.Model;
-using DataAccess.Repository;
 using NLog;
 
 namespace Buzzer.ViewModel.CreditContract

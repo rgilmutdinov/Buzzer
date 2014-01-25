@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using DataAccess.Common;
-using DataAccess.Helpers;
-using DataAccess.Properties;
+using System.Linq;
+using Buzzer.DomainModel.Properties;
 
-namespace DataAccess.Model
+namespace Buzzer.DomainModel.Models
 {
    public sealed class CreditInfo : RepositoryItem
    {
@@ -13,7 +12,6 @@ namespace DataAccess.Model
       private decimal _discountRate;
       private decimal? _effectiveDiscountRate;
       private decimal? _exchangeRate;
-      private PersonInfo _borrower;
       private List<PersonInfo> _guarantors;
 
       private CreditInfo()
@@ -26,14 +24,14 @@ namespace DataAccess.Model
                             {
                                Id = NullValues.Id,
                                CreditIssueDate = DateTime.Today,
-                               _borrower = PersonInfo.CreateNew(NullValues.Id),
+                               Borrower = PersonInfo.CreateNew(NullValues.Id),
                                _guarantors = new List<PersonInfo>()
                             };
-         newCredit._borrower.IsBorrower = true;
+         newCredit.Borrower.IsBorrower = true;
          return newCredit;
       }
 
-      internal static CreditInfo Create(
+      public static CreditInfo Create(
          int id,
          string creditNumber,
          decimal creditAmount,
@@ -41,7 +39,9 @@ namespace DataAccess.Model
          int monthsCount,
          decimal discountRate,
          decimal? effectiveDiscountRate,
-         decimal? exchangeRate
+         decimal? exchangeRate,
+         PersonInfo borrower,
+         IEnumerable<PersonInfo> guarantors
          )
       {
          return new CreditInfo
@@ -53,7 +53,9 @@ namespace DataAccess.Model
                       MonthsCount = monthsCount,
                       DiscountRate = discountRate,
                       EffectiveDiscountRate = effectiveDiscountRate,
-                      ExchangeRate = exchangeRate
+                      ExchangeRate = exchangeRate,
+                      Borrower = borrower,
+                      _guarantors = guarantors.ToList()
                    };
       }
 
@@ -95,23 +97,12 @@ namespace DataAccess.Model
       }
 
       // Заемщик.
-      public PersonInfo Borrower
-      {
-         get
-         {
-            initializePersons();
-            return _borrower;
-         }
-      }
+      public PersonInfo Borrower { get; private set; }
 
       // Поручители.
       public ReadOnlyCollection<PersonInfo> Guarantors
       {
-         get
-         {
-            initializePersons();
-            return _guarantors.AsReadOnly();
-         }
+         get { return _guarantors.AsReadOnly(); }
       }
 
       // График погашений платежей.
@@ -182,23 +173,6 @@ namespace DataAccess.Model
                       "MonthsCount",
                       "DiscountRate"
                    };
-      }
-
-      private void initializePersons()
-      {
-         if (_borrower == null && _guarantors == null)
-         {
-            var persons = Context.GetPersons(Id);
-            _guarantors = new List<PersonInfo>();
-
-            foreach (var person in persons)
-            {
-               if (person.IsBorrower)
-                  _borrower = person;
-               else
-                  _guarantors.Add(person);
-            }
-         }
       }
 
       private string validateCreditNumber()

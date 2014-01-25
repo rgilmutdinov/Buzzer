@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using DataAccess.Model;
+using Buzzer.DomainModel.Models;
 
 namespace Buzzer.View
 {

@@ -1,7 +1,7 @@
 using System.Data;
 using Common;
 
-namespace DataAccess.Common
+namespace Buzzer.DataAccess.Common
 {
    internal sealed class FieldInfo
    {

@@ -1,6 +1,6 @@
 ﻿using System.Windows;
+using Buzzer.DataAccess.Repository;
 using Buzzer.ViewModel.MainWindow;
-using DataAccess.Repository;
 
 namespace Buzzer
 {

@@ -1,6 +1,6 @@
 using System;
 
-namespace DataAccess.Model
+namespace Buzzer.DomainModel.Models
 {
    public sealed class PaymentInfo
    {

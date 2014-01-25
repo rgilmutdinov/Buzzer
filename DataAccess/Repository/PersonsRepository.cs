@@ -2,12 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using DataAccess.Common;
-using DataAccess.Helpers;
-using DataAccess.Model;
+using Buzzer.DataAccess.Common;
+using Buzzer.DataAccess.Helpers;
+using Buzzer.DomainModel.Models;
 
-namespace DataAccess.Repository
+namespace Buzzer.DataAccess.Repository
 {
+   [Obsolete("Delete", true)]
    internal sealed class PersonsRepository : RepositoryBase<PersonInfo>
    {
       internal static readonly FieldInfo CreditId = new FieldInfo("CreditId", SqlDbType.Int);
@@ -49,7 +50,8 @@ namespace DataAccess.Repository
                         Convert.ToString(reader[PassportNumber.Name]),
                         Convert.ToDateTime(reader[PassportIssueDate.Name]),
                         Convert.ToString(reader[PassportIssuer.Name]),
-                        Convert.ToBoolean(reader[IsBorrower.Name])
+                        Convert.ToBoolean(reader[IsBorrower.Name]),
+                        null
                         )
                      );
                }

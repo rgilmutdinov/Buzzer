@@ -1,10 +1,10 @@
 using System;
 using System.Linq;
 using System.Windows.Data;
+using Buzzer.DataAccess.Repository;
 using Buzzer.ViewModel.Common;
 using Buzzer.ViewModel.MainWindow;
 using Common;
-using DataAccess.Repository;
 
 namespace Buzzer.ViewModel.CreditsList
 {

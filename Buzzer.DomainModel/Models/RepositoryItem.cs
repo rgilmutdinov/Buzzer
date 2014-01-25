@@ -1,35 +1,20 @@
 using System.Collections.Generic;
 using System.ComponentModel;
-using Common;
-using DataAccess.Common;
-using DataAccess.Repository;
 
-namespace DataAccess.Model
+namespace Buzzer.DomainModel.Models
 {
    public abstract class RepositoryItem : IDataErrorInfo
    {
-      private BuzzerDatabase _context;
-
       protected RepositoryItem()
       {
          Id = NullValues.Id;
       }
 
-      public int Id { get; internal set; }
+      public int Id { get; set; }
 
       public bool IsNew
       {
          get { return Id == NullValues.Id; }
-      }
-
-      internal BuzzerDatabase Context
-      {
-         get { return _context; }
-         set
-         {
-            Check.NotNull(value, "value");
-            _context = value;
-         }
       }
 
       public virtual bool IsValid()

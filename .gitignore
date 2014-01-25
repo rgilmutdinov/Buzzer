@@ -14,3 +14,5 @@ DataAccess/obj/*
 TestData/Folder with contracts/*
 Buzzer.Tests/bin
 Buzzer.Tests/obj
+Buzzer.DomainModel/bin/Debug/
+Buzzer.DomainModel/obj/Debug/

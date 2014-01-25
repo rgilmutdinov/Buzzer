@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using DataAccess.Common;
-using DataAccess.Helpers;
-using DataAccess.Model;
+using Buzzer.DataAccess.Common;
+using Buzzer.DataAccess.Helpers;
+using Buzzer.DomainModel.Models;
 
-namespace DataAccess.Repository
+namespace Buzzer.DataAccess.Repository
 {
+   [Obsolete("Delete", true)]
    internal sealed class CreditsRepository : RepositoryBase<CreditInfo>
    {
       private static readonly FieldInfo CreditNumber = new FieldInfo("CreditNumber", SqlDbType.NVarChar);
@@ -45,7 +46,9 @@ namespace DataAccess.Repository
                            Convert.ToInt32(reader[MonthsCount.Name]),
                            Convert.ToDecimal(reader[DiscountRate.Name]),
                            get(reader[EffectiveDiscountRate.Name], Convert.ToDecimal),
-                           get(reader[ExchangeRate.Name], Convert.ToDecimal)
+                           get(reader[ExchangeRate.Name], Convert.ToDecimal),
+                           null,
+                           null
                         )
                      );
                }

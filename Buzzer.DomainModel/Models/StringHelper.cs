@@ -1,8 +1,5 @@
-using System;
-
-namespace Buzzer.DataAccess.Helpers
+namespace Buzzer.DomainModel.Models
 {
-   [Obsolete("", true)]
    internal static class StringHelper
    {
       internal static int SafeGetLength(this string text)

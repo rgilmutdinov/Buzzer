@@ -1,8 +1,7 @@
 using System;
 
-namespace Buzzer.DataAccess.Common
+namespace Buzzer.DomainModel.Models
 {
-   [Obsolete("", true)]
    public static class NullValues
    {
       public const int Id = -1;

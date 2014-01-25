@@ -1,12 +1,13 @@
 using System;
 using System.Data;
 using System.Data.SqlClient;
+using Buzzer.DataAccess.Common;
+using Buzzer.DomainModel.Models;
 using Common;
-using DataAccess.Common;
-using DataAccess.Model;
 
-namespace DataAccess.Repository
+namespace Buzzer.DataAccess.Repository
 {
+   [Obsolete("Delete", true)]
    internal abstract class RepositoryBase<T> where T : RepositoryItem
    {
       protected static readonly FieldInfo Id = new FieldInfo("ID", SqlDbType.Int);

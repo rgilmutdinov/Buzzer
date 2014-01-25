@@ -1,8 +1,8 @@
 using System;
 using System.Data.SqlClient;
-using DataAccess.Common;
+using Buzzer.DataAccess.Common;
 
-namespace DataAccess.Helpers
+namespace Buzzer.DataAccess.Helpers
 {
    internal static class RepositoryHelper
    {
