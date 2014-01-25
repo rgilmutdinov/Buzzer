@@ -67,8 +67,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Calculation\PaymentScheduleBuilder.cs" />
-    <Compile Include="Calculation\CreditPayment.cs" />
     <Compile Include="ViewModel\Common\CommandDelegate.cs" />
     <Compile Include="ViewModel\Common\CommandViewModel.cs" />
     <Compile Include="ViewModel\Common\WorkspaceViewModel.cs" />
@@ -99,7 +97,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Calculation\CreditCalculator.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

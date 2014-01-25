@@ -33,3 +33,13 @@ create table PhoneNumbers
 	PhoneNumber nvarchar(100) not null
 );
 go
+
+create table PaymentsSchedule
+(
+	ID integer primary key identity(1, 1) not null,
+	CreditID integer not null references Credits(ID),
+	PaymentDate date not null,
+	PaymentAmount decimal(18, 4) not null,
+	IsNotified bit default 0 not null
+);
+go

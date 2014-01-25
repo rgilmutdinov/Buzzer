@@ -40,9 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\CreditCalculator.cs" />
     <Compile Include="Models\CreditInfo.cs" />
+    <Compile Include="Models\CreditPayment.cs" />
     <Compile Include="Models\NullValues.cs" />
     <Compile Include="Models\PaymentInfo.cs" />
+    <Compile Include="Models\PaymentScheduleBuilder.cs" />
     <Compile Include="Models\PersonInfo.cs" />
     <Compile Include="Models\PhoneNumberInfo.cs" />
     <Compile Include="Models\RepositoryItem.cs" />

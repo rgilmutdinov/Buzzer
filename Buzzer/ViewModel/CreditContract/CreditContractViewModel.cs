@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
-using Buzzer.Calculation;
 using Buzzer.DataAccess.Repository;
 using Buzzer.DomainModel.Models;
 using Buzzer.Properties;
@@ -40,12 +39,10 @@ namespace Buzzer.ViewModel.CreditContract
          Borrower = new PersonInfoViewModel(_borrower);
          _isUsdRateEnabled = _creditInfo.ExchangeRate.HasValue;
 
-         Guarantors = 
-            new ObservableCollection<PersonInfoViewModel>(
-               _creditInfo.Guarantors.Select(item => new PersonInfoViewModel(item))
-               );
+         Guarantors = getGuarantors();
+         PaymentsSchedule = getPaymentsSchedule();
       }
-
+      
       #region Fields
 
       public string CreditNumber
@@ -257,21 +254,34 @@ namespace Buzzer.ViewModel.CreditContract
       }
       
       #endregion
-      
-      private void buildPaymentsSchedule()
-      {
-         var payments = CreditCalculator.Annuity(_creditInfo.CreditAmount, _creditInfo.MonthsCount,
-                                                 _creditInfo.DiscountRate, _creditInfo.ExchangeRate);
-         _creditInfo.PaymentsSchedule = PaymentScheduleBuilder.Build(payments, CreditIssueDate, MonthsCount);
 
-         PaymentsSchedule = new PaymentInfoViewModel[MonthsCount];
+      private ObservableCollection<PersonInfoViewModel> getGuarantors()
+      {
+         return new ObservableCollection<PersonInfoViewModel>(
+            _creditInfo.Guarantors.Select(item => new PersonInfoViewModel(item))
+            );
+      }
+
+      private PaymentInfoViewModel[] getPaymentsSchedule()
+      {
+         if (_creditInfo.PaymentsSchedule.Length == 0)
+            return new PaymentInfoViewModel[0];
+
+         var result = new PaymentInfoViewModel[MonthsCount];
 
          for (var i = 0; i < MonthsCount; i++)
          {
             var number = i + 1;
-            PaymentsSchedule[i] = new PaymentInfoViewModel(_creditInfo.PaymentsSchedule[i], number);
+            result[i] = new PaymentInfoViewModel(_creditInfo.PaymentsSchedule[i], number, IsUsdRateEnabled);
          }
 
+         return result;
+      }
+
+      private void buildPaymentsSchedule()
+      {
+         _creditInfo.BuildPaymentsSchedule();
+         PaymentsSchedule = getPaymentsSchedule();
          propertyChanged("PaymentsSchedule");
       }
 

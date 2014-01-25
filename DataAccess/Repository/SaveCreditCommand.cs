@@ -23,9 +23,9 @@ namespace Buzzer.DataAccess.Repository
       public void Execute()
       {
          if (_credit.IsNew)
-            execute(saveNewCredit);
+            saveNewCredit();
          else
-            execute(saveEditedCredit);
+            saveEditedCredit();
       }
 
       private void saveNewCredit()
@@ -38,11 +38,16 @@ namespace Buzzer.DataAccess.Repository
          for (int i = 0; i < guarantors.Count; i++)
             insertGuarantorsResult[i] = insertPerson(guarantors[i], creditId);
 
+         PaymentInfo[] paymentsSchedule = _credit.PaymentsSchedule;
+         int[] paymentsIds = insertPayments(paymentsSchedule, creditId);
+
          _credit.Id = creditId;
          fillPersonIds(_credit.Borrower, insertBorrowerResult, creditId);
 
          for (int i = 0; i < guarantors.Count; i++)
             fillPersonIds(guarantors[i], insertGuarantorsResult[i], creditId);
+
+         fillPaymentsIds(paymentsIds);
       }
 
       private void saveEditedCredit()
@@ -80,6 +85,17 @@ namespace Buzzer.DataAccess.Repository
                   deletePerson(item.Id);
                }
             );
+
+         PaymentInfo[] payments = _credit.PaymentsSchedule;
+
+         if (payments.Length > 0 && payments[0].IsNew)
+         {
+            foreach (PaymentInfo payment in original.PaymentsSchedule)
+               deletePaymentInfo(payment.Id);
+         }
+
+         int[] paymentsIds = insertPayments(payments, _credit.Id);
+         fillPaymentsIds(paymentsIds);
 
          int i = 0;
 
@@ -131,6 +147,22 @@ namespace Buzzer.DataAccess.Repository
                                    });
          updatedPhones.ForEach(updatePhoneNumber);
          deletedPhones.ForEach(item => deletePhoneNumber(item.Id));
+      }
+
+      private int[] insertPayments(PaymentInfo[] paymentsSchedule, int creditId)
+      {
+         var paymentsIds = new int[paymentsSchedule.Length];
+
+         for (int i = 0; i < paymentsSchedule.Length; i++)
+            paymentsIds[i] = insertPaymentInfo(paymentsSchedule[i], creditId);
+
+         return paymentsIds;
+      }
+      
+      private void fillPaymentsIds(int[] paymentsIds)
+      {
+         for (int i = 0; i < paymentsIds.Length; i++)
+            _credit.PaymentsSchedule[i].Id = paymentsIds[i];
       }
 
       #region Credits
@@ -328,6 +360,50 @@ namespace Buzzer.DataAccess.Repository
          using (SqlCommand command = createCommand(deletePhoneNumberQuery))
          {
             command.AddParameter(phoneNumberId, Id);
+            command.ExecuteNonQuery();
+         }
+      }
+
+      #endregion
+
+      #region PaymentsSchedule
+
+      private int insertPaymentInfo(PaymentInfo paymentInfo, int creditId)
+      {
+         string insertPaymentInfoQuery =
+            string.Format(
+               "INSERT INTO PaymentsSchedule ({0}, {1}, {2}, {3}) VALUES ({4}, {5}, {6}, {7});" +
+               "SELECT SCOPE_IDENTITY();",
+
+               CreditId.Name, PaymentAmount.Name,
+               PaymentDate.Name, IsNotified.Name,
+
+               CreditId.ParameterName, PaymentAmount.ParameterName,
+               PaymentDate.ParameterName, IsNotified.ParameterName
+               );
+
+         using (SqlCommand command = createCommand(insertPaymentInfoQuery))
+         {
+            command.AddParameter(creditId, CreditId);
+            command.AddParameter(paymentInfo.PaymentAmount, PaymentAmount);
+            command.AddParameter(paymentInfo.PaymentDate, PaymentDate);
+            command.AddParameter(paymentInfo.IsNotified, IsNotified);
+
+            return Convert.ToInt32(command.ExecuteScalar());
+         }
+      }
+
+      private void deletePaymentInfo(int paymentId)
+      {
+         string deletePaymentInfoQuery =
+            string.Format(
+               "DELETE FROM PaymentsSchedule WHERE {0}={1};",
+               Id.Name, Id.ParameterName
+               );
+
+         using (SqlCommand command = createCommand(deletePaymentInfoQuery))
+         {
+            command.AddParameter(paymentId, Id);
             command.ExecuteNonQuery();
          }
       }

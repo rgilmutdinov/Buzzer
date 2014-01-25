@@ -23,7 +23,9 @@ namespace Buzzer.DataAccess.Repository
             using (SqlTransaction transaction = connection.BeginTransaction())
             {
                var selectCommand = new SelectCreditsCommand(connection, transaction);
-               return selectCommand.Execute();
+               CreditInfo[] creditInfos = selectCommand.Execute();
+               transaction.Commit();
+               return creditInfos;
             }
          }
       }
@@ -38,7 +40,6 @@ namespace Buzzer.DataAccess.Repository
             {
                var saveCommand = new SaveCreditCommand(connection, transaction, credit);
                saveCommand.Execute();
-
                transaction.Commit();
             }
          }

@@ -25,7 +25,8 @@ namespace Buzzer.DomainModel.Models
                                Id = NullValues.Id,
                                CreditIssueDate = DateTime.Today,
                                Borrower = PersonInfo.CreateNew(NullValues.Id),
-                               _guarantors = new List<PersonInfo>()
+                               _guarantors = new List<PersonInfo>(),
+                               PaymentsSchedule = new PaymentInfo[0]
                             };
          newCredit.Borrower.IsBorrower = true;
          return newCredit;
@@ -41,9 +42,12 @@ namespace Buzzer.DomainModel.Models
          decimal? effectiveDiscountRate,
          decimal? exchangeRate,
          PersonInfo borrower,
-         IEnumerable<PersonInfo> guarantors
+         IEnumerable<PersonInfo> guarantors,
+         IEnumerable<PaymentInfo> payments
          )
       {
+         var paymentsSchedule = payments.OrderBy(item => item.PaymentDate).ToArray();
+
          return new CreditInfo
                    {
                       Id = id,
@@ -55,7 +59,8 @@ namespace Buzzer.DomainModel.Models
                       EffectiveDiscountRate = effectiveDiscountRate,
                       ExchangeRate = exchangeRate,
                       Borrower = borrower,
-                      _guarantors = guarantors.ToList()
+                      _guarantors = guarantors.ToList(),
+                      PaymentsSchedule = paymentsSchedule
                    };
       }
 
@@ -106,7 +111,7 @@ namespace Buzzer.DomainModel.Models
       }
 
       // График погашений платежей.
-      public PaymentInfo[] PaymentsSchedule { get; set; }
+      public PaymentInfo[] PaymentsSchedule { get; private set; }
 
       public PersonInfo AddGuarantor()
       {
@@ -119,6 +124,12 @@ namespace Buzzer.DomainModel.Models
       public void RemoveGuarantor(PersonInfo guarantor)
       {
          _guarantors.Remove(guarantor);
+      }
+
+      public void BuildPaymentsSchedule()
+      {
+         CreditPayment[] payments = CreditCalculator.Annuity(CreditAmount, MonthsCount, DiscountRate, ExchangeRate);
+         PaymentsSchedule = PaymentScheduleBuilder.Build(payments, CreditIssueDate, MonthsCount, ExchangeRate.HasValue);
       }
 
       public override bool IsValid()
@@ -175,6 +186,8 @@ namespace Buzzer.DomainModel.Models
                    };
       }
 
+      #region Validation methods
+
       private string validateCreditNumber()
       {
          if (CreditNumber.SafeGetLength() > 100)
@@ -223,5 +236,7 @@ namespace Buzzer.DomainModel.Models
       {
          return _guarantors.Count == 0 ? Resources.AtLeastOneGuarantorMustBeSpecified : null;
       }
+
+      #endregion
    }
 }

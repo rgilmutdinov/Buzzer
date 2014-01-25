@@ -31,6 +31,10 @@ namespace Buzzer.DataAccess.Repository
       protected static readonly FieldInfo PersonId = new FieldInfo("PersonID", SqlDbType.Int);
       protected static readonly FieldInfo PhoneNumber = new FieldInfo("PhoneNumber", SqlDbType.NVarChar);
 
+      protected static readonly FieldInfo PaymentAmount = new FieldInfo("PaymentAmount", SqlDbType.Decimal);
+      protected static readonly FieldInfo PaymentDate = new FieldInfo("PaymentDate", SqlDbType.Date);
+      protected static readonly FieldInfo IsNotified = new FieldInfo("IsNotified", SqlDbType.Bit);
+
       protected CommandBase(SqlConnection connection, SqlTransaction transaction)
       {
          Check.NotNull(connection, "connection");
@@ -50,35 +54,6 @@ namespace Buzzer.DataAccess.Repository
          command.Transaction = Transaction;
          command.CommandText = query;
          return command;
-      }
-
-      protected void execute(Action batch)
-      {
-         try
-         {
-            batch();
-            //Transaction.Commit();
-         }
-         catch (Exception)
-         {
-            //Transaction.Rollback();
-            throw;
-         }
-      }
-
-      protected T execute<T>(Func<T> batch)
-      {
-         try
-         {
-            T result = batch();
-            //Transaction.Commit();
-            return result;
-         }
-         catch (Exception)
-         {
-            //Transaction.Rollback();
-            throw;
-         }
       }
 
       protected static TValue? get<TValue>(object value, Func<object, TValue> converter) where TValue : struct

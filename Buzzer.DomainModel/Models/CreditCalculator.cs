@@ -1,4 +1,4 @@
-﻿namespace Buzzer.Calculation
+﻿namespace Buzzer.DomainModel.Models
 {
    public static class CreditCalculator
    {

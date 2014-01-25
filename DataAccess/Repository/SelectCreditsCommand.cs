@@ -19,7 +19,7 @@ namespace Buzzer.DataAccess.Repository
 
       public CreditInfo[] Execute()
       {
-         return execute<CreditInfo[]>(selectCredits);
+         return selectCredits();
       }
 
       private CreditInfo[] selectCredits()
@@ -44,6 +44,7 @@ namespace Buzzer.DataAccess.Repository
                {
                   int creditId = Convert.ToInt32(row[Id.Name]);
                   QueryPersonInfoResult queryResult = getPersons(creditId);
+                  IEnumerable<PaymentInfo> payments = getPayments(creditId);
 
                   result.Add(
                      CreditInfo.Create(
@@ -56,7 +57,8 @@ namespace Buzzer.DataAccess.Repository
                         get(row[EffectiveDiscountRate.Name], Convert.ToDecimal),
                         get(row[ExchangeRate.Name], Convert.ToDecimal),
                         queryResult.Borrower,
-                        queryResult.Guarantors
+                        queryResult.Guarantors,
+                        payments
                         )
                      );
                }
@@ -65,7 +67,7 @@ namespace Buzzer.DataAccess.Repository
             }
          }
       }
-
+      
       private QueryPersonInfoResult getPersons(int creditId)
       {
          string selectPersonsQuery =
@@ -135,6 +137,34 @@ namespace Buzzer.DataAccess.Repository
                }
 
                return result.ToArray();
+            }
+         }
+      }
+
+      private IEnumerable<PaymentInfo> getPayments(int creditId)
+      {
+         string selectPaymentsScheduleQuery =
+            string.Format("SELECT * FROM PaymentsSchedule WHERE {0} = {1}", CreditId.Name, creditId);
+
+         using (SqlCommand command = createCommand(selectPaymentsScheduleQuery))
+         {
+            using (SqlDataReader reader = command.ExecuteReader())
+            {
+               var result = new List<PaymentInfo>();
+
+               while (reader.Read())
+               {
+                  result.Add(
+                     PaymentInfo.Create(
+                        Convert.ToInt32(reader[Id.Name]),
+                        Convert.ToDecimal(reader[PaymentAmount.Name]),
+                        Convert.ToDateTime(reader[PaymentDate.Name]),
+                        Convert.ToBoolean(reader[IsNotified.Name])
+                        )
+                     );
+               }
+
+               return result;
             }
          }
       }

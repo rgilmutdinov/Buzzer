@@ -25,6 +25,9 @@ namespace Buzzer.Tests.DatabaseTests
          assertPersonsAreEqual(expected.Borrower, actual.Borrower);
          assertCollectionsAreEqual(expected.Guarantors, actual.Guarantors,
                                    assertPersonsAreEqual);
+
+         assertCollectionsAreEqual(expected.PaymentsSchedule, actual.PaymentsSchedule,
+                                   assertPaymentsAreEqual);
       }
 
       private static void assertPersonsAreEqual(PersonInfo expected, PersonInfo actual)
@@ -60,13 +63,13 @@ namespace Buzzer.Tests.DatabaseTests
 
          Assert.AreEqual(expected.Length, actual.Length);
 
-         var expectedPhones = expected.OrderBy(item => item.Id);
-         var actualPhones = actual.OrderBy(item => item.Id);
-         var phoneNumbers =
-            expectedPhones
-               .Zip(actualPhones, (expectedPhone, actualPhone) => new {expectedPhone, actualPhone})
+         var expectedOrdered = expected.OrderBy(item => item.Id);
+         var actualOrdered = actual.OrderBy(item => item.Id);
+         var zipped =
+            expectedOrdered
+               .Zip(actualOrdered, (expectedItem, actualItem) => new {expectedItem, actualItem})
                .ToList();
-         phoneNumbers.ForEach(pair => assert(pair.expectedPhone, pair.actualPhone));
+         zipped.ForEach(pair => assert(pair.expectedItem, pair.actualItem));
       }
 
       private static void assertPhoneNumbersAreEqual(PhoneNumberInfo expected, PhoneNumberInfo actual)
@@ -77,6 +80,17 @@ namespace Buzzer.Tests.DatabaseTests
          Assert.AreEqual(expected.Id, actual.Id);
          Assert.AreEqual(expected.PersonId, actual.PersonId);
          Assert.AreEqual(expected.PhoneNumber, actual.PhoneNumber);
+      }
+
+      private static void assertPaymentsAreEqual(PaymentInfo expected, PaymentInfo actual)
+      {
+         Assert.IsNotNull(expected);
+         Assert.IsNotNull(actual);
+
+         Assert.AreEqual(expected.Id, actual.Id);
+         Assert.AreEqual(expected.PaymentAmount, actual.PaymentAmount);
+         Assert.AreEqual(expected.PaymentAmount, actual.PaymentAmount);
+         Assert.AreEqual(expected.IsNotified, actual.IsNotified);
       }
    }
 }

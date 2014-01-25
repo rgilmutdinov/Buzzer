@@ -1,4 +1,4 @@
-namespace Buzzer.Calculation
+namespace Buzzer.DomainModel.Models
 {
    public sealed class CreditPayment
    {

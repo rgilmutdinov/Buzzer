@@ -7,16 +7,17 @@ namespace Buzzer.ViewModel.CreditContract
 {
    public sealed class PaymentInfoViewModel : ViewModelBase
    {
-      public PaymentInfoViewModel(PaymentInfo paymentInfo, int number)
+      public PaymentInfoViewModel(PaymentInfo paymentInfo, int number, bool isUsd)
       {
          Check.NotNull(paymentInfo, "paymentInfo");
 
          Number = number;
          PaymentDate = paymentInfo.PaymentDate;
 
-         var usd = paymentInfo.CurrencyPaymentAmount.HasValue;
-         var paymentAmount = usd ? paymentInfo.CurrencyPaymentAmount.Value : paymentInfo.PaymentAmount;
-         PaymentAmount = usd ? paymentAmount + " USD" : paymentAmount + " KGS";
+         PaymentAmount =
+            isUsd
+               ? paymentInfo.PaymentAmount + " USD"
+               : paymentInfo.PaymentAmount + " KGS";
       }
 
       public int Number { get; private set; }

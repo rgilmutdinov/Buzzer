@@ -69,6 +69,8 @@ namespace Buzzer.Tests.DatabaseTests
             guarantor.PassportIssueDate = DateTime.Today;
          }
 
+         credit.BuildPaymentsSchedule();
+
          // Act.
          _database.SaveCredit(credit);
 
@@ -85,7 +87,7 @@ namespace Buzzer.Tests.DatabaseTests
       public void SaveEditedCreditTest()
       {
          // Arrange.
-         const string creditNumber = "CN1";
+         const string creditNumber = "CNE1";
          CreditInfo credit =
             _database
                .GetAllCredits()
@@ -146,6 +148,36 @@ namespace Buzzer.Tests.DatabaseTests
             guarantor.PassportIssueDate = new DateTime(2012, 12, 4);
          }
 
+         _database.SaveCredit(credit);
+
+         // Assert.
+         CreditInfo creditFromDatabase =
+            _database
+               .GetAllCredits()
+               .SingleOrDefault(item => item.Id == credit.Id);
+
+         Utils.AssertCreditsAreEqual(credit, creditFromDatabase);
+      }
+
+      [Test]
+      public void SaveCreditWithRebuildedPaymentsScheduleTest()
+      {
+         // Arrange.
+         const string creditNumber = "CNE2";
+         CreditInfo credit =
+            _database
+               .GetAllCredits()
+               .Single(item => item.CreditNumber == creditNumber);
+
+         // Act.
+         credit.CreditAmount = 500000M;
+         credit.CreditIssueDate = new DateTime(2014, 1, 31);
+         credit.MonthsCount = 5;
+         credit.DiscountRate = 0.36M;
+         credit.ExchangeRate = 60.0M;
+
+         credit.BuildPaymentsSchedule();
+         
          _database.SaveCredit(credit);
 
          // Assert.
