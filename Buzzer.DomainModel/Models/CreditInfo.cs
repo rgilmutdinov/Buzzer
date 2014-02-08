@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using Buzzer.DomainModel.Properties;
 
@@ -124,6 +125,17 @@ namespace Buzzer.DomainModel.Models
       public void RemoveGuarantor(PersonInfo guarantor)
       {
          _guarantors.Remove(guarantor);
+      }
+
+      public bool CanBuildPaymentsSchedule()
+      {
+         var info = this as IDataErrorInfo;
+         return
+            info["CreditAmount"] == null &&
+            info["MonthsCount"] == null &&
+            info["DiscountRate"] == null &&
+            info["ExchangeRate"] == null &&
+            info["CreditIssueDate"] == null;
       }
 
       public void BuildPaymentsSchedule()

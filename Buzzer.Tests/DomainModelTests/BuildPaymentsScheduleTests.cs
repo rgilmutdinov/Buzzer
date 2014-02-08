@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace Buzzer.Tests.DomainModelTests
 {
    [TestFixture]
-   public class CreditInfoTests
+   public class BuildPaymentsScheduleTests
    {
       [Test]
       [TestCaseSource("TestCases")]
@@ -49,6 +49,8 @@ namespace Buzzer.Tests.DomainModelTests
          {
             var testCases = new List<TestCaseData>();
 
+            #region BuildPaymentsScheduleWithoutExchangeRateSpecifiedTest
+
             {
                const decimal creditAmount = 100000M;
                var creditIssueDate = new DateTime(2013, 5, 22);
@@ -89,6 +91,10 @@ namespace Buzzer.Tests.DomainModelTests
                testCaseData.SetName("BuildPaymentsScheduleWithoutExchangeRateSpecifiedTest");
                testCases.Add(testCaseData);
             }
+
+            #endregion
+
+            #region BuildPaymentsScheduleWithExchangeRateSpecifiedTest
 
             {
                const decimal creditAmount = 300000M;
@@ -142,6 +148,8 @@ namespace Buzzer.Tests.DomainModelTests
                testCaseData.SetName("BuildPaymentsScheduleWithExchangeRateSpecifiedTest");
                testCases.Add(testCaseData);
             }
+
+            #endregion
 
             return testCases.ToArray();
          }

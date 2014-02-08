@@ -4,9 +4,9 @@ using System.Linq;
 using Buzzer.DomainModel.Models;
 using NUnit.Framework;
 
-namespace Buzzer.Tests.DatabaseTests
+namespace Buzzer.Tests.Common
 {
-   public static class Utils
+   public static class AssertUtils
    {
       public static void AssertCreditsAreEqual(CreditInfo expected, CreditInfo actual)
       {
@@ -22,15 +22,15 @@ namespace Buzzer.Tests.DatabaseTests
          Assert.AreEqual(expected.EffectiveDiscountRate, actual.EffectiveDiscountRate);
          Assert.AreEqual(expected.ExchangeRate, actual.ExchangeRate);
 
-         assertPersonsAreEqual(expected.Borrower, actual.Borrower);
-         assertCollectionsAreEqual(expected.Guarantors, actual.Guarantors,
-                                   assertPersonsAreEqual);
+         AssertPersonsAreEqual(expected.Borrower, actual.Borrower);
+         AssertCollectionsAreEqual(expected.Guarantors, actual.Guarantors,
+                                   AssertPersonsAreEqual);
 
-         assertCollectionsAreEqual(expected.PaymentsSchedule, actual.PaymentsSchedule,
-                                   assertPaymentsAreEqual);
+         AssertCollectionsAreEqual(expected.PaymentsSchedule, actual.PaymentsSchedule,
+                                   AssertPaymentsAreEqual);
       }
 
-      private static void assertPersonsAreEqual(PersonInfo expected, PersonInfo actual)
+      public static void AssertPersonsAreEqual(PersonInfo expected, PersonInfo actual)
       {
          Assert.IsNotNull(expected);
          Assert.IsNotNull(actual);
@@ -45,11 +45,32 @@ namespace Buzzer.Tests.DatabaseTests
          Assert.AreEqual(expected.PassportIssuer, actual.PassportIssuer);
          Assert.AreEqual(expected.PassportIssueDate, actual.PassportIssueDate);
 
-         assertCollectionsAreEqual(expected.PhoneNumbers, actual.PhoneNumbers,
-                                   assertPhoneNumbersAreEqual);
+         AssertCollectionsAreEqual(expected.PhoneNumbers, actual.PhoneNumbers,
+                                   AssertPhoneNumbersAreEqual);
       }
 
-      private static void assertCollectionsAreEqual<T>(
+      public static void AssertPhoneNumbersAreEqual(PhoneNumberInfo expected, PhoneNumberInfo actual)
+      {
+         Assert.IsNotNull(expected);
+         Assert.IsNotNull(actual);
+
+         Assert.AreEqual(expected.Id, actual.Id);
+         Assert.AreEqual(expected.PersonId, actual.PersonId);
+         Assert.AreEqual(expected.PhoneNumber, actual.PhoneNumber);
+      }
+
+      public static void AssertPaymentsAreEqual(PaymentInfo expected, PaymentInfo actual)
+      {
+         Assert.IsNotNull(expected);
+         Assert.IsNotNull(actual);
+
+         Assert.AreEqual(expected.Id, actual.Id);
+         Assert.AreEqual(expected.PaymentAmount, actual.PaymentAmount);
+         Assert.AreEqual(expected.PaymentAmount, actual.PaymentAmount);
+         Assert.AreEqual(expected.IsNotified, actual.IsNotified);
+      }
+
+      public static void AssertCollectionsAreEqual<T>(
          IEnumerable<T> expectedCollection,
          IEnumerable<T> actualCollection,
          Action<T, T> assert)
@@ -67,30 +88,9 @@ namespace Buzzer.Tests.DatabaseTests
          var actualOrdered = actual.OrderBy(item => item.Id);
          var zipped =
             expectedOrdered
-               .Zip(actualOrdered, (expectedItem, actualItem) => new {expectedItem, actualItem})
+               .Zip(actualOrdered, (expectedItem, actualItem) => new { expectedItem, actualItem })
                .ToList();
          zipped.ForEach(pair => assert(pair.expectedItem, pair.actualItem));
-      }
-
-      private static void assertPhoneNumbersAreEqual(PhoneNumberInfo expected, PhoneNumberInfo actual)
-      {
-         Assert.IsNotNull(expected);
-         Assert.IsNotNull(actual);
-
-         Assert.AreEqual(expected.Id, actual.Id);
-         Assert.AreEqual(expected.PersonId, actual.PersonId);
-         Assert.AreEqual(expected.PhoneNumber, actual.PhoneNumber);
-      }
-
-      private static void assertPaymentsAreEqual(PaymentInfo expected, PaymentInfo actual)
-      {
-         Assert.IsNotNull(expected);
-         Assert.IsNotNull(actual);
-
-         Assert.AreEqual(expected.Id, actual.Id);
-         Assert.AreEqual(expected.PaymentAmount, actual.PaymentAmount);
-         Assert.AreEqual(expected.PaymentAmount, actual.PaymentAmount);
-         Assert.AreEqual(expected.IsNotified, actual.IsNotified);
       }
    }
 }

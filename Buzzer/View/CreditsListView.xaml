@@ -41,6 +41,12 @@
             Style="{StaticResource DateTimeUpDownStyle}"
             Value="{Binding Path=ToDate, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=LostFocus}"
             />
+         
+         <Button
+            Content="Обновить"
+            Margin="5"
+            Command="{Binding Path=UpdateCreditsList, Mode=OneWay}"
+            />
       </StackPanel>
       
       <DataGrid
@@ -67,7 +73,7 @@
                Width="10*"
                />
             <DataGridTextColumn
-               Header="ФИО"
+               Header="Заемщик"
                Binding="{Binding Path=BorrowerName, Mode=OneWay}"
                Width="30*"
                />

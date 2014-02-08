@@ -41,8 +41,10 @@ namespace Buzzer.ViewModel.CreditContract
 
          Guarantors = getGuarantors();
          PaymentsSchedule = getPaymentsSchedule();
+
+         DisplayName = getDisplayName();
       }
-      
+
       #region Fields
 
       public string CreditNumber
@@ -55,6 +57,8 @@ namespace Buzzer.ViewModel.CreditContract
 
             _creditInfo.CreditNumber = value;
             propertyChanged("CreditNumber");
+
+            DisplayName = _creditInfo.CreditNumber;
          }
       }
 
@@ -278,6 +282,11 @@ namespace Buzzer.ViewModel.CreditContract
          return result;
       }
 
+      private string getDisplayName()
+      {
+         return _creditInfo.IsNew ? Resources.NewCreditTabCaption : _creditInfo.CreditNumber;
+      }
+
       private void buildPaymentsSchedule()
       {
          _creditInfo.BuildPaymentsSchedule();
@@ -287,13 +296,7 @@ namespace Buzzer.ViewModel.CreditContract
 
       private bool canBuildPaymentsSchedule()
       {
-         var info = this as IDataErrorInfo;
-         return
-            info["CreditAmount"] == null &&
-            info["MonthsCount"] == null &&
-            info["DiscountRate"] == null &&
-            info["UsdRate"] == null &&
-            info["CreditIssueDate"] == null;
+         return _creditInfo.CanBuildPaymentsSchedule();
       }
 
       private void addGuarantor()

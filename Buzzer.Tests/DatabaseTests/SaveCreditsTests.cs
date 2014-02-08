@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Buzzer.DataAccess.Repository;
 using Buzzer.DomainModel.Models;
+using Buzzer.Tests.Common;
 using NUnit.Framework;
 
 namespace Buzzer.Tests.DatabaseTests
@@ -80,7 +81,7 @@ namespace Buzzer.Tests.DatabaseTests
                .GetAllCredits()
                .SingleOrDefault(item => item.Id == credit.Id);
 
-         Utils.AssertCreditsAreEqual(credit, creditFromDatabase);
+         AssertUtils.AssertCreditsAreEqual(credit, creditFromDatabase);
       }
 
       [Test]
@@ -156,7 +157,7 @@ namespace Buzzer.Tests.DatabaseTests
                .GetAllCredits()
                .SingleOrDefault(item => item.Id == credit.Id);
 
-         Utils.AssertCreditsAreEqual(credit, creditFromDatabase);
+         AssertUtils.AssertCreditsAreEqual(credit, creditFromDatabase);
       }
 
       [Test]
@@ -186,7 +187,7 @@ namespace Buzzer.Tests.DatabaseTests
                .GetAllCredits()
                .SingleOrDefault(item => item.Id == credit.Id);
 
-         Utils.AssertCreditsAreEqual(credit, creditFromDatabase);
+         AssertUtils.AssertCreditsAreEqual(credit, creditFromDatabase);
       }
    }
 }

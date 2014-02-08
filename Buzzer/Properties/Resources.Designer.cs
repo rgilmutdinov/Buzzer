@@ -70,6 +70,15 @@ namespace Buzzer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Список кредитов.
+        /// </summary>
+        internal static string CreditsListViewModel_Caption {
+            get {
+                return ResourceManager.GetString("CreditsListViewModel_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to При сохранении информации в базу данных возникла ошибка. См. логи..
         /// </summary>
         internal static string ErrorWhileSavingInformationToDatabase {
@@ -102,6 +111,15 @@ namespace Buzzer.Properties {
         internal static string MainWindowViewModel_GuaranteeCredit {
             get {
                 return ResourceManager.GetString("MainWindowViewModel_GuaranteeCredit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Новый кредит.
+        /// </summary>
+        internal static string NewCreditTabCaption {
+            get {
+                return ResourceManager.GetString("NewCreditTabCaption", resourceCulture);
             }
         }
     }

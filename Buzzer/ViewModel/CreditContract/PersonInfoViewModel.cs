@@ -18,13 +18,9 @@ namespace Buzzer.ViewModel.CreditContract
       public PersonInfoViewModel(PersonInfo original)
       {
          Check.NotNull(original, "original");
-
          Original = original;
-
-         PhoneNumbers =
-            new ObservableCollection<PhoneNumberViewModel>(
-               Original.PhoneNumbers.Select(item => new PhoneNumberViewModel(item))
-               );
+         
+         PhoneNumbers = getPhoneNumbers();
       }
 
       #region Fields
@@ -202,6 +198,13 @@ namespace Buzzer.ViewModel.CreditContract
       }
 
       #endregion
+      
+      private ObservableCollection<PhoneNumberViewModel> getPhoneNumbers()
+      {
+         return new ObservableCollection<PhoneNumberViewModel>(
+            Original.PhoneNumbers.Select(item => new PhoneNumberViewModel(item))
+            );
+      }
 
       private void addPhoneNumber()
       {

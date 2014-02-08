@@ -12,52 +12,66 @@ namespace Buzzer.ViewModel.CreditsList
       private readonly CreditInfo _creditInfo;
       private readonly IWorkspaceManager _workspaceManager;
 
+      private ICommand _openCreditCommand;
+
       public CreditViewModel(CreditInfo creditInfo, IWorkspaceManager workspaceManager)
       {
          Check.NotNull(creditInfo, "creditInfo");
+         Check.NotNull(workspaceManager, "workspaceManager");
+
          _creditInfo = creditInfo;
          _workspaceManager = workspaceManager;
-      }
-      
-      public string CreditNumber
-      {
-         get { return _creditInfo.CreditNumber; }
+
+         CreditNumber = _creditInfo.CreditNumber;
+         BorrowerName = _creditInfo.Borrower.PersonName;
+         CreditAmount = getCreditAmount();
+         CreditIssueDate = _creditInfo.CreditIssueDate;
+         CreditEndDate = getCreditEndDate();
+         DiscountRate = getDiscountRate();
       }
 
-      public string BorrowerName
-      {
-         get { return _creditInfo.Borrower.PersonName; }
-      }
+      public string CreditNumber { get; set; }
 
-      public decimal CreditAmount
-      {
-         get { return _creditInfo.CreditAmount; }
-      }
+      public string BorrowerName { get; set; }
 
-      public DateTime CreditIssueDate
-      {
-         get { return _creditInfo.CreditIssueDate; }
-      }
+      public string CreditAmount { get; set; }
 
-      public DateTime CreditEndDate
-      {
-         get { return _creditInfo.CreditIssueDate.AddMonths(_creditInfo.MonthsCount); }
-      }
+      public DateTime CreditIssueDate { get; set; }
 
-      public decimal DiscountRate
-      {
-         get { return _creditInfo.DiscountRate; }
-      }
+      public DateTime CreditEndDate { get; set; }
+
+      public decimal DiscountRate { get; set; }
 
       public ICommand OpenCredit
       {
          get
          {
-            return
-               new CommandDelegate(
-                  () => _workspaceManager.ShowCreditInfo(_creditInfo)
-                  );
+            if (_openCreditCommand != null)
+               return _openCreditCommand;
+
+            _openCreditCommand = new CommandDelegate(openCredit);
+            return _openCreditCommand;
          }
+      }
+
+      private void openCredit()
+      {
+         _workspaceManager.ShowCreditInfo(_creditInfo);
+      }
+
+      private string getCreditAmount()
+      {
+         return string.Format("{0} KGS", _creditInfo.CreditAmount);
+      }
+
+      private decimal getDiscountRate()
+      {
+         return _creditInfo.DiscountRate * 100M;
+      }
+
+      private DateTime getCreditEndDate()
+      {
+         return _creditInfo.CreditIssueDate.AddMonths(_creditInfo.MonthsCount);
       }
    }
 }

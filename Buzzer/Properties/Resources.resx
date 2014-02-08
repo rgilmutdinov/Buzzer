@@ -132,4 +132,10 @@
   <data name="MainWindowViewModel_GuaranteeCredit" xml:space="preserve">
     <value>Поручительство</value>
   </data>
+  <data name="CreditsListViewModel_Caption" xml:space="preserve">
+    <value>Список кредитов</value>
+  </data>
+  <data name="NewCreditTabCaption" xml:space="preserve">
+    <value>Новый кредит</value>
+  </data>
 </root>

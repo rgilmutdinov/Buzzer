@@ -5,7 +5,17 @@ namespace Buzzer.ViewModel.Common
 {
    public abstract class ViewModelBase : INotifyPropertyChanged, IDisposable
    {
-      public string DisplayName { get; protected set; }
+      private string _displayName;
+
+      public string DisplayName
+      {
+         get { return _displayName; }
+         protected set
+         {
+            _displayName = value;
+            propertyChanged("DisplayName");
+         }
+      }
 
       #region INotifyPropertyChanged Members
 
