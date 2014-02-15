@@ -38,6 +38,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WatiN.Core">
+      <HintPath>..\ThridParty\WatiN\net40\WatiN.Core.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\CreditCalculator.cs" />
@@ -56,6 +59,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Services\BeelineSmsSender.cs" />
+    <Compile Include="Services\ISmsSender.cs" />
+    <Compile Include="Services\MegacomSmsSender.cs" />
+    <Compile Include="Services\OSmsSender.cs" />
+    <Compile Include="Services\PhoneNumber.cs" />
+    <Compile Include="Services\PhoneNumberRegex.cs" />
+    <Compile Include="Services\SmsSenderFactory.cs" />
+    <Compile Include="Services\UnknownMobileProviderException.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:CreditsList="clr-namespace:Buzzer.ViewModel.CreditsList"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="600"
+             d:DesignHeight="300" d:DesignWidth="800"
              d:DataContext="{d:DesignInstance CreditsList:CreditsListViewModel}">
    
    <UserControl.Resources>
@@ -29,7 +29,7 @@
          <xctk:DateTimeUpDown
             Width="100"
             Style="{StaticResource DateTimeUpDownStyle}"
-            Value="{Binding Path=FromDate, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=LostFocus}"
+            Value="{Binding Path=FromDate, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
             />
          
          <Label
@@ -39,9 +39,19 @@
          <xctk:DateTimeUpDown
             Width="100"
             Style="{StaticResource DateTimeUpDownStyle}"
-            Value="{Binding Path=ToDate, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=LostFocus}"
+            Value="{Binding Path=ToDate, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
             />
-         
+
+         <Label
+            Content="№ / Заемщик:"
+            Style="{StaticResource LabelStyle}"
+            />
+         <TextBox
+            Width="200"
+            Style="{StaticResource TextBoxStyle}"
+            Text="{Binding Path=CreditNumberBorrowerNameFilter, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+            />
+
          <Button
             Content="Обновить"
             Margin="5"

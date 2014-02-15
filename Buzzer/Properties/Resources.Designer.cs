@@ -115,11 +115,47 @@ namespace Buzzer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Оповещение платежей.
+        /// </summary>
+        internal static string MainWindowViewModel_PaymentNotificationList {
+            get {
+                return ResourceManager.GetString("MainWindowViewModel_PaymentNotificationList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Новый кредит.
         /// </summary>
         internal static string NewCreditTabCaption {
             get {
                 return ResourceManager.GetString("NewCreditTabCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Оповещение платежей.
+        /// </summary>
+        internal static string PaymentNotificationListViewModel_Caption {
+            get {
+                return ResourceManager.GetString("PaymentNotificationListViewModel_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Возникла ошибка при попытке отправить СМС. См. логи..
+        /// </summary>
+        internal static string SendSmsError {
+            get {
+                return ResourceManager.GetString("SendSmsError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Указан неизвестный мобильный провайдер..
+        /// </summary>
+        internal static string UnknownMobileProvider {
+            get {
+                return ResourceManager.GetString("UnknownMobileProvider", resourceCulture);
             }
         }
     }

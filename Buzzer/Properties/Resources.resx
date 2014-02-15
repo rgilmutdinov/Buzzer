@@ -138,4 +138,16 @@
   <data name="NewCreditTabCaption" xml:space="preserve">
     <value>Новый кредит</value>
   </data>
+  <data name="MainWindowViewModel_PaymentNotificationList" xml:space="preserve">
+    <value>Оповещение платежей</value>
+  </data>
+  <data name="PaymentNotificationListViewModel_Caption" xml:space="preserve">
+    <value>Оповещение платежей</value>
+  </data>
+  <data name="SendSmsError" xml:space="preserve">
+    <value>Возникла ошибка при попытке отправить СМС. См. логи.</value>
+  </data>
+  <data name="UnknownMobileProvider" xml:space="preserve">
+    <value>Указан неизвестный мобильный провайдер.</value>
+  </data>
 </root>

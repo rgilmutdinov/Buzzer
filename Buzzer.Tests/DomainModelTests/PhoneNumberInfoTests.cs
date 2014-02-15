@@ -8,7 +8,6 @@ namespace Buzzer.Tests.DomainModelTests
       [Test]
       public void CreateNewPhoneNumberInfoTest()
       {
-         
       }
    }
 }

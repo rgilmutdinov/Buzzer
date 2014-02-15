@@ -92,10 +92,10 @@ namespace Buzzer.DataAccess.Repository
          {
             foreach (PaymentInfo payment in original.PaymentsSchedule)
                deletePaymentInfo(payment.Id);
-         }
 
-         int[] paymentsIds = insertPayments(payments, _credit.Id);
-         fillPaymentsIds(paymentsIds);
+            int[] paymentsIds = insertPayments(payments, _credit.Id);
+            fillPaymentsIds(paymentsIds);
+         }
 
          int i = 0;
 

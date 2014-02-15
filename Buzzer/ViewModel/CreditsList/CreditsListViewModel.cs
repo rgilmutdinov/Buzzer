@@ -14,8 +14,10 @@ namespace Buzzer.ViewModel.CreditsList
    {
       private readonly BuzzerDatabase _buzzerDatabase;
       private readonly IWorkspaceManager _workspaceManager;
+
       private DateTime _fromDate;
       private DateTime _toDate;
+      private string _creditNumberBorrowerNameFilter;
 
       private ICommand _updateCreditsListCommand;
 
@@ -60,6 +62,19 @@ namespace Buzzer.ViewModel.CreditsList
          }
       }
 
+      public string CreditNumberBorrowerNameFilter
+      {
+         get { return _creditNumberBorrowerNameFilter; }
+         set
+         {
+            if (_creditNumberBorrowerNameFilter == value)
+               return;
+
+            _creditNumberBorrowerNameFilter = value;
+            updateFilter();
+         }
+      }
+
       public ListCollectionView CreditsList { get; private set; }
 
       public ICommand UpdateCreditsList
@@ -97,9 +112,24 @@ namespace Buzzer.ViewModel.CreditsList
             item =>
                {
                   var credit = (CreditViewModel) item;
-                  DateTime date = credit.CreditIssueDate;
-                  return FromDate <= date && date <= ToDate;
+                  return filterByCreditIssueDate(credit) &&
+                         filterByCreditNumberOrBorrowerName(credit);
                };
+      }
+
+      private bool filterByCreditIssueDate(CreditViewModel credit)
+      {
+         DateTime date = credit.CreditIssueDate;
+         return FromDate <= date && date <= ToDate;
+      }
+
+      private bool filterByCreditNumberOrBorrowerName(CreditViewModel credit)
+      {
+         if (string.IsNullOrEmpty(_creditNumberBorrowerNameFilter))
+            return true;
+
+         return credit.CreditNumber.Contains(_creditNumberBorrowerNameFilter) ||
+                credit.BorrowerName.Contains(_creditNumberBorrowerNameFilter);
       }
 
       private void updateCreditsList()

@@ -10,6 +10,7 @@ using Buzzer.Properties;
 using Buzzer.ViewModel.Common;
 using Buzzer.ViewModel.CreditContract;
 using Buzzer.ViewModel.CreditsList;
+using Buzzer.ViewModel.PaymentNotificationList;
 using Common;
 
 namespace Buzzer.ViewModel.MainWindow
@@ -56,6 +57,10 @@ namespace Buzzer.ViewModel.MainWindow
                         Resources.MainWindowViewModel_CreditsList,
                         new CommandDelegate(showCreditsList)
                         ),
+
+                     new CommandViewModel(
+                        Resources.MainWindowViewModel_PaymentNotificationList,
+                        new CommandDelegate(showPaymentNotificationList)),
 
                      new CommandViewModel(
                         Resources.MainWindowViewModel_GuaranteeCredit,
@@ -106,11 +111,20 @@ namespace Buzzer.ViewModel.MainWindow
 
       private void showCreditsList()
       {
-         var workspace =
-            Workspaces.FirstOrDefault(item => item is CreditsListViewModel) as CreditsListViewModel;
+         var workspace = Workspaces.FirstOrDefault(item => item is CreditsListViewModel);
          
          if (workspace == null)
             addWorkspace(new CreditsListViewModel(_buzzerDatabase, this));
+         else
+            setActiveWorkspace(workspace);
+      }
+
+      private void showPaymentNotificationList()
+      {
+         var workspace = Workspaces.FirstOrDefault(item => item is PaymentNotificationListViewModel);
+
+         if (workspace == null)
+            addWorkspace(new PaymentNotificationListViewModel(_buzzerDatabase));
          else
             setActiveWorkspace(workspace);
       }

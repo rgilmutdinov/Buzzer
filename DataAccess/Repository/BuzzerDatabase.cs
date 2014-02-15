@@ -44,5 +44,20 @@ namespace Buzzer.DataAccess.Repository
             }
          }
       }
+
+      public void SavePayment(PaymentInfo payment)
+      {
+         using (var connection = new SqlConnection(_connectionString))
+         {
+            connection.Open();
+
+            using (SqlTransaction transaction = connection.BeginTransaction())
+            {
+               var saveCommand = new SavePaymentCommand(connection, transaction, payment);
+               saveCommand.Execute();
+               transaction.Commit();
+            }
+         }
+      }
    }
 }

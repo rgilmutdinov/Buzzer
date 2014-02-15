@@ -23,9 +23,9 @@
          <RowDefinition Height="*"/>
       </Grid.RowDefinitions>
 
-      <ToolBar Grid.Row="0" Grid.Column="0">
-         <Button Content="Сохранить" Command="{Binding Path=Save, Mode=OneWay}" />
-      </ToolBar>
+      <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
+         <Button Content="Сохранить" Command="{Binding Path=Save, Mode=OneWay}" Margin="5"/>
+      </StackPanel>
       
       <ScrollViewer Grid.Row="1" Grid.Column="0" Margin="0,4,0,0">
       

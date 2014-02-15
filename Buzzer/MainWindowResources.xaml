@@ -2,7 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:View="clr-namespace:Buzzer.View"
                     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
                     xmlns:CreditContract="clr-namespace:Buzzer.ViewModel.CreditContract"
-                    xmlns:CreditsList="clr-namespace:Buzzer.ViewModel.CreditsList">
+                    xmlns:CreditsList="clr-namespace:Buzzer.ViewModel.CreditsList"
+                    xmlns:PaymentNotificationList="clr-namespace:Buzzer.ViewModel.PaymentNotificationList">
 
    <!-- DataTemplates -->
    <DataTemplate DataType="{x:Type CreditContract:CreditContractViewModel}">
@@ -17,6 +18,10 @@
       <View:PersonInfoView />
    </DataTemplate>
 
+   <DataTemplate DataType="{x:Type PaymentNotificationList:PaymentNotificationListViewModel}">
+      <View:PaymentNotificationListView />
+   </DataTemplate>
+
    <DataTemplate x:Key="ErrorDataTemplate" DataType="{x:Type ValidationError}">
       <TextBlock FontStyle="Italic" Foreground="Red" HorizontalAlignment="Left" Text="{Binding Path=ErrorContent}" />
    </DataTemplate>
@@ -26,7 +31,7 @@
    </DataTemplate>
 
    <DataTemplate x:Key="ClosableTabItemTemplate">
-      <DockPanel Width="120">
+      <DockPanel Width="Auto" MinWidth="100">
          <Button 
             Command="{Binding Path=CloseCommand}"
             Content="X"
@@ -41,9 +46,11 @@
             VerticalContentAlignment="Bottom"
             Width="16" Height="16"
             />
-         <ContentPresenter 
-            Content="{Binding Path=DisplayName}" 
-            VerticalAlignment="Center" 
+         <ContentPresenter
+            Margin="0,0,5,0"
+            DockPanel.Dock="Left"
+            Content="{Binding Path=DisplayName}"
+            VerticalAlignment="Center"
             />
       </DockPanel>
    </DataTemplate>
@@ -84,4 +91,5 @@
     
    <!-- Converters -->
    <View:DateConverter x:Key="dateConverter" />
+   <View:BooleanToBrushConverter x:Key="booleanToBrushConverter"/>
 </ResourceDictionary>
