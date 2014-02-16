@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using System.Data.Common;
 using Buzzer.DomainModel.Models;
 using Common;
 
@@ -11,7 +11,7 @@ namespace Buzzer.DataAccess.Repository
    {
       private readonly string _condition;
 
-      public SelectCreditsCommand(SqlConnection connection, SqlTransaction transaction, string condition = null)
+      public SelectCreditsCommand(DbConnection connection, DbTransaction transaction, string condition = null)
          : base(connection, transaction)
       {
          _condition = condition;
@@ -31,11 +31,11 @@ namespace Buzzer.DataAccess.Repository
          else
             selectCreditsQuery = string.Format("SELECT * FROM Credits WHERE {0}", _condition);
 
-         using (SqlCommand command = createCommand(selectCreditsQuery))
+         using (DbCommand command = createCommand(selectCreditsQuery))
          {
             using (var credits = new DataTable())
             {
-               using (SqlDataReader reader = command.ExecuteReader())
+               using (DbDataReader reader = command.ExecuteReader())
                   credits.Load(reader);
 
                var result = new List<CreditInfo>();
@@ -76,11 +76,11 @@ namespace Buzzer.DataAccess.Repository
          PersonInfo borrower = null;
          var result = new List<PersonInfo>();
 
-         using (SqlCommand command = createCommand(selectPersonsQuery))
+         using (DbCommand command = createCommand(selectPersonsQuery))
          {
             using (var persons = new DataTable())
             {
-               using (SqlDataReader reader = command.ExecuteReader())
+               using (DbDataReader reader = command.ExecuteReader())
                   persons.Load(reader);
 
                foreach (DataRow row in persons.Rows)
@@ -119,9 +119,9 @@ namespace Buzzer.DataAccess.Repository
          string selectPhoneNumbersQuery =
             string.Format("SELECT * FROM PhoneNumbers WHERE {0} = {1}", PersonId.Name, personId);
 
-         using (SqlCommand command = createCommand(selectPhoneNumbersQuery))
+         using (DbCommand command = createCommand(selectPhoneNumbersQuery))
          {
-            using (SqlDataReader reader = command.ExecuteReader())
+            using (DbDataReader reader = command.ExecuteReader())
             {
                var result = new List<PhoneNumberInfo>();
 
@@ -146,9 +146,9 @@ namespace Buzzer.DataAccess.Repository
          string selectPaymentsScheduleQuery =
             string.Format("SELECT * FROM PaymentsSchedule WHERE {0} = {1}", CreditId.Name, creditId);
 
-         using (SqlCommand command = createCommand(selectPaymentsScheduleQuery))
+         using (DbCommand command = createCommand(selectPaymentsScheduleQuery))
          {
-            using (SqlDataReader reader = command.ExecuteReader())
+            using (DbDataReader reader = command.ExecuteReader())
             {
                var result = new List<PaymentInfo>();
 

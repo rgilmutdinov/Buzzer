@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notifier", "Notifier\Notifier.csproj", "{C1112E03-B612-44E8-B10E-C89DB8E35F47}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buzzer", "Buzzer\Buzzer.csproj", "{271B7A8A-80B9-40B0-9BB5-F5C241D7BE07}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buzzer.DataAccess", "DataAccess\Buzzer.DataAccess.csproj", "{6969B395-557B-4D67-AC08-28BA7374E250}"
@@ -23,16 +21,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C1112E03-B612-44E8-B10E-C89DB8E35F47}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{C1112E03-B612-44E8-B10E-C89DB8E35F47}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{C1112E03-B612-44E8-B10E-C89DB8E35F47}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{C1112E03-B612-44E8-B10E-C89DB8E35F47}.Debug|x86.ActiveCfg = Debug|x86
-		{C1112E03-B612-44E8-B10E-C89DB8E35F47}.Debug|x86.Build.0 = Debug|x86
-		{C1112E03-B612-44E8-B10E-C89DB8E35F47}.Release|Any CPU.ActiveCfg = Release|x86
-		{C1112E03-B612-44E8-B10E-C89DB8E35F47}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{C1112E03-B612-44E8-B10E-C89DB8E35F47}.Release|Mixed Platforms.Build.0 = Release|x86
-		{C1112E03-B612-44E8-B10E-C89DB8E35F47}.Release|x86.ActiveCfg = Release|x86
-		{C1112E03-B612-44E8-B10E-C89DB8E35F47}.Release|x86.Build.0 = Release|x86
 		{271B7A8A-80B9-40B0-9BB5-F5C241D7BE07}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{271B7A8A-80B9-40B0-9BB5-F5C241D7BE07}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{271B7A8A-80B9-40B0-9BB5-F5C241D7BE07}.Debug|Mixed Platforms.Build.0 = Debug|x86

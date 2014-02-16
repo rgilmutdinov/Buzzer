@@ -1,6 +1,6 @@
 create table Credits
 (
-	ID integer primary key identity(1, 1) not null,
+	ID integer primary key autoincrement not null,
 	CreditNumber nvarchar(100) unique not null,
 	CreditAmount decimal not null,
 	CreditIssueDate date not null,
@@ -13,8 +13,8 @@ go
 
 create table Persons
 (
-	ID integer primary key identity(1, 1) not null,
-	CreditID integer not null references Credits(ID),
+	ID integer primary key autoincrement not null,
+	CreditID integer not null,
 	PersonalNumber nvarchar(100) not null,
 	Name nvarchar(255) not null,
 	RegistrationAddress nvarchar(255) not null,
@@ -22,24 +22,27 @@ create table Persons
 	PassportNumber nvarchar(100) not null,
 	PassportIssueDate date not null,
 	PassportIssuer nvarchar(100) not null,
-	IsBorrower bit not null
+	IsBorrower bit not null,
+	foreign key(CreditID) references Credits(ID)
 );
 go
 
 create table PhoneNumbers
 (
-	ID integer primary key identity(1, 1) not null,
-	PersonID integer not null references Persons(ID),
-	PhoneNumber nvarchar(100) not null
+	ID integer primary key autoincrement not null,
+	PersonID integer not null,
+	PhoneNumber nvarchar(100) not null,
+	foreign key(PersonID) references Persons(ID)
 );
 go
 
 create table PaymentsSchedule
 (
-	ID integer primary key identity(1, 1) not null,
-	CreditID integer not null references Credits(ID),
+	ID integer primary key autoincrement not null,
+	CreditID integer not null,
 	PaymentDate date not null,
 	PaymentAmount decimal not null,
-	IsNotified bit default 0 not null
+	IsNotified bit default 0 not null,
+	foreign key(CreditID) references Credits(ID)
 );
 go

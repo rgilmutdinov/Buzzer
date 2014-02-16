@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using Buzzer.DataAccess.Repository;
@@ -7,11 +8,15 @@ using Buzzer.DomainModel.Models;
 using Buzzer.Properties;
 using Buzzer.ViewModel.Common;
 using Common;
+using NLog;
+using MessageBox = Xceed.Wpf.Toolkit.MessageBox;
 
 namespace Buzzer.ViewModel.PaymentNotificationList
 {
    public sealed class PaymentNotificationListViewModel : WorkspaceViewModel
    {
+      private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
       private readonly BuzzerDatabase _buzzerDatabase;
       private ListCollectionView _paymentNotificationList;
 
@@ -121,13 +126,24 @@ namespace Buzzer.ViewModel.PaymentNotificationList
 
       private void savePaymentNotificationList()
       {
-         foreach (PaymentNotificationViewModel item in _paymentNotificationList)
+         try
          {
-            if (item.IsChanged)
+            foreach (PaymentNotificationViewModel item in _paymentNotificationList)
             {
-               _buzzerDatabase.SavePayment(item.Orignal);
-               item.IsChanged = false;
+               if (item.IsChanged)
+               {
+                  _buzzerDatabase.SavePayment(item.Orignal);
+                  item.IsChanged = false;
+               }
             }
+         }
+         catch (Exception e)
+         {
+            MessageBox.Show(Resources.ErrorWhileSavingInformationToDatabase,
+                            Resources.BuzzerErrorMessageBoxCaption,
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Error);
+            Logger.Error(e);
          }
       }
    }

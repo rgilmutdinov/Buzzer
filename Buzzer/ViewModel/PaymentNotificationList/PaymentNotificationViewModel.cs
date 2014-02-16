@@ -1,4 +1,5 @@
 using System;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using Buzzer.DomainModel.Models;
@@ -61,7 +62,15 @@ namespace Buzzer.ViewModel.PaymentNotificationList
 
       public string PhoneNumber
       {
-         get { return _credit.Borrower.PhoneNumbers[0].PhoneNumber; }
+         get
+         {
+            ReadOnlyCollection<PhoneNumberInfo> phoneNumbers = _credit.Borrower.PhoneNumbers;
+
+            if (phoneNumbers.Count > 0)
+               return phoneNumbers[0].PhoneNumber;
+
+            return string.Empty;
+         }
       }
 
       public decimal? ExchangeRate

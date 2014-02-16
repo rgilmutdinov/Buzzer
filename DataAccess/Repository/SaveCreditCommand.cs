@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data.SqlClient;
+using System.Data.Common;
 using System.Linq;
 using Buzzer.DataAccess.Helpers;
 using Buzzer.DomainModel.Models;
@@ -13,7 +13,7 @@ namespace Buzzer.DataAccess.Repository
    {
       private readonly CreditInfo _credit;
 
-      public SaveCreditCommand(SqlConnection connection, SqlTransaction transaction, CreditInfo credit)
+      public SaveCreditCommand(DbConnection connection, DbTransaction transaction, CreditInfo credit)
          : base(connection, transaction)
       {
          Check.NotNull(credit, "credit");
@@ -172,7 +172,7 @@ namespace Buzzer.DataAccess.Repository
          string insertCreditQuery =
             string.Format(
                "INSERT INTO Credits ({0}, {1}, {2}, {3}, {4}, {5}, {6}) VALUES ({7}, {8}, {9}, {10}, {11}, {12}, {13});" +
-               "SELECT SCOPE_IDENTITY();",
+               "SELECT last_insert_rowid();",
 
                CreditNumber.Name, CreditAmount.Name, CreditIssueDate.Name, MonthsCount.Name,
                DiscountRate.Name, EffectiveDiscountRate.Name, ExchangeRate.Name,
@@ -182,7 +182,7 @@ namespace Buzzer.DataAccess.Repository
                ExchangeRate.ParameterName
                );
 
-         using (SqlCommand command = createCommand(insertCreditQuery))
+         using (DbCommand command = createCommand(insertCreditQuery))
          {
             command.AddParameter(creditInfo.CreditNumber, CreditNumber);
             command.AddParameter(creditInfo.CreditAmount, CreditAmount);
@@ -211,7 +211,7 @@ namespace Buzzer.DataAccess.Repository
                Id.Name, Id.ParameterName
                );
 
-         using (SqlCommand command = createCommand(updateCreditQuery))
+         using (DbCommand command = createCommand(updateCreditQuery))
          {
             command.AddParameter(creditInfo.CreditNumber, CreditNumber);
             command.AddParameter(creditInfo.CreditAmount, CreditAmount);
@@ -235,7 +235,7 @@ namespace Buzzer.DataAccess.Repository
          string insertPersonQuery =
             string.Format(
                "INSERT INTO Persons ({0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}) VALUES ({9}, {10}, {11}, {12}, {13}, {14}, {15}, {16}, {17});" +
-               "SELECT SCOPE_IDENTITY();",
+               "SELECT last_insert_rowid();",
 
                CreditId.Name, PersonalNumber.Name, Name.Name, RegistrationAddress.Name, FactAddress.Name,
                PassportNumber.Name, PassportIssueDate.Name, PassportIssuer.Name, IsBorrower.Name,
@@ -246,7 +246,7 @@ namespace Buzzer.DataAccess.Repository
                IsBorrower.ParameterName
                );
 
-         using (SqlCommand command = createCommand(insertPersonQuery))
+         using (DbCommand command = createCommand(insertPersonQuery))
          {
             command.AddParameter(creditId, CreditId);
             command.AddParameter(personInfo.PersonalNumber, PersonalNumber);
@@ -318,12 +318,12 @@ namespace Buzzer.DataAccess.Repository
          string insertPhoneNumberQuery =
             string.Format(
                "INSERT INTO PhoneNumbers ({0}, {1}) VALUES ({2}, {3});" +
-               "SELECT SCOPE_IDENTITY();",
+               "SELECT last_insert_rowid();",
                PersonId.Name, PhoneNumber.Name,
                PersonId.ParameterName, PhoneNumber.ParameterName
                );
 
-         using (SqlCommand command = createCommand(insertPhoneNumberQuery))
+         using (DbCommand command = createCommand(insertPhoneNumberQuery))
          {
             command.AddParameter(personId, PersonId);
             command.AddParameter(phoneNumber.PhoneNumber, PhoneNumber);
@@ -341,7 +341,7 @@ namespace Buzzer.DataAccess.Repository
                Id.Name, Id.ParameterName
                );
 
-         using (SqlCommand command = createCommand(updatePhoneNumberQuery))
+         using (DbCommand command = createCommand(updatePhoneNumberQuery))
          {
             command.AddParameter(phoneNumber.PhoneNumber, PhoneNumber);
             command.AddParameter(phoneNumber.Id, Id);
@@ -357,7 +357,7 @@ namespace Buzzer.DataAccess.Repository
                Id.Name, Id.ParameterName
                );
 
-         using (SqlCommand command = createCommand(deletePhoneNumberQuery))
+         using (DbCommand command = createCommand(deletePhoneNumberQuery))
          {
             command.AddParameter(phoneNumberId, Id);
             command.ExecuteNonQuery();
@@ -373,7 +373,7 @@ namespace Buzzer.DataAccess.Repository
          string insertPaymentInfoQuery =
             string.Format(
                "INSERT INTO PaymentsSchedule ({0}, {1}, {2}, {3}) VALUES ({4}, {5}, {6}, {7});" +
-               "SELECT SCOPE_IDENTITY();",
+               "SELECT last_insert_rowid();",
 
                CreditId.Name, PaymentAmount.Name,
                PaymentDate.Name, IsNotified.Name,
@@ -382,7 +382,7 @@ namespace Buzzer.DataAccess.Repository
                PaymentDate.ParameterName, IsNotified.ParameterName
                );
 
-         using (SqlCommand command = createCommand(insertPaymentInfoQuery))
+         using (DbCommand command = createCommand(insertPaymentInfoQuery))
          {
             command.AddParameter(creditId, CreditId);
             command.AddParameter(paymentInfo.PaymentAmount, PaymentAmount);
@@ -401,7 +401,7 @@ namespace Buzzer.DataAccess.Repository
                Id.Name, Id.ParameterName
                );
 
-         using (SqlCommand command = createCommand(deletePaymentInfoQuery))
+         using (DbCommand command = createCommand(deletePaymentInfoQuery))
          {
             command.AddParameter(paymentId, Id);
             command.ExecuteNonQuery();

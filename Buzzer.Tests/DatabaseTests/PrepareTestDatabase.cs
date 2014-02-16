@@ -1,4 +1,4 @@
-using System.Data.SqlClient;
+using System.Data.Common;
 using Buzzer.Tests.Properties;
 using NUnit.Framework;
 
@@ -10,9 +10,13 @@ namespace Buzzer.Tests.DatabaseTests
       [SetUp]
       public void SetUp()
       {
-         using (var connection = new SqlConnection(TestSettings.ConnectionString))
+         DbProviderFactory factory = DbProviderFactories.GetFactory("System.Data.SQLite");
+
+         using (DbConnection connection = factory.CreateConnection())
          {
+            connection.ConnectionString = TestSettings.ConnectionString;
             connection.Open();
+
             execute(connection, Resources.ClearDatabase);
             execute(connection, Resources.GenerateTestDataForEditTest);
             execute(connection, Resources.GenerateTestDataForSelectTest);
@@ -22,19 +26,24 @@ namespace Buzzer.Tests.DatabaseTests
       [TearDown]
       public void TearDown()
       {
-         using (var connection = new SqlConnection(TestSettings.ConnectionString))
+         DbProviderFactory factory = DbProviderFactories.GetFactory("System.Data.SQLite");
+
+         using (DbConnection connection = factory.CreateConnection())
          {
+            connection.ConnectionString = TestSettings.ConnectionString;
             connection.Open();
             execute(connection, Resources.ClearDatabase);
          }
       }
 
-      private static void execute(SqlConnection connection, string commandText)
+      private static void execute(DbConnection connection, string commandText)
       {
-         using (var transaction = connection.BeginTransaction())
+         using (DbTransaction transaction = connection.BeginTransaction())
          {
-            using (var command = new SqlCommand(commandText, connection, transaction))
+            using (DbCommand command = connection.CreateCommand())
             {
+               command.CommandText = commandText;
+               command.Transaction = transaction;
                command.ExecuteNonQuery();
                transaction.Commit();
             }

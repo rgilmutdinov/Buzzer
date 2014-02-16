@@ -1,5 +1,4 @@
-using System;
-using System.Data.SqlClient;
+using System.Data.Common;
 using Buzzer.DataAccess.Helpers;
 using Buzzer.DomainModel.Models;
 using Common;
@@ -10,7 +9,7 @@ namespace Buzzer.DataAccess.Repository
    {
       private readonly PaymentInfo _payment;
 
-      public SavePaymentCommand(SqlConnection connection, SqlTransaction transaction, PaymentInfo payment)
+      public SavePaymentCommand(DbConnection connection, DbTransaction transaction, PaymentInfo payment)
          : base(connection, transaction)
       {
          Check.NotNull(payment, "payment");
@@ -25,7 +24,7 @@ namespace Buzzer.DataAccess.Repository
                IsNotified.Name, IsNotified.ParameterName, Id.Name, Id.ParameterName
                );
 
-         using (SqlCommand command = createCommand(updatePaymentQuery))
+         using (DbCommand command = createCommand(updatePaymentQuery))
          {
             command.AddParameter(_payment.IsNotified, IsNotified);
             command.AddParameter(_payment.Id, Id);

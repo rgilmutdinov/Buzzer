@@ -128,8 +128,8 @@ namespace Buzzer.ViewModel.CreditsList
          if (string.IsNullOrEmpty(_creditNumberBorrowerNameFilter))
             return true;
 
-         return credit.CreditNumber.Contains(_creditNumberBorrowerNameFilter) ||
-                credit.BorrowerName.Contains(_creditNumberBorrowerNameFilter);
+         return contains(credit.CreditNumber, _creditNumberBorrowerNameFilter) ||
+                contains(credit.BorrowerName, _creditNumberBorrowerNameFilter);
       }
 
       private void updateCreditsList()
@@ -137,6 +137,11 @@ namespace Buzzer.ViewModel.CreditsList
          CreditsList = getCreditsList();
          updateFilter();
          propertyChanged("CreditsList");
+      }
+
+      private static bool contains(string text, string value)
+      {
+         return text.IndexOf(value, StringComparison.OrdinalIgnoreCase) >= 0;
       }
    }
 }

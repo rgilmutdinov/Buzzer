@@ -5,7 +5,7 @@ namespace Buzzer.DataAccess.Common
 {
    internal sealed class FieldInfo
    {
-      public FieldInfo(string name, SqlDbType dbType, bool isNullable = false)
+      public FieldInfo(string name, DbType dbType, bool isNullable = false)
       {
          Check.NotNullAndEmpty(name, "name");
          
@@ -17,7 +17,7 @@ namespace Buzzer.DataAccess.Common
 
       public string Name { get; private set; }
       public string ParameterName { get; private set; }
-      public SqlDbType DbType { get; private set; }
+      public DbType DbType { get; private set; }
       public bool IsNullable { get; private set; }
    }
 }
