@@ -15,8 +15,6 @@ namespace Buzzer.ViewModel.CreditsList
       private readonly BuzzerDatabase _buzzerDatabase;
       private readonly IWorkspaceManager _workspaceManager;
 
-      private DateTime _fromDate;
-      private DateTime _toDate;
       private string _creditNumberBorrowerNameFilter;
 
       private ICommand _updateCreditsListCommand;
@@ -32,36 +30,9 @@ namespace Buzzer.ViewModel.CreditsList
          CreditsList = getCreditsList();
          DisplayName = Resources.CreditsListViewModel_Caption;
 
-         initFilterPeriod();
          updateFilter();
       }
-
-      public DateTime FromDate
-      {
-         get { return _fromDate; }
-         set
-         {
-            if (_fromDate == value)
-               return;
-
-            _fromDate = value;
-            updateFilter();
-         }
-      }
-
-      public DateTime ToDate
-      {
-         get { return _toDate; }
-         set
-         {
-            if (_toDate == value)
-               return;
-
-            _toDate = value;
-            updateFilter();
-         }
-      }
-
+      
       public string CreditNumberBorrowerNameFilter
       {
          get { return _creditNumberBorrowerNameFilter; }
@@ -99,28 +70,14 @@ namespace Buzzer.ViewModel.CreditsList
             );
       }
 
-      private void initFilterPeriod()
-      {
-         DateTime today = DateTime.Today;
-         _fromDate = new DateTime(today.Year, today.Month, 1);
-         _toDate = _fromDate.AddMonths(1).AddDays(-1);
-      }
-
       private void updateFilter()
       {
          CreditsList.Filter =
             item =>
                {
                   var credit = (CreditViewModel) item;
-                  return filterByCreditIssueDate(credit) &&
-                         filterByCreditNumberOrBorrowerName(credit);
+                  return filterByCreditNumberOrBorrowerName(credit);
                };
-      }
-
-      private bool filterByCreditIssueDate(CreditViewModel credit)
-      {
-         DateTime date = credit.CreditIssueDate;
-         return FromDate <= date && date <= ToDate;
       }
 
       private bool filterByCreditNumberOrBorrowerName(CreditViewModel credit)

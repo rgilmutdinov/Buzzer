@@ -23,26 +23,6 @@
 
       <StackPanel Orientation="Horizontal">
          <Label
-            Content="С:"
-            Style="{StaticResource LabelStyle}"
-            />
-         <xctk:DateTimeUpDown
-            Width="100"
-            Style="{StaticResource DateTimeUpDownStyle}"
-            Value="{Binding Path=FromDate, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-            />
-         
-         <Label
-            Content="По:"
-            Style="{StaticResource LabelStyle}"
-            />
-         <xctk:DateTimeUpDown
-            Width="100"
-            Style="{StaticResource DateTimeUpDownStyle}"
-            Value="{Binding Path=ToDate, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-            />
-
-         <Label
             Content="№ / Заемщик:"
             Style="{StaticResource LabelStyle}"
             />
