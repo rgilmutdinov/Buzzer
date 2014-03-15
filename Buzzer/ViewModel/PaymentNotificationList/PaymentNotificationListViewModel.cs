@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -9,7 +10,6 @@ using Buzzer.Properties;
 using Buzzer.ViewModel.Common;
 using Common;
 using NLog;
-using MessageBox = Xceed.Wpf.Toolkit.MessageBox;
 
 namespace Buzzer.ViewModel.PaymentNotificationList
 {
@@ -84,7 +84,12 @@ namespace Buzzer.ViewModel.PaymentNotificationList
       {
          var result = new List<PaymentNotificationViewModel>();
 
-         foreach (CreditInfo credit in _buzzerDatabase.GetAllCredits())
+         IEnumerable<CreditInfo> creditInfos =
+            _buzzerDatabase
+               .GetAllCredits()
+               .Where(item => item.CreditState == CreditState.Current);
+
+         foreach (CreditInfo credit in creditInfos)
          {
             foreach (PaymentInfo payment in credit.PaymentsSchedule)
             {

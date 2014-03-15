@@ -92,6 +92,7 @@
     <Compile Include="View\CreditsListView.xaml.cs">
       <DependentUpon>CreditsListView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\CreditStateToBrushConverter.cs" />
     <Compile Include="View\DateConverter.cs" />
     <Compile Include="View\DateTimeConverter.cs" />
     <Compile Include="View\NotificationLogView.xaml.cs">

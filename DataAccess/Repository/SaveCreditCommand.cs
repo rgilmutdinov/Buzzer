@@ -171,15 +171,15 @@ namespace Buzzer.DataAccess.Repository
       {
          string insertCreditQuery =
             string.Format(
-               "INSERT INTO Credits ({0}, {1}, {2}, {3}, {4}, {5}, {6}) VALUES ({7}, {8}, {9}, {10}, {11}, {12}, {13});" +
+               "INSERT INTO Credits ({0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}) VALUES ({8}, {9}, {10}, {11}, {12}, {13}, {14}, {15});" +
                "SELECT last_insert_rowid();",
 
                CreditNumber.Name, CreditAmount.Name, CreditIssueDate.Name, MonthsCount.Name,
-               DiscountRate.Name, EffectiveDiscountRate.Name, ExchangeRate.Name,
+               DiscountRate.Name, EffectiveDiscountRate.Name, ExchangeRate.Name, CreditState.Name,
 
                CreditNumber.ParameterName, CreditAmount.ParameterName, CreditIssueDate.ParameterName,
                MonthsCount.ParameterName, DiscountRate.ParameterName, EffectiveDiscountRate.ParameterName,
-               ExchangeRate.ParameterName
+               ExchangeRate.ParameterName, CreditState.ParameterName
                );
 
          using (DbCommand command = createCommand(insertCreditQuery))
@@ -191,6 +191,7 @@ namespace Buzzer.DataAccess.Repository
             command.AddParameter(creditInfo.DiscountRate, DiscountRate);
             command.AddParameter(creditInfo.EffectiveDiscountRate, EffectiveDiscountRate);
             command.AddParameter(creditInfo.ExchangeRate, ExchangeRate);
+            command.AddParameter((int) creditInfo.CreditState, CreditState);
 
             return Convert.ToInt32(command.ExecuteScalar());
          }
@@ -200,7 +201,7 @@ namespace Buzzer.DataAccess.Repository
       {
          string updateCreditQuery =
             string.Format(
-               "UPDATE Credits SET {0}={1}, {2}={3}, {4}={5}, {6}={7}, {8}={9}, {10}={11}, {12}={13} WHERE {14}={15};",
+               "UPDATE Credits SET {0}={1}, {2}={3}, {4}={5}, {6}={7}, {8}={9}, {10}={11}, {12}={13}, {14}={15} WHERE {16}={17};",
                CreditNumber.Name, CreditNumber.ParameterName,
                CreditAmount.Name, CreditAmount.ParameterName,
                CreditIssueDate.Name, CreditIssueDate.ParameterName,
@@ -208,6 +209,7 @@ namespace Buzzer.DataAccess.Repository
                DiscountRate.Name, DiscountRate.ParameterName,
                EffectiveDiscountRate.Name, EffectiveDiscountRate.ParameterName,
                ExchangeRate.Name, ExchangeRate.ParameterName,
+               CreditState.Name, CreditState.ParameterName,
                Id.Name, Id.ParameterName
                );
 
@@ -220,6 +222,7 @@ namespace Buzzer.DataAccess.Repository
             command.AddParameter(creditInfo.DiscountRate, DiscountRate);
             command.AddParameter(creditInfo.EffectiveDiscountRate, EffectiveDiscountRate);
             command.AddParameter(creditInfo.ExchangeRate, ExchangeRate);
+            command.AddParameter((int) creditInfo.CreditState, CreditState);
             command.AddParameter(creditInfo.Id, Id);
 
             command.ExecuteNonQuery();

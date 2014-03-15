@@ -57,6 +57,12 @@
             Margin="5"
             Command="{Binding Path=UpdateCreditsList, Mode=OneWay}"
             />
+         
+         <Button
+            Content="Погашен"
+            Margin="50, 5, 5, 5"
+            Command="{Binding Path=PayOffCredit, Mode=OneWay}"
+            />
       </StackPanel>
       
       <DataGrid
@@ -67,6 +73,7 @@
          CanUserDeleteRows="False"
          CanUserSortColumns="False"
          ItemsSource="{Binding Path=CreditsList, Mode=OneWay}"
+         SelectedItem="{Binding Path=SelectedCredit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
          >
          
          <DataGrid.RowStyle>
@@ -76,6 +83,15 @@
          </DataGrid.RowStyle>
          
          <DataGrid.Columns>
+            <DataGridTemplateColumn Width="Auto" CanUserResize="False">
+               <DataGridTemplateColumn.CellTemplate>
+                  <DataTemplate>
+                     <Canvas>
+                        <Ellipse Fill="{Binding Path=CreditState, Mode=OneWay, Converter={StaticResource creditStateToBrushConverter}}" Margin="1,1,0,0" Height="15" Width="15" Stroke="Black" StrokeThickness="0.5"/>
+                     </Canvas>
+                  </DataTemplate>
+               </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
             
             <DataGridTextColumn
                Header="№"

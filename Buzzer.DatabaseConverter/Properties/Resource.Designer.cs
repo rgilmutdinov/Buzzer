@@ -61,6 +61,15 @@ namespace Buzzer.DatabaseConverter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to alter table Credits add column CreditState integer not null default 1;.
+        /// </summary>
+        internal static string AddCreditStateColumnToCreditsTable {
+            get {
+                return ResourceManager.GetString("AddCreditStateColumnToCreditsTable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to create table NotificationLog
         ///(
         ///	ID integer primary key autoincrement not null,
@@ -71,7 +80,15 @@ namespace Buzzer.DatabaseConverter.Properties {
         ///	foreign key(CreditID) references Credits(ID),
         ///	foreign key(PersonID) references Persons(ID)
         ///);
-        ///.
+        ///
+        ///create view NotificationLogView as
+        ///select
+        ///	NL.ID as ID,
+        ///	C.CreditNumber as CreditNumber,
+        ///	P.Name as PersonName,
+        ///	NL.CreditID as CreditID,
+        ///	NL.PersonID as PersonID,
+        ///	NL.NotificationDate as NotificationDate [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string AddNotificationLogTable {
             get {

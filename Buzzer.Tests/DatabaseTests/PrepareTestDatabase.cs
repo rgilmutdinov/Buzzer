@@ -30,8 +30,8 @@ namespace Buzzer.Tests.DatabaseTests
             connection.Open();
 
             execute(connection, Resources.ClearDatabase);
-            execute(connection, Resources.GenerateTestDataForEditTest);
-            execute(connection, Resources.GenerateTestDataForSelectTest);
+            execute(connection, Resources.GenerateTestDataForSaveCreditsTest);
+            execute(connection, Resources.GenerateTestDataForSelectCreditsTest);
             execute(connection, Resources.GenerateTestDataForSaveNotificationLogItemsTest);
             execute(connection, Resources.GenerateTestDataForSelectNotificationLogItemsTest);
          }

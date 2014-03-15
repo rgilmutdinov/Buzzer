@@ -1,9 +1,9 @@
 ﻿CREATE TEMP TABLE ID (Value integer);
 
 INSERT INTO Credits
-	(CreditNumber, CreditAmount, CreditIssueDate, MonthsCount, DiscountRate, EffectiveDiscountRate, ExchangeRate)
+	(CreditNumber, CreditAmount, CreditIssueDate, MonthsCount, DiscountRate, EffectiveDiscountRate, ExchangeRate, CreditState)
 VALUES
-	('CNE1', 100000, '2013-12-31', 12, 0.36, 0.24, 45);
+	('CNE1', 100000, '2013-12-31', 12, 0.36, 0.24, 45, 1);
 
 INSERT INTO ID VALUES ((SELECT last_insert_rowid()));
 

@@ -1,17 +1,22 @@
 using System;
 using System.Linq;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using Buzzer.DataAccess.Repository;
+using Buzzer.DomainModel.Models;
 using Buzzer.Properties;
 using Buzzer.ViewModel.Common;
 using Buzzer.ViewModel.MainWindow;
 using Common;
+using NLog;
 
 namespace Buzzer.ViewModel.CreditsList
 {
    public sealed class CreditsListViewModel : WorkspaceViewModel
    {
+      private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
       private readonly BuzzerDatabase _buzzerDatabase;
       private readonly IWorkspaceManager _workspaceManager;
 
@@ -20,6 +25,7 @@ namespace Buzzer.ViewModel.CreditsList
       private string _creditNumberBorrowerNameFilter;
 
       private ICommand _updateCreditsListCommand;
+      private ICommand _payOffCreditCommand;
 
       public CreditsListViewModel(BuzzerDatabase buzzerDatabase, IWorkspaceManager workspaceManager)
       {
@@ -75,6 +81,8 @@ namespace Buzzer.ViewModel.CreditsList
          }
       }
 
+      public CreditViewModel SelectedCredit { get; set; }
+
       public ListCollectionView CreditsList { get; private set; }
 
       public ICommand UpdateCreditsList
@@ -86,6 +94,18 @@ namespace Buzzer.ViewModel.CreditsList
 
             _updateCreditsListCommand = new CommandDelegate(updateCreditsList);
             return _updateCreditsListCommand;
+         }
+      }
+
+      public ICommand PayOffCredit
+      {
+         get
+         {
+            if (_payOffCreditCommand != null)
+               return _payOffCreditCommand;
+
+            _payOffCreditCommand = new CommandDelegate(payOffCredit);
+            return _payOffCreditCommand;
          }
       }
 
@@ -136,6 +156,38 @@ namespace Buzzer.ViewModel.CreditsList
          CreditsList = getCreditsList();
          updateFilter();
          propertyChanged("CreditsList");
+      }
+
+      private void payOffCredit()
+      {
+         if (SelectedCredit == null || SelectedCredit.CreditState == CreditState.Repayed)
+            return;
+
+         MessageBoxResult answer =
+            MessageBox.Show(Resources.CreditsListViewModel_PayOffCreditMessageBoxMessage,
+                            Resources.CreditsListViewModel_PayOffCreditMessageBoxCaption,
+                            MessageBoxButton.YesNo,
+                            MessageBoxImage.Question);
+         
+         if (answer == MessageBoxResult.Yes)
+         {
+            CreditInfo creditInfo = SelectedCredit.Original;
+            creditInfo.CreditState = CreditState.Repayed;
+            
+            try
+            {
+               _buzzerDatabase.SaveCredit(creditInfo);
+               SelectedCredit.CreditState = creditInfo.CreditState;
+            }
+            catch (Exception e)
+            {
+               MessageBox.Show(Resources.ErrorWhileSavingInformationToDatabase,
+                               Resources.BuzzerErrorMessageBoxCaption,
+                               MessageBoxButton.OK,
+                               MessageBoxImage.Error);
+               Logger.Error(e);
+            }
+         }
       }
 
       private static bool contains(string text, string value)

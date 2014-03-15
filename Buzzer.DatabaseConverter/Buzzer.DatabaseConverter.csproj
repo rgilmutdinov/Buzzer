@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\AddCreditStateColumnToCreditsTableConverter.cs" />
     <Compile Include="Converters\AddNotificationLogConverter.cs" />
     <Compile Include="CommandFactory.cs" />
     <Compile Include="DatabaseConverter.cs" />
@@ -69,6 +70,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ConverterScripts\AddCreditStateColumnToCreditsTable.sql" />
     <Content Include="ConverterScripts\AddNotificationLogTable.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

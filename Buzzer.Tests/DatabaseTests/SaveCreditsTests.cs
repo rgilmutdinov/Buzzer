@@ -31,6 +31,7 @@ namespace Buzzer.Tests.DatabaseTests
          credit.DiscountRate = 0.36M;
          credit.EffectiveDiscountRate = 0.01M;
          credit.ExchangeRate = 45.0M;
+         credit.CreditState = CreditState.Repayed;
          
          {
             PersonInfo borrower = credit.Borrower;
@@ -102,6 +103,7 @@ namespace Buzzer.Tests.DatabaseTests
          credit.DiscountRate = 0.0036M;
          credit.EffectiveDiscountRate = 0.0024M;
          credit.ExchangeRate = 60.0M;
+         credit.CreditState = CreditState.Repayed;
 
          PersonInfo borrower = credit.Borrower;
          borrower.PersonalNumber = "44444444444444";

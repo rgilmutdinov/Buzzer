@@ -98,4 +98,5 @@
    <View:DateConverter x:Key="dateConverter" />
    <View:DateTimeConverter x:Key="dateTimeConverter" />
    <View:BooleanToBrushConverter x:Key="booleanToBrushConverter"/>
+   <View:CreditStateToBrushConverter x:Key="creditStateToBrushConverter"/>
 </ResourceDictionary>

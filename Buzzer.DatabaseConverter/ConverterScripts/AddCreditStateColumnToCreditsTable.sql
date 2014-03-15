@@ -1,0 +1,1 @@
+alter table Credits add column CreditState integer not null default 1;

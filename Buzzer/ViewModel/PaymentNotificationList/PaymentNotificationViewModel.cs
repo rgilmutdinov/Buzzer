@@ -9,7 +9,6 @@ using Buzzer.Properties;
 using Buzzer.ViewModel.Common;
 using Common;
 using NLog;
-using MessageBox = Xceed.Wpf.Toolkit.MessageBox;
 
 namespace Buzzer.ViewModel.PaymentNotificationList
 {

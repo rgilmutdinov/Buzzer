@@ -24,6 +24,7 @@ namespace Buzzer.Tests.DomainModelTests
          Assert.AreEqual(0M, credit.DiscountRate);
          Assert.IsNull(credit.EffectiveDiscountRate);
          Assert.IsNull(credit.ExchangeRate);
+         Assert.AreEqual(CreditState.Current, credit.CreditState);
 
          Assert.IsNotNull(credit.Borrower);
 
@@ -45,6 +46,7 @@ namespace Buzzer.Tests.DomainModelTests
          decimal discountRate,
          decimal? effectiveDiscountRate,
          decimal? exchangeRate,
+         CreditState creditState,
          PersonInfo borrower,
          PersonInfo[] guarantors,
          PaymentInfo[] paymentsSchedule
@@ -61,6 +63,7 @@ namespace Buzzer.Tests.DomainModelTests
                discountRate,
                effectiveDiscountRate,
                exchangeRate,
+               creditState,
                borrower,
                guarantors,
                paymentsSchedule
@@ -76,6 +79,7 @@ namespace Buzzer.Tests.DomainModelTests
          Assert.AreEqual(discountRate, credit.DiscountRate);
          Assert.AreEqual(effectiveDiscountRate, credit.EffectiveDiscountRate);
          Assert.AreEqual(exchangeRate, credit.ExchangeRate);
+         Assert.AreEqual(creditState, credit.CreditState);
 
          AssertUtils.AssertPersonsAreEqual(borrower, credit.Borrower);
 
@@ -109,6 +113,7 @@ namespace Buzzer.Tests.DomainModelTests
                const decimal discountRate = 0.36M;
                decimal? effectiveDiscountRate = null;
                decimal? exchangeRate = null;
+               CreditState creditState = CreditState.Repayed;
 
                PersonInfo borrower =
                   PersonInfo.Create(
@@ -148,7 +153,7 @@ namespace Buzzer.Tests.DomainModelTests
                   new TestCaseData(
                      id, creditNumber, creditAmount, creditIssueDate,
                      monthsCount, discountRate, effectiveDiscountRate,
-                     exchangeRate, borrower, guarantors, paymentsSchedule
+                     exchangeRate, creditState, borrower, guarantors, paymentsSchedule
                      );
                testCaseData.SetName("CreateValidCreditInfoTest");
 

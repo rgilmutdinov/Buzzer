@@ -79,6 +79,24 @@ namespace Buzzer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Погасить кредит.
+        /// </summary>
+        internal static string CreditsListViewModel_PayOffCreditMessageBoxCaption {
+            get {
+                return ResourceManager.GetString("CreditsListViewModel_PayOffCreditMessageBoxCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Вы уверены, что хотите погасить выбранный кредит?.
+        /// </summary>
+        internal static string CreditsListViewModel_PayOffCreditMessageBoxMessage {
+            get {
+                return ResourceManager.GetString("CreditsListViewModel_PayOffCreditMessageBoxMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to При сохранении информации в базу данных возникла ошибка. См. логи..
         /// </summary>
         internal static string ErrorWhileSavingInformationToDatabase {

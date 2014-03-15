@@ -121,16 +121,16 @@
   <data name="ClearDatabase" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\SqlScripts\ClearDatabase.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="GenerateTestDataForEditTest" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\SqlScripts\GenerateTestDataForEditTest.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="GenerateTestDataForSaveCreditsTest" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\SqlScripts\GenerateTestDataForSaveCreditsTest.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="GenerateTestDataForSaveNotificationLogItemsTest" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\SqlScripts\GenerateTestDataForSaveNotificationLogItemsTest.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
   </data>
+  <data name="GenerateTestDataForSelectCreditsTest" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\SqlScripts\GenerateTestDataForSelectCreditsTest.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="GenerateTestDataForSelectNotificationLogItemsTest" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\SqlScripts\GenerateTestDataForSelectNotificationLogItemsTest.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
-  </data>
-  <data name="GenerateTestDataForSelectTest" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\SqlScripts\GenerateTestDataForSelectTest.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>

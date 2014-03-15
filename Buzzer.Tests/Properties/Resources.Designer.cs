@@ -77,20 +77,20 @@ namespace Buzzer.Tests.Properties {
         ///   Looks up a localized string similar to CREATE TEMP TABLE ID (Value integer);
         ///
         ///INSERT INTO Credits
-        ///	(CreditNumber, CreditAmount, CreditIssueDate, MonthsCount, DiscountRate, EffectiveDiscountRate, ExchangeRate)
+        ///	(CreditNumber, CreditAmount, CreditIssueDate, MonthsCount, DiscountRate, EffectiveDiscountRate, ExchangeRate, CreditState)
         ///VALUES
-        ///	(&apos;CNE1&apos;, 100000, &apos;2013-12-31&apos;, 12, 0.36, 0.24, 45);
+        ///	(&apos;CNE1&apos;, 100000, &apos;2013-12-31&apos;, 12, 0.36, 0.24, 45, 1);
         ///
         ///INSERT INTO ID VALUES ((SELECT last_insert_rowid()));
         ///
         ///INSERT INTO Persons
         ///	(CreditID, PersonalNumber, Name, RegistrationAddress, FactAddress, PassportNumber, PassportIssueDate, PassportIssuer, IsBorrower)
         ///VALUES
-        ///	((SELECT Value FROM ID LIMIT 1), &apos;11111111111111&apos;, &apos;Bor [rest of string was truncated]&quot;;.
+        ///	((SELECT Value FROM ID LIMIT 1), &apos;11111 [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string GenerateTestDataForEditTest {
+        internal static string GenerateTestDataForSaveCreditsTest {
             get {
-                return ResourceManager.GetString("GenerateTestDataForEditTest", resourceCulture);
+                return ResourceManager.GetString("GenerateTestDataForSaveCreditsTest", resourceCulture);
             }
         }
         
@@ -100,7 +100,7 @@ namespace Buzzer.Tests.Properties {
         ///INSERT INTO Credits
         ///	(CreditNumber, CreditAmount, CreditIssueDate, MonthsCount, DiscountRate, EffectiveDiscountRate, ExchangeRate)
         ///VALUES
-        ///	(&apos;CNSNLI1&apos;, 100000, &apos;2013-12-31&apos;, 12, 0.36, 0.24, 45);
+        ///	(&apos;CNSNLI2&apos;, 100000, &apos;2013-12-31&apos;, 12, 0.36, 0.24, 45);
         ///
         ///INSERT INTO ID (CreditID, PersonID) VALUES ((SELECT last_insert_rowid()), 0);
         ///
@@ -112,6 +112,28 @@ namespace Buzzer.Tests.Properties {
         internal static string GenerateTestDataForSaveNotificationLogItemsTest {
             get {
                 return ResourceManager.GetString("GenerateTestDataForSaveNotificationLogItemsTest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CREATE TEMP TABLE ID (Value integer);
+        ///
+        ///-- Credit without Guarantors.
+        ///INSERT INTO Credits
+        ///	(CreditNumber, CreditAmount, CreditIssueDate, MonthsCount, DiscountRate, EffectiveDiscountRate, ExchangeRate, CreditState)
+        ///VALUES
+        ///	(&apos;CNS1&apos;, 200000, &apos;2014-01-02&apos;, 24, 0.36, 0.12, 47.5, 1);
+        ///	
+        ///INSERT INTO ID VALUES ((SELECT last_insert_rowid()));
+        ///
+        ///INSERT INTO Persons
+        ///	(CreditID, PersonalNumber, Name, RegistrationAddress, FactAddress, PassportNumber, PassportIssueDate, PassportIssuer, IsBorrower)
+        ///VALUES
+        ///	((SEL [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string GenerateTestDataForSelectCreditsTest {
+            get {
+                return ResourceManager.GetString("GenerateTestDataForSelectCreditsTest", resourceCulture);
             }
         }
         
@@ -133,28 +155,6 @@ namespace Buzzer.Tests.Properties {
         internal static string GenerateTestDataForSelectNotificationLogItemsTest {
             get {
                 return ResourceManager.GetString("GenerateTestDataForSelectNotificationLogItemsTest", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to CREATE TEMP TABLE ID (Value integer);
-        ///
-        ///-- Credit without Guarantors.
-        ///INSERT INTO Credits
-        ///	(CreditNumber, CreditAmount, CreditIssueDate, MonthsCount, DiscountRate, EffectiveDiscountRate, ExchangeRate)
-        ///VALUES
-        ///	(&apos;CNS1&apos;, 200000, &apos;2014-01-02&apos;, 24, 0.36, 0.12, 47.5);
-        ///	
-        ///INSERT INTO ID VALUES ((SELECT last_insert_rowid()));
-        ///
-        ///INSERT INTO Persons
-        ///	(CreditID, PersonalNumber, Name, RegistrationAddress, FactAddress, PassportNumber, PassportIssueDate, PassportIssuer, IsBorrower)
-        ///VALUES
-        ///	((SELECT Value FROM I [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string GenerateTestDataForSelectTest {
-            get {
-                return ResourceManager.GetString("GenerateTestDataForSelectTest", resourceCulture);
             }
         }
     }

@@ -12,6 +12,8 @@ namespace Buzzer.ViewModel.CreditsList
       private readonly CreditInfo _creditInfo;
       private readonly IWorkspaceManager _workspaceManager;
 
+      private CreditState _creditState;
+
       private ICommand _openCreditCommand;
 
       public CreditViewModel(CreditInfo creditInfo, IWorkspaceManager workspaceManager)
@@ -28,6 +30,12 @@ namespace Buzzer.ViewModel.CreditsList
          CreditIssueDate = _creditInfo.CreditIssueDate;
          CreditEndDate = getCreditEndDate();
          DiscountRate = getDiscountRate();
+         CreditState = _creditInfo.CreditState;
+      }
+
+      public CreditInfo Original
+      {
+         get { return _creditInfo; }
       }
 
       public string CreditNumber { get; set; }
@@ -41,6 +49,19 @@ namespace Buzzer.ViewModel.CreditsList
       public DateTime CreditEndDate { get; set; }
 
       public decimal DiscountRate { get; set; }
+
+      public CreditState CreditState
+      {
+         get { return _creditState; }
+         set
+         {
+            if (_creditState == value)
+               return;
+
+            _creditState = value;
+            propertyChanged("CreditState");
+         }
+      }
 
       public ICommand OpenCredit
       {

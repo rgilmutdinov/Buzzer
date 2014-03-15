@@ -3,7 +3,6 @@ using System.Windows;
 using Buzzer.DataAccess.Repository;
 using Buzzer.ViewModel.MainWindow;
 using NLog;
-using MessageBox = Xceed.Wpf.Toolkit.MessageBox;
 
 namespace Buzzer
 {

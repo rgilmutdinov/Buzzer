@@ -25,6 +25,7 @@ namespace Buzzer.DomainModel.Models
                             {
                                Id = NullValues.Id,
                                CreditIssueDate = DateTime.Today,
+                               CreditState = CreditState.Current,
                                Borrower = PersonInfo.CreateNew(NullValues.Id),
                                _guarantors = new List<PersonInfo>(),
                                PaymentsSchedule = new PaymentInfo[0]
@@ -42,6 +43,7 @@ namespace Buzzer.DomainModel.Models
          decimal discountRate,
          decimal? effectiveDiscountRate,
          decimal? exchangeRate,
+         CreditState creditState,
          PersonInfo borrower,
          IEnumerable<PersonInfo> guarantors,
          IEnumerable<PaymentInfo> payments
@@ -59,6 +61,7 @@ namespace Buzzer.DomainModel.Models
                       DiscountRate = discountRate,
                       EffectiveDiscountRate = effectiveDiscountRate,
                       ExchangeRate = exchangeRate,
+                      CreditState = creditState,
                       Borrower = borrower,
                       _guarantors = guarantors.ToList(),
                       PaymentsSchedule = paymentsSchedule
@@ -101,6 +104,9 @@ namespace Buzzer.DomainModel.Models
          get { return _exchangeRate; }
          set { _exchangeRate = value.HasValue ? decimal.Round(value.Value, 4) : (decimal?) null; }
       }
+
+      // Статус кредита.
+      public CreditState CreditState { get; set; }
 
       // Заемщик.
       public PersonInfo Borrower { get; private set; }
@@ -242,6 +248,11 @@ namespace Buzzer.DomainModel.Models
             return null;
 
          return ExchangeRate.Value <= decimal.Zero ? Resources.IncorrectValue : null;
+      }
+
+      private string validateCreditState()
+      {
+         return CreditState == CreditState.None ? Resources.IncorrectValue : null;
       }
 
       private string validateGuarantors()

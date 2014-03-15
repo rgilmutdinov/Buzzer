@@ -60,7 +60,8 @@ namespace Buzzer.DatabaseConverter
          var converters =
             new Dictionary<int, Func<ConverterBase>>
                {
-                  {2, () => new AddNotificationLogConverter(commandFactory)}
+                  {2, () => new AddNotificationLogConverter(commandFactory)},
+                  {3, () => new AddCreditStateColumnToCreditsTableConverter(commandFactory)},
                };
 
          return

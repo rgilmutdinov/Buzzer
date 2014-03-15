@@ -56,6 +56,7 @@ namespace Buzzer.DataAccess.Repository
                         Convert.ToDecimal(row[DiscountRate.Name]),
                         getNullable(row[EffectiveDiscountRate.Name], Convert.ToDecimal),
                         getNullable(row[ExchangeRate.Name], Convert.ToDecimal),
+                        getCreditState(Convert.ToInt32(row[CreditState.Name])),
                         queryResult.Borrower,
                         queryResult.Guarantors,
                         payments
@@ -67,7 +68,22 @@ namespace Buzzer.DataAccess.Repository
             }
          }
       }
-      
+
+      private CreditState getCreditState(int creditState)
+      {
+         switch (creditState)
+         {
+            case 1:
+               return DomainModel.Models.CreditState.Current;
+
+            case 2:
+               return DomainModel.Models.CreditState.Repayed;
+
+            default:
+               throw new ArgumentException();
+         }
+      }
+
       private QueryPersonInfoResult getPersons(int creditId)
       {
          string selectPersonsQuery =
