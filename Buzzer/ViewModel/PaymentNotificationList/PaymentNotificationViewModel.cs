@@ -2,6 +2,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
+using Buzzer.DataAccess.Repository;
 using Buzzer.DomainModel.Models;
 using Buzzer.DomainModel.Services;
 using Buzzer.Properties;
@@ -18,14 +19,17 @@ namespace Buzzer.ViewModel.PaymentNotificationList
 
       private readonly CreditInfo _credit;
       private readonly PaymentInfo _payment;
+      private readonly BuzzerDatabase _buzzerDatabase;
 
-      public PaymentNotificationViewModel(CreditInfo credit, PaymentInfo payment)
+      public PaymentNotificationViewModel(CreditInfo credit, PaymentInfo payment, BuzzerDatabase buzzerDatabase)
       {
          Check.NotNull(credit, "credit");
          Check.NotNull(payment, "payment");
+         Check.NotNull(buzzerDatabase, "buzzerDatabase");
 
          _credit = credit;
          _payment = payment;
+         _buzzerDatabase = buzzerDatabase;
       }
 
       public PaymentInfo Orignal
@@ -122,6 +126,9 @@ namespace Buzzer.ViewModel.PaymentNotificationList
          {
             var smsSender = SmsSenderFactory.GetSmsSender(PhoneNumber);
             smsSender.Send(message);
+
+            var logItem = createNotificationLogItemInfo(message);
+            _buzzerDatabase.SaveNotificationLogItem(logItem);
          }
          catch (UnknownMobileProviderException)
          {
@@ -136,6 +143,17 @@ namespace Buzzer.ViewModel.PaymentNotificationList
                             MessageBoxButton.OK, MessageBoxImage.Error);
             Logger.Error(e);
          }
+      }
+
+      private NotificationLogItemInfo createNotificationLogItemInfo(string message)
+      {
+         DateTime notificationDate = DateTime.Now;
+         string comment =
+            string.Format("{0:dd/MM/yyyy HH:mm}. Получатель: {1}. Отправлено СМС-сообщение: \"{2}\".",
+                          notificationDate, _credit.Borrower.PersonName, message);
+
+         return NotificationLogItemInfo.CreateNew(_credit.Id, _credit.Borrower.Id,
+                                                  notificationDate, comment);
       }
    }
 }

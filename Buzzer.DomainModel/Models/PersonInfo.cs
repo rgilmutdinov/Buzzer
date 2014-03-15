@@ -7,7 +7,7 @@ using Common;
 
 namespace Buzzer.DomainModel.Models
 {
-   public sealed class PersonInfo : RepositoryItem
+   public sealed class PersonInfo : DomainObject
    {
       private List<PhoneNumberInfo> _phoneNumbers;
 

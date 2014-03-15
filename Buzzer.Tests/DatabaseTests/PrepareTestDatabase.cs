@@ -10,6 +10,18 @@ namespace Buzzer.Tests.DatabaseTests
       [SetUp]
       public void SetUp()
       {
+         convertDatabase();
+         generateTestData();
+      }
+
+      private static void convertDatabase()
+      {
+         var converter = new DatabaseConverter.DatabaseConverter(TestSettings.ConnectionString);
+         converter.Convert();
+      }
+
+      private static void generateTestData()
+      {
          DbProviderFactory factory = DbProviderFactories.GetFactory("System.Data.SQLite");
 
          using (DbConnection connection = factory.CreateConnection())
@@ -20,6 +32,8 @@ namespace Buzzer.Tests.DatabaseTests
             execute(connection, Resources.ClearDatabase);
             execute(connection, Resources.GenerateTestDataForEditTest);
             execute(connection, Resources.GenerateTestDataForSelectTest);
+            execute(connection, Resources.GenerateTestDataForSaveNotificationLogItemsTest);
+            execute(connection, Resources.GenerateTestDataForSelectNotificationLogItemsTest);
          }
       }
 

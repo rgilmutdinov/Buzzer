@@ -115,6 +115,15 @@ namespace Buzzer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Текущий мониторинг.
+        /// </summary>
+        internal static string MainWindowViewModel_NotificationLog {
+            get {
+                return ResourceManager.GetString("MainWindowViewModel_NotificationLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Оповещение платежей.
         /// </summary>
         internal static string MainWindowViewModel_PaymentNotificationList {
@@ -129,6 +138,15 @@ namespace Buzzer.Properties {
         internal static string NewCreditTabCaption {
             get {
                 return ResourceManager.GetString("NewCreditTabCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Текущий мониторинг.
+        /// </summary>
+        internal static string NotificationLogViewModel_Caption {
+            get {
+                return ResourceManager.GetString("NotificationLogViewModel_Caption", resourceCulture);
             }
         }
         

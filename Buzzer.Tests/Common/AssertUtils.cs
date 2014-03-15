@@ -74,7 +74,7 @@ namespace Buzzer.Tests.Common
          IEnumerable<T> expectedCollection,
          IEnumerable<T> actualCollection,
          Action<T, T> assert)
-         where T : RepositoryItem
+         where T : DomainObject
       {
          Assert.IsNotNull(expectedCollection);
          Assert.IsNotNull(actualCollection);

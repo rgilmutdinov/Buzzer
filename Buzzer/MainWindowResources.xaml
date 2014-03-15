@@ -3,7 +3,8 @@
                     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
                     xmlns:CreditContract="clr-namespace:Buzzer.ViewModel.CreditContract"
                     xmlns:CreditsList="clr-namespace:Buzzer.ViewModel.CreditsList"
-                    xmlns:PaymentNotificationList="clr-namespace:Buzzer.ViewModel.PaymentNotificationList">
+                    xmlns:PaymentNotificationList="clr-namespace:Buzzer.ViewModel.PaymentNotificationList"
+                    xmlns:NotificationLog="clr-namespace:Buzzer.ViewModel.NotificationLog">
 
    <!-- DataTemplates -->
    <DataTemplate DataType="{x:Type CreditContract:CreditContractViewModel}">
@@ -20,6 +21,10 @@
 
    <DataTemplate DataType="{x:Type PaymentNotificationList:PaymentNotificationListViewModel}">
       <View:PaymentNotificationListView />
+   </DataTemplate>
+
+   <DataTemplate DataType="{x:Type NotificationLog:NotificationLogViewModel}">
+      <View:NotificationLogView />
    </DataTemplate>
 
    <DataTemplate x:Key="ErrorDataTemplate" DataType="{x:Type ValidationError}">
@@ -91,5 +96,6 @@
     
    <!-- Converters -->
    <View:DateConverter x:Key="dateConverter" />
+   <View:DateTimeConverter x:Key="dateTimeConverter" />
    <View:BooleanToBrushConverter x:Key="booleanToBrushConverter"/>
 </ResourceDictionary>

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Configuration;
+﻿using System.Configuration;
 using System.Windows;
 using Buzzer.DataAccess.Repository;
 using Buzzer.ViewModel.MainWindow;
@@ -17,13 +16,22 @@ namespace Buzzer
          base.OnStartup(e);
 
          DispatcherUnhandledException += onUnhandledException;
-
+         
          ConnectionStringSettings connectionString = ConfigurationManager.ConnectionStrings["BuzzerDatabase"];
+
+         convertDatabase(connectionString);
+
          var buzzerDatabase = new BuzzerDatabase(connectionString.ConnectionString);
 
          var viewModel = new MainWindowViewModel(buzzerDatabase);
          var mainView = new MainWindow {DataContext = viewModel};
          mainView.Show();
+      }
+
+      private static void convertDatabase(ConnectionStringSettings connectionString)
+      {
+         var converter = new DatabaseConverter.DatabaseConverter(connectionString.ConnectionString);
+         converter.Convert();
       }
 
       private void onUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)

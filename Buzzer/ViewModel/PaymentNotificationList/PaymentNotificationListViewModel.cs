@@ -88,7 +88,7 @@ namespace Buzzer.ViewModel.PaymentNotificationList
          {
             foreach (PaymentInfo payment in credit.PaymentsSchedule)
             {
-               result.Add(new PaymentNotificationViewModel(credit, payment));
+               result.Add(new PaymentNotificationViewModel(credit, payment, _buzzerDatabase));
             }
          }
 

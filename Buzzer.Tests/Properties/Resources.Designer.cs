@@ -61,8 +61,10 @@ namespace Buzzer.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to DELETE FROM PhoneNumbers;
+        ///   Looks up a localized string similar to DELETE FROM NotificationLog;
+        ///DELETE FROM PhoneNumbers;
         ///DELETE FROM Persons;
+        ///DELETE FROM PaymentsSchedule;
         ///DELETE FROM Credits;.
         /// </summary>
         internal static string ClearDatabase {
@@ -72,7 +74,19 @@ namespace Buzzer.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to CREATE TEMP TABLE ID (Value integer);
+        ///
+        ///INSERT INTO Credits
+        ///	(CreditNumber, CreditAmount, CreditIssueDate, MonthsCount, DiscountRate, EffectiveDiscountRate, ExchangeRate)
+        ///VALUES
+        ///	(&apos;CNE1&apos;, 100000, &apos;2013-12-31&apos;, 12, 0.36, 0.24, 45);
+        ///
+        ///INSERT INTO ID VALUES ((SELECT last_insert_rowid()));
+        ///
+        ///INSERT INTO Persons
+        ///	(CreditID, PersonalNumber, Name, RegistrationAddress, FactAddress, PassportNumber, PassportIssueDate, PassportIssuer, IsBorrower)
+        ///VALUES
+        ///	((SELECT Value FROM ID LIMIT 1), &apos;11111111111111&apos;, &apos;Bor [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GenerateTestDataForEditTest {
             get {
@@ -81,7 +95,62 @@ namespace Buzzer.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to CREATE TEMP TABLE ID (CreditID integer, PersonID integer);
+        ///
+        ///INSERT INTO Credits
+        ///	(CreditNumber, CreditAmount, CreditIssueDate, MonthsCount, DiscountRate, EffectiveDiscountRate, ExchangeRate)
+        ///VALUES
+        ///	(&apos;CNSNLI1&apos;, 100000, &apos;2013-12-31&apos;, 12, 0.36, 0.24, 45);
+        ///
+        ///INSERT INTO ID (CreditID, PersonID) VALUES ((SELECT last_insert_rowid()), 0);
+        ///
+        ///INSERT INTO Persons
+        ///	(CreditID, PersonalNumber, Name, RegistrationAddress, FactAddress, PassportNumber, PassportIssueDate, PassportIssuer, IsBorrower)
+        ///VALUES
+        ///	((SELEC [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string GenerateTestDataForSaveNotificationLogItemsTest {
+            get {
+                return ResourceManager.GetString("GenerateTestDataForSaveNotificationLogItemsTest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CREATE TEMP TABLE ID (CreditID integer, PersonID integer);
+        ///
+        ///INSERT INTO Credits
+        ///	(CreditNumber, CreditAmount, CreditIssueDate, MonthsCount, DiscountRate, EffectiveDiscountRate, ExchangeRate)
+        ///VALUES
+        ///	(&apos;CNSNLI1&apos;, 100000, &apos;2013-12-31&apos;, 12, 0.36, 0.24, 45);
+        ///
+        ///INSERT INTO ID (CreditID, PersonID) VALUES ((SELECT last_insert_rowid()), 0);
+        ///
+        ///INSERT INTO Persons
+        ///	(CreditID, PersonalNumber, Name, RegistrationAddress, FactAddress, PassportNumber, PassportIssueDate, PassportIssuer, IsBorrower)
+        ///VALUES
+        ///	((SELEC [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string GenerateTestDataForSelectNotificationLogItemsTest {
+            get {
+                return ResourceManager.GetString("GenerateTestDataForSelectNotificationLogItemsTest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CREATE TEMP TABLE ID (Value integer);
+        ///
+        ///-- Credit without Guarantors.
+        ///INSERT INTO Credits
+        ///	(CreditNumber, CreditAmount, CreditIssueDate, MonthsCount, DiscountRate, EffectiveDiscountRate, ExchangeRate)
+        ///VALUES
+        ///	(&apos;CNS1&apos;, 200000, &apos;2014-01-02&apos;, 24, 0.36, 0.12, 47.5);
+        ///	
+        ///INSERT INTO ID VALUES ((SELECT last_insert_rowid()));
+        ///
+        ///INSERT INTO Persons
+        ///	(CreditID, PersonalNumber, Name, RegistrationAddress, FactAddress, PassportNumber, PassportIssueDate, PassportIssuer, IsBorrower)
+        ///VALUES
+        ///	((SELECT Value FROM I [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GenerateTestDataForSelectTest {
             get {

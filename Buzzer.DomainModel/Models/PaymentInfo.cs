@@ -4,7 +4,7 @@ using Buzzer.DomainModel.Properties;
 
 namespace Buzzer.DomainModel.Models
 {
-   public sealed class PaymentInfo : RepositoryItem
+   public sealed class PaymentInfo : DomainObject
    {
       private PaymentInfo()
       {

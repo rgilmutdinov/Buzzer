@@ -4,7 +4,7 @@ using Buzzer.DomainModel.Properties;
 
 namespace Buzzer.DomainModel.Models
 {
-   public sealed class PhoneNumberInfo : RepositoryItem
+   public sealed class PhoneNumberInfo : DomainObject
    {
       private PhoneNumberInfo()
       {

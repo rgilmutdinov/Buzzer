@@ -118,19 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="ClearDatabase" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\SqlScripts\ClearDatabase.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="GenerateTestDataForEditTest" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\SqlScripts\GenerateTestDataForEditTest.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="GenerateTestDataForSaveNotificationLogItemsTest" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\SqlScripts\GenerateTestDataForSaveNotificationLogItemsTest.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
-  </data>
-  <data name="GenerateTestDataForSelectNotificationLogItemsTest" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\SqlScripts\GenerateTestDataForSelectNotificationLogItemsTest.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
-  </data>
-  <data name="GenerateTestDataForSelectTest" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\SqlScripts\GenerateTestDataForSelectTest.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="AddNotificationLogTable" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ConverterScripts\AddNotificationLogTable.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
   </data>
 </root>

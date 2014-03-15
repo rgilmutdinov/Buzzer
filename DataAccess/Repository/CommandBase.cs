@@ -56,9 +56,14 @@ namespace Buzzer.DataAccess.Repository
          return command;
       }
 
-      protected static TValue? get<TValue>(object value, Func<object, TValue> converter) where TValue : struct
+      protected static TValue? getNullable<TValue>(object value, Func<object, TValue> converter) where TValue : struct
       {
          return value == DBNull.Value ? (TValue?) null : converter(value);
+      }
+
+      protected static TValue get<TValue>(object value, Func<Object, TValue> converter) where TValue : class
+      {
+         return value == DBNull.Value ? null : converter(value);
       }
    }
 }

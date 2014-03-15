@@ -57,6 +57,33 @@ namespace Buzzer.DataAccess.Repository
          }
       }
 
+      public void SaveNotificationLogItem(NotificationLogItemInfo notificationLogItem)
+      {
+         using (DbConnection connection = createConnection())
+         {
+            using (DbTransaction transaction = createTransaction(connection))
+            {
+               var saveCommand = new SaveNotificationLogItemCommand(connection, transaction, notificationLogItem);
+               saveCommand.Execute();
+               transaction.Commit();
+            }
+         }
+      }
+
+      public NotificationLogItemInfo[] GetNotificationLogItems()
+      {
+         using (DbConnection connection = createConnection())
+         {
+            using (DbTransaction transaction = createTransaction(connection))
+            {
+               var selectCommand = new SelectNotificationLogItemsCommand(connection, transaction);
+               NotificationLogItemInfo[] result = selectCommand.Execute();
+               transaction.Commit();
+               return result;
+            }
+         }
+      }
+
       private DbConnection createConnection()
       {
          DbConnection connection = _factory.CreateConnection();

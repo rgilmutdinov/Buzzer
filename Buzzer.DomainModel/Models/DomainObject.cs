@@ -3,9 +3,9 @@ using System.ComponentModel;
 
 namespace Buzzer.DomainModel.Models
 {
-   public abstract class RepositoryItem : IDataErrorInfo
+   public abstract class DomainObject : IDataErrorInfo
    {
-      protected RepositoryItem()
+      protected DomainObject()
       {
          Id = NullValues.Id;
       }

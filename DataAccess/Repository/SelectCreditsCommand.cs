@@ -54,8 +54,8 @@ namespace Buzzer.DataAccess.Repository
                         Convert.ToDateTime(row[CreditIssueDate.Name]),
                         Convert.ToInt32(row[MonthsCount.Name]),
                         Convert.ToDecimal(row[DiscountRate.Name]),
-                        get(row[EffectiveDiscountRate.Name], Convert.ToDecimal),
-                        get(row[ExchangeRate.Name], Convert.ToDecimal),
+                        getNullable(row[EffectiveDiscountRate.Name], Convert.ToDecimal),
+                        getNullable(row[ExchangeRate.Name], Convert.ToDecimal),
                         queryResult.Borrower,
                         queryResult.Guarantors,
                         payments

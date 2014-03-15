@@ -7,7 +7,7 @@ using Buzzer.DomainModel.Properties;
 
 namespace Buzzer.DomainModel.Models
 {
-   public sealed class CreditInfo : RepositoryItem
+   public sealed class CreditInfo : DomainObject
    {
       private decimal _creditAmount;
       private decimal _discountRate;

@@ -1,0 +1,93 @@
+﻿<UserControl x:Class="Buzzer.View.NotificationLogView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:NotificationLog="clr-namespace:Buzzer.ViewModel.NotificationLog"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="800"
+             d:DataContext="{d:DesignInstance NotificationLog:NotificationLogViewModel}">
+   
+   <UserControl.Resources>
+      <ResourceDictionary Source="/MainWindowResources.xaml" />
+   </UserControl.Resources>
+   
+   <Grid>
+      <Grid.RowDefinitions>
+         <RowDefinition Height="Auto" />
+         <RowDefinition Height="*" />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+         <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+
+      <StackPanel Orientation="Horizontal">
+         <Label
+            Content="С:"
+            Style="{StaticResource LabelStyle}"
+            />
+         <xctk:DateTimeUpDown
+            Width="100"
+            Style="{StaticResource DateTimeUpDownStyle}"
+            Value="{Binding Path=FromDate, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+            />
+
+         <Label
+            Content="По:"
+            Style="{StaticResource LabelStyle}"
+            />
+         <xctk:DateTimeUpDown
+            Width="100"
+            Style="{StaticResource DateTimeUpDownStyle}"
+            Value="{Binding Path=ToDate, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+            />
+         
+         <Label
+            Content="№ / Заемщик:"
+            Style="{StaticResource LabelStyle}"
+            />
+         <TextBox
+            Width="200"
+            Style="{StaticResource TextBoxStyle}"
+            Text="{Binding Path=CreditNumberBorrowerNameFilter, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+            />
+         
+         <Button
+            Content="Обновить"
+            Margin="5"
+            Command="{Binding Path=Update, Mode=OneWay}"
+            />
+         
+         <Button
+            Content="Сохранить"
+            Margin="5"
+            Command="{Binding Path=Save, Mode=OneWay}"
+            />
+      </StackPanel>
+      
+      <DataGrid Grid.Row="1" Grid.Column="0"
+                ItemsSource="{Binding Path=NotificationLogItems, Mode=OneWay}"
+                AutoGenerateColumns="False" SelectionMode="Single"
+                CanUserAddRows="False" CanUserDeleteRows="False"
+                >
+         <DataGrid.Columns>
+            <DataGridTextColumn Header="№" Binding="{Binding Path=CreditNumber, Mode=OneWay}" Width="10*"/>
+            <DataGridTextColumn Header="Заемщик" Binding="{Binding Path=PersonName, Mode=OneWay}" Width="20*"/>
+            <DataGridTextColumn Header="Дата оповещения" Binding="{Binding Path=NotificationDate, Mode=OneWay, Converter={StaticResource dateTimeConverter}}" Width="10*"/>
+
+            <DataGridTemplateColumn Header="Примечание" Width="60*">
+               <DataGridTemplateColumn.CellTemplate>
+                  <DataTemplate>
+                     <TextBox Text="{Binding Path=Comment, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              AcceptsReturn="True" TextWrapping="Wrap"
+                              Height="Auto" MaxHeight="70"
+                              MaxLength="2000"
+                              ScrollViewer.VerticalScrollBarVisibility="Auto"
+                              ScrollViewer.CanContentScroll="True"/>
+                  </DataTemplate>
+               </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+         </DataGrid.Columns>
+      </DataGrid>
+   </Grid>
+</UserControl>

@@ -22,7 +22,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\Bin\Buzzer\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -81,6 +81,8 @@
     <Compile Include="ViewModel\CreditContract\PersonInfoViewModel.cs" />
     <Compile Include="ViewModel\CreditContract\PhoneNumberViewModel.cs" />
     <Compile Include="ViewModel\Common\ViewModelBase.cs" />
+    <Compile Include="ViewModel\NotificationLog\NotificationLogItemViewModel.cs" />
+    <Compile Include="ViewModel\NotificationLog\NotificationLogViewModel.cs" />
     <Compile Include="ViewModel\PaymentNotificationList\PaymentNotificationListViewModel.cs" />
     <Compile Include="ViewModel\PaymentNotificationList\PaymentNotificationViewModel.cs" />
     <Compile Include="View\BooleanToBrushConverter.cs" />
@@ -91,6 +93,10 @@
       <DependentUpon>CreditsListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\DateConverter.cs" />
+    <Compile Include="View\DateTimeConverter.cs" />
+    <Compile Include="View\NotificationLogView.xaml.cs">
+      <DependentUpon>NotificationLogView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\PaymentNotificationListView.xaml.cs">
       <DependentUpon>PaymentNotificationListView.xaml</DependentUpon>
     </Compile>
@@ -118,6 +124,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\CreditsListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\NotificationLogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -157,6 +167,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\Buzzer.DatabaseConverter\Buzzer.DatabaseConverter.csproj">
+      <Project>{C0886618-8F37-4F9C-98D6-D834FAE7D736}</Project>
+      <Name>Buzzer.DatabaseConverter</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Buzzer.DomainModel\Buzzer.DomainModel.csproj">
       <Project>{B7D61614-BD6B-487E-8E74-1CB2D212FB90}</Project>
       <Name>Buzzer.DomainModel</Name>

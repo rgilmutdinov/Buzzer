@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{B7D61614-BD6B-487E-8E74-1CB2D212FB90}</ProjectGuid>
+    <ProjectGuid>{C0886618-8F37-4F9C-98D6-D834FAE7D736}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Buzzer.DomainModel</RootNamespace>
-    <AssemblyName>Buzzer.DomainModel</AssemblyName>
+    <RootNamespace>Buzzer.DatabaseConverter</RootNamespace>
+    <AssemblyName>Buzzer.DatabaseConverter</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -33,53 +33,43 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.SQLite">
+      <HintPath>..\ThridParty\SQLite\x64\bin\System.Data.SQLite.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="WatiN.Core">
-      <HintPath>..\ThridParty\WatiN\net40\WatiN.Core.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\CreditCalculator.cs" />
-    <Compile Include="Models\CreditInfo.cs" />
-    <Compile Include="Models\CreditPayment.cs" />
-    <Compile Include="Models\NotificationLogItemInfo.cs" />
-    <Compile Include="Models\NullValues.cs" />
-    <Compile Include="Models\PaymentInfo.cs" />
-    <Compile Include="Models\PaymentScheduleBuilder.cs" />
-    <Compile Include="Models\PersonInfo.cs" />
-    <Compile Include="Models\PhoneNumberInfo.cs" />
-    <Compile Include="Models\DomainObject.cs" />
-    <Compile Include="Models\StringHelper.cs" />
+    <Compile Include="Converters\AddNotificationLogConverter.cs" />
+    <Compile Include="CommandFactory.cs" />
+    <Compile Include="DatabaseConverter.cs" />
+    <Compile Include="DatabaseVersionProvider.cs" />
+    <Compile Include="Converters\ConverterBase.cs" />
+    <Compile Include="DatabaseVersionUpdater.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
+    <Compile Include="Properties\Resource.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
+      <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
-    <Compile Include="Services\BeelineSmsSender.cs" />
-    <Compile Include="Services\ISmsSender.cs" />
-    <Compile Include="Services\MegacomSmsSender.cs" />
-    <Compile Include="Services\OSmsSender.cs" />
-    <Compile Include="Services\PhoneNumber.cs" />
-    <Compile Include="Services\PhoneNumberRegex.cs" />
-    <Compile Include="Services\SmsSenderFactory.cs" />
-    <Compile Include="Services\UnknownMobileProviderException.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{033C871F-F8CB-42F9-BBD3-1F7DC0444DC8}</Project>
       <Name>Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ConverterScripts\AddNotificationLogTable.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

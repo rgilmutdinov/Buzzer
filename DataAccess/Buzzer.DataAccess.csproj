@@ -55,8 +55,10 @@
     <Compile Include="Helpers\RepositoryHelper.cs" />
     <Compile Include="Repository\BuzzerDatabase.cs" />
     <Compile Include="Repository\SaveCreditCommand.cs" />
+    <Compile Include="Repository\SaveNotificationLogItemCommand.cs" />
     <Compile Include="Repository\SavePaymentCommand.cs" />
     <Compile Include="Repository\SelectCreditsCommand.cs" />
+    <Compile Include="Repository\SelectNotificationLogItemsCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="CreateBuzzerDatabase.sql" />

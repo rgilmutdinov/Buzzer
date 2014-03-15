@@ -48,7 +48,9 @@
   <ItemGroup>
     <Compile Include="DatabaseTests\PrepareTestDatabase.cs" />
     <Compile Include="DatabaseTests\SaveCreditsTests.cs" />
+    <Compile Include="DatabaseTests\SaveNotificationLogItemTests.cs" />
     <Compile Include="DatabaseTests\SelectCreditsTests.cs" />
+    <Compile Include="DatabaseTests\SelectNotificationLogItemsTests.cs" />
     <Compile Include="DatabaseTests\TestSettings.cs" />
     <Compile Include="Common\AssertUtils.cs" />
     <Compile Include="DomainModelTests\BuildPaymentsScheduleTests.cs" />
@@ -62,6 +64,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Buzzer.DatabaseConverter\Buzzer.DatabaseConverter.csproj">
+      <Project>{C0886618-8F37-4F9C-98D6-D834FAE7D736}</Project>
+      <Name>Buzzer.DatabaseConverter</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Buzzer.DomainModel\Buzzer.DomainModel.csproj">
       <Project>{B7D61614-BD6B-487E-8E74-1CB2D212FB90}</Project>
       <Name>Buzzer.DomainModel</Name>
@@ -74,6 +80,8 @@
   <ItemGroup>
     <Content Include="SqlScripts\ClearDatabase.sql" />
     <Content Include="SqlScripts\GenerateTestDataForEditTest.sql" />
+    <Content Include="SqlScripts\GenerateTestDataForSaveNotificationLogItemsTest.sql" />
+    <Content Include="SqlScripts\GenerateTestDataForSelectNotificationLogItemsTest.sql" />
     <Content Include="SqlScripts\GenerateTestDataForSelectTest.sql" />
   </ItemGroup>
   <ItemGroup>
@@ -87,7 +95,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="BuzzerDatabase.db" />
+    <None Include="BuzzerDatabase.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

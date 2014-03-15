@@ -69,7 +69,7 @@
             <DataGridCheckBoxColumn Header="Оповещен" Binding="{Binding Path=IsNotified, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="5*"/>
 
             <DataGridTextColumn Header="№" Binding="{Binding Path=CreditNumber, Mode=OneWay}" Width="10*"/>
-            <DataGridTextColumn Header="Заемщика" Binding="{Binding Path=BorrowerName, Mode=OneWay}" Width="50*"/>
+            <DataGridTextColumn Header="Заемщик" Binding="{Binding Path=BorrowerName, Mode=OneWay}" Width="50*"/>
 
             <DataGridTemplateColumn Header="Номер телефона" Width="15*">
                <DataGridTemplateColumn.CellTemplate>

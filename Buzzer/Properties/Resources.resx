@@ -150,4 +150,10 @@
   <data name="UnknownMobileProvider" xml:space="preserve">
     <value>Указан неизвестный мобильный провайдер.</value>
   </data>
+  <data name="MainWindowViewModel_NotificationLog" xml:space="preserve">
+    <value>Текущий мониторинг</value>
+  </data>
+  <data name="NotificationLogViewModel_Caption" xml:space="preserve">
+    <value>Текущий мониторинг</value>
+  </data>
 </root>
