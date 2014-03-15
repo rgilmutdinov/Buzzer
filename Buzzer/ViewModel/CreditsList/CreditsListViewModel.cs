@@ -15,6 +15,8 @@ namespace Buzzer.ViewModel.CreditsList
       private readonly BuzzerDatabase _buzzerDatabase;
       private readonly IWorkspaceManager _workspaceManager;
 
+      private DateTime _fromDate;
+      private DateTime _toDate;
       private string _creditNumberBorrowerNameFilter;
 
       private ICommand _updateCreditsListCommand;
@@ -30,9 +32,36 @@ namespace Buzzer.ViewModel.CreditsList
          CreditsList = getCreditsList();
          DisplayName = Resources.CreditsListViewModel_Caption;
 
+         initFilterPeriod();
          updateFilter();
       }
-      
+
+      public DateTime FromDate
+      {
+         get { return _fromDate; }
+         set
+         {
+            if (_fromDate == value)
+               return;
+
+            _fromDate = value;
+            updateFilter();
+         }
+      }
+
+      public DateTime ToDate
+      {
+         get { return _toDate; }
+         set
+         {
+            if (_toDate == value)
+               return;
+
+            _toDate = value;
+            updateFilter();
+         }
+      }
+
       public string CreditNumberBorrowerNameFilter
       {
          get { return _creditNumberBorrowerNameFilter; }
@@ -70,14 +99,27 @@ namespace Buzzer.ViewModel.CreditsList
             );
       }
 
+      private void initFilterPeriod()
+      {
+         _fromDate = new DateTime(2009, 1, 1);
+         _toDate = DateTime.Today;
+      }
+
       private void updateFilter()
       {
          CreditsList.Filter =
             item =>
                {
                   var credit = (CreditViewModel) item;
-                  return filterByCreditNumberOrBorrowerName(credit);
+                  return filterByCreditIssueDate(credit) &&
+                         filterByCreditNumberOrBorrowerName(credit);
                };
+      }
+
+      private bool filterByCreditIssueDate(CreditViewModel credit)
+      {
+         DateTime date = credit.CreditIssueDate;
+         return FromDate <= date && date <= ToDate;
       }
 
       private bool filterByCreditNumberOrBorrowerName(CreditViewModel credit)
