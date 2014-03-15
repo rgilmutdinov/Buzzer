@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buzzer", "Buzzer\Buzzer.csproj", "{271B7A8A-80B9-40B0-9BB5-F5C241D7BE07}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buzzer.DataAccess", "DataAccess\Buzzer.DataAccess.csproj", "{6969B395-557B-4D67-AC08-28BA7374E250}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{033C871F-F8CB-42F9-BBD3-1F7DC0444DC8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buzzer.Tests", "Buzzer.Tests\Buzzer.Tests.csproj", "{B0045A6C-506B-4386-917F-756CA7E2D197}"
@@ -12,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buzzer.DomainModel", "Buzzer.DomainModel\Buzzer.DomainModel.csproj", "{B7D61614-BD6B-487E-8E74-1CB2D212FB90}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buzzer.DatabaseConverter", "Buzzer.DatabaseConverter\Buzzer.DatabaseConverter.csproj", "{C0886618-8F37-4F9C-98D6-D834FAE7D736}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buzzer.DataAccess", "Buzzer.DataAccess\Buzzer.DataAccess.csproj", "{6969B395-557B-4D67-AC08-28BA7374E250}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,16 +33,6 @@ Global
 		{271B7A8A-80B9-40B0-9BB5-F5C241D7BE07}.Release|Mixed Platforms.Build.0 = Release|x86
 		{271B7A8A-80B9-40B0-9BB5-F5C241D7BE07}.Release|x86.ActiveCfg = Release|x86
 		{271B7A8A-80B9-40B0-9BB5-F5C241D7BE07}.Release|x86.Build.0 = Release|x86
-		{6969B395-557B-4D67-AC08-28BA7374E250}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6969B395-557B-4D67-AC08-28BA7374E250}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6969B395-557B-4D67-AC08-28BA7374E250}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{6969B395-557B-4D67-AC08-28BA7374E250}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{6969B395-557B-4D67-AC08-28BA7374E250}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{6969B395-557B-4D67-AC08-28BA7374E250}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6969B395-557B-4D67-AC08-28BA7374E250}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6969B395-557B-4D67-AC08-28BA7374E250}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{6969B395-557B-4D67-AC08-28BA7374E250}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{6969B395-557B-4D67-AC08-28BA7374E250}.Release|x86.ActiveCfg = Release|Any CPU
 		{033C871F-F8CB-42F9-BBD3-1F7DC0444DC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{033C871F-F8CB-42F9-BBD3-1F7DC0444DC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{033C871F-F8CB-42F9-BBD3-1F7DC0444DC8}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -83,6 +73,16 @@ Global
 		{C0886618-8F37-4F9C-98D6-D834FAE7D736}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{C0886618-8F37-4F9C-98D6-D834FAE7D736}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{C0886618-8F37-4F9C-98D6-D834FAE7D736}.Release|x86.ActiveCfg = Release|Any CPU
+		{6969B395-557B-4D67-AC08-28BA7374E250}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6969B395-557B-4D67-AC08-28BA7374E250}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6969B395-557B-4D67-AC08-28BA7374E250}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{6969B395-557B-4D67-AC08-28BA7374E250}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{6969B395-557B-4D67-AC08-28BA7374E250}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6969B395-557B-4D67-AC08-28BA7374E250}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6969B395-557B-4D67-AC08-28BA7374E250}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6969B395-557B-4D67-AC08-28BA7374E250}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{6969B395-557B-4D67-AC08-28BA7374E250}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{6969B395-557B-4D67-AC08-28BA7374E250}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

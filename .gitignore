@@ -18,3 +18,5 @@ Buzzer.DomainModel/bin/Debug/
 Buzzer.DomainModel/obj/Debug/
 Buzzer.DatabaseConverter/bin
 Buzzer.DatabaseConverter/obj
+Buzzer.DataAccess/bin
+Buzzer.DataAccess/obj
