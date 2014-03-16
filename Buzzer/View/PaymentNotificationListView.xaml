@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-             xmlns:System="clr-namespace:System;assembly=mscorlib" xmlns:View="clr-namespace:Buzzer.View"
              xmlns:PaymentNotificationList="clr-namespace:Buzzer.ViewModel.PaymentNotificationList" mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="600"
              d:DataContext="{d:DesignInstance PaymentNotificationList:PaymentNotificationListViewModel}"
@@ -60,45 +59,111 @@
                 ItemsSource="{Binding Path=PaymentNotificationList, Mode=OneWay}"
                 AutoGenerateColumns="False" SelectionMode="Single"
                 CanUserAddRows="False" CanUserDeleteRows="False">
+         
          <DataGrid.RowStyle>
             <Style TargetType="DataGridRow">
-               <Setter Property="Background" Value="{Binding Path=IsNotified, Mode=OneWay, Converter={StaticResource booleanToBrushConverter}}"/>
+               <Setter
+                  Property="Background"
+                  Value="{Binding Path=IsNotified, Mode=OneWay, Converter={StaticResource booleanToBrushConverter}}"
+                  />
             </Style>
          </DataGrid.RowStyle>
+         
          <DataGrid.Columns>
-            <DataGridCheckBoxColumn Header="Оповещен" Binding="{Binding Path=IsNotified, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="5*"/>
+            <DataGridCheckBoxColumn
+               Header="Оповещен"
+               Binding="{Binding Path=IsNotified, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+               Width="5*"
+               />
+            
+            <DataGridTextColumn
+               Header="№"
+               Binding="{Binding Path=CreditNumber, Mode=OneWay}"
+               Width="10*"
+               />
+            
+            <DataGridTextColumn
+               Header="Курс доллара США"
+               Binding="{Binding Path=ExchangeRate, Mode=OneWay}"
+               Width="10*"
+               />
+            
+            <DataGridTextColumn
+               Header="Сумма оплаты"
+               Binding="{Binding Path=PaymentAmount, Mode=OneWay}"
+               Width="10*"
+               />
+            
+            <DataGridTextColumn
+               Header="Дата оплаты"
+               Binding="{Binding Path=PaymentDate, Mode=OneWay, Converter={StaticResource dateConverter}}"
+               Width="10*"
+               />
 
-            <DataGridTextColumn Header="№" Binding="{Binding Path=CreditNumber, Mode=OneWay}" Width="10*"/>
-            <DataGridTextColumn Header="Заемщик" Binding="{Binding Path=BorrowerName, Mode=OneWay}" Width="50*"/>
-
-            <DataGridTemplateColumn Header="Номер телефона" Width="15*">
+            <DataGridTemplateColumn Header="Заемщик" Width="50*">
                <DataGridTemplateColumn.CellTemplate>
                   <DataTemplate>
-                     <xctk:MaskedTextBox Mask="(000) 00-00-00" ValueDataType="{x:Type System:String}"
-                                         Value="{Binding Path=PhoneNumber, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,
-                                                NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
-                                         IncludeLiteralsInValue="False" IncludePromptInValue="False"
-                                         Background="{Binding Path=IsNotified, Mode=OneWay, Converter={StaticResource booleanToBrushConverter}}"
-                                         IsReadOnly="True">
-                     </xctk:MaskedTextBox>
+
+                     <TreeView ItemsSource="{Binding Path=SmsReceivers, Mode=OneWay}">
+                        <TreeView.Resources>
+                           <HierarchicalDataTemplate
+                              DataType="{x:Type PaymentNotificationList:SmsReceiverViewModel}"
+                              ItemsSource="{Binding Path=Children, Mode=OneWay}">
+                              
+                              <Grid>
+                                 <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                 </Grid.RowDefinitions>
+                                 <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                 </Grid.ColumnDefinitions>
+                                 
+                                 <TextBox
+                                    Grid.Row="0" Grid.Column="0"
+                                    Text="{Binding Path=PersonName, Mode=OneWay}"
+                                    Style="{StaticResource TextBoxStyle}"
+                                    IsReadOnly="True"
+                                    Width="150" Margin="0,1,5,1"
+                                    />
+
+                                 <ComboBox
+                                    Grid.Row="0" Grid.Column="1"
+                                    ItemsSource="{Binding Path=PhoneNumbers, Mode=OneWay}"
+                                    SelectedItem="{Binding Path=SelectedPhoneNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    Width="150" Margin="5,1,5,1">
+                                    <ComboBox.ItemTemplate>
+                                       <DataTemplate>
+                                          <TextBlock Text="{Binding Converter={StaticResource phoneNumberConverter}}"/>
+                                       </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                 </ComboBox>
+
+                                 <Button
+                                    Grid.Row="0" Grid.Column="2"
+                                    Content="Бакай"
+                                    Command="{Binding Path=SendSmsToBakai, Mode=OneWay}"
+                                    Width="80" Margin="5,1,5,1"
+                                    />
+
+                                 <Button
+                                    Grid.Row="0" Grid.Column="3"
+                                    Content="KICB"
+                                    Command="{Binding Path=SendSmsToKicb, Mode=OneWay}"
+                                    Width="80" Margin="5,1,0,1"
+                                    />
+                              </Grid>
+                              
+                           </HierarchicalDataTemplate>
+                        </TreeView.Resources>
+                     </TreeView>
+                     
                   </DataTemplate>
                </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
-
-            <DataGridTextColumn Header="Курс доллара США" Binding="{Binding Path=ExchangeRate, Mode=OneWay}" Width="10*"/>
-            <DataGridTextColumn Header="Сумма оплаты" Binding="{Binding Path=PaymentAmount, Mode=OneWay}" Width="10*"/>
-            <DataGridTextColumn Header="Дата оплаты" Binding="{Binding Path=PaymentDate, Mode=OneWay, Converter={StaticResource dateConverter}}" Width="10*"/>
-
-            <DataGridTemplateColumn Header="Отправить SMS" Width="Auto">
-               <DataGridTemplateColumn.CellTemplate>
-                  <DataTemplate>
-                     <StackPanel Orientation="Horizontal">
-                        <Button Content="Бакай" Width="80" Command="{Binding Path=SendSmsToBakai}"/>
-                        <Button Content="KICB" Width="80" Command="{Binding Path=SendSmsToKicb}"/>
-                     </StackPanel>
-                  </DataTemplate>
-               </DataGridTemplateColumn.CellTemplate>
-            </DataGridTemplateColumn>
+            
          </DataGrid.Columns>
       </DataGrid>
    </Grid>

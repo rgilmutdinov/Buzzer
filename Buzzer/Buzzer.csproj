@@ -85,6 +85,7 @@
     <Compile Include="ViewModel\NotificationLog\NotificationLogViewModel.cs" />
     <Compile Include="ViewModel\PaymentNotificationList\PaymentNotificationListViewModel.cs" />
     <Compile Include="ViewModel\PaymentNotificationList\PaymentNotificationViewModel.cs" />
+    <Compile Include="ViewModel\PaymentNotificationList\SmsReceiverViewModel.cs" />
     <Compile Include="View\BooleanToBrushConverter.cs" />
     <Compile Include="View\CreditContractView.xaml.cs">
       <DependentUpon>CreditContractView.xaml</DependentUpon>
@@ -104,6 +105,7 @@
     <Compile Include="View\PersonInfoView.xaml.cs">
       <DependentUpon>PersonInfoView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\PhoneNumberConverter.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

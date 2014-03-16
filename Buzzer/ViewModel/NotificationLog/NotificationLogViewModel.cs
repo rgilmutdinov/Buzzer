@@ -121,6 +121,7 @@ namespace Buzzer.ViewModel.NotificationLog
       private void update()
       {
          _notificationLogItems = getNotificationLogItems();
+         updateFilter();
          propertyChanged("NotificationLogItems");
       }
 
