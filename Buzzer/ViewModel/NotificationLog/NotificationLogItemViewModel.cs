@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Buzzer.DomainModel.Models;
 using Buzzer.ViewModel.Common;
 using Common;
@@ -7,49 +9,48 @@ namespace Buzzer.ViewModel.NotificationLog
 {
    public sealed class NotificationLogItemViewModel : ViewModelBase
    {
-      private readonly NotificationLogItemInfo _notificationLogItem;
+      private readonly NotificationComment[] _comments;
 
-      public NotificationLogItemViewModel(NotificationLogItemInfo notificationLogItem)
+      public NotificationLogItemViewModel(
+         string creditNumber,
+         string borrowerName,
+         DateTime notificationDate,
+         IEnumerable<NotificationLogItemInfo> notificationLogItems)
       {
-         Check.NotNull(notificationLogItem, "notificationLogItem");
-         _notificationLogItem = notificationLogItem;
+         Check.NotNull(creditNumber, "creditNumber");
+         Check.NotNull(borrowerName, "borrowerName");
+         Check.NotNull(notificationLogItems, "notificationLogItems");
+
+         CreditNumber = creditNumber;
+         BorrowerName = borrowerName;
+         NotificationDate = notificationDate;
+
+         _comments = getComments(notificationLogItems);
       }
 
-      public NotificationLogItemInfo Original
+      public string CreditNumber { get; private set; }
+
+      public string BorrowerName { get; private set; }
+
+      public DateTime NotificationDate { get; private set; }
+
+      public IEnumerable<NotificationComment> Comments
       {
-         get { return _notificationLogItem; }
+         get { return _comments; }
       }
 
-      public bool IsChanged { get; set; }
-
-      public string CreditNumber
+      public IEnumerable<NotificationComment> GetChangedComments()
       {
-         get { return _notificationLogItem.CreditNumber; }
+         return _comments.Where(item => item.IsChanged);
       }
 
-      public string PersonName
+      private NotificationComment[] getComments(IEnumerable<NotificationLogItemInfo> notificationLogItems)
       {
-         get { return _notificationLogItem.PersonName; }
-      }
-
-      public DateTime NotificationDate
-      {
-         get { return _notificationLogItem.NotificationDate; }
-      }
-
-      public string Comment
-      {
-         get { return _notificationLogItem.Comment; }
-         set
-         {
-            if (_notificationLogItem.Comment == value)
-               return;
-
-            _notificationLogItem.Comment = value;
-            propertyChanged("Comment");
-
-            IsChanged = true;
-         }
+         return
+            notificationLogItems
+               .OrderBy(item => item.NotificationDate)
+               .Select((item, index) => new NotificationComment(item, index + 1))
+               .ToArray();
       }
    }
 }

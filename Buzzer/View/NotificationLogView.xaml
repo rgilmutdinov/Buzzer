@@ -72,18 +72,49 @@
                 >
          <DataGrid.Columns>
             <DataGridTextColumn Header="№" Binding="{Binding Path=CreditNumber, Mode=OneWay}" Width="10*"/>
-            <DataGridTextColumn Header="Заемщик" Binding="{Binding Path=PersonName, Mode=OneWay}" Width="20*"/>
-            <DataGridTextColumn Header="Дата оповещения" Binding="{Binding Path=NotificationDate, Mode=OneWay, Converter={StaticResource dateTimeConverter}}" Width="10*"/>
+            <DataGridTextColumn Header="Заемщик" Binding="{Binding Path=BorrowerName, Mode=OneWay}" Width="20*"/>
+            <DataGridTextColumn Header="Дата оповещения" Binding="{Binding Path=NotificationDate, Mode=OneWay, Converter={StaticResource dateConverter}}" Width="10*"/>
 
             <DataGridTemplateColumn Header="Примечание" Width="60*">
                <DataGridTemplateColumn.CellTemplate>
                   <DataTemplate>
-                     <TextBox Text="{Binding Path=Comment, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              AcceptsReturn="True" TextWrapping="Wrap"
-                              Height="Auto" MaxHeight="70"
-                              MaxLength="2000"
-                              ScrollViewer.VerticalScrollBarVisibility="Auto"
-                              ScrollViewer.CanContentScroll="True"/>
+                     
+                     <ListBox
+                        ItemsSource="{Binding Path=Comments, Mode=OneWay}"
+                        MaxHeight="110"
+                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                        ScrollViewer.CanContentScroll="True">
+                        <ListBox.ItemTemplate>
+                           <DataTemplate>
+                              <Grid>
+                                 <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                 </Grid.RowDefinitions>
+                                 <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                 </Grid.ColumnDefinitions>
+
+                                 <Label
+                                    Grid.Row="0" Grid.Column="0"
+                                    Content="{Binding Path=Number, Mode=OneWay}"
+                                    Margin="1"
+                                    />
+                                 <TextBox
+                                    Grid.Row="0" Grid.Column="1"
+                                    Text="{Binding Path=Comment, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    AcceptsReturn="True" TextWrapping="Wrap"
+                                    Height="Auto" MaxHeight="50"
+                                    MaxLength="2000" Margin="1"
+                                    HorizontalContentAlignment="Stretch"
+                                    ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                    ScrollViewer.CanContentScroll="True"
+                                    />
+                              </Grid>
+                           </DataTemplate>
+                        </ListBox.ItemTemplate>
+                     </ListBox>
+                     
                   </DataTemplate>
                </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>

@@ -17,18 +17,22 @@ namespace Buzzer.ViewModel.PaymentNotificationList
    {
       private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
+      private readonly CreditInfo _credit;
       private readonly PersonInfo _parent;
       private readonly BuzzerDatabase _buzzerDatabase;
       private readonly string[] _phoneNumbers;
 
       public SmsReceiverViewModel(
+         CreditInfo credit,
          PersonInfo parent,
          IEnumerable<PersonInfo> children,
          BuzzerDatabase buzzerDatabase)
       {
+         Check.NotNull(credit, "credit");
          Check.NotNull(parent, "parent");
          Check.NotNull(buzzerDatabase, "buzzerDatabase");
 
+         _credit = credit;
          _parent = parent;
          _buzzerDatabase = buzzerDatabase;
          _phoneNumbers = getPhoneNumbers();
@@ -110,7 +114,7 @@ namespace Buzzer.ViewModel.PaymentNotificationList
             string.Format("{0:dd/MM/yyyy HH:mm}. Получатель: {1}. Отправлено СМС-сообщение: \"{2}\".",
                           notificationDate, _parent.PersonName, message);
 
-         return NotificationLogItemInfo.CreateNew(_parent.CreditId, _parent.Id, notificationDate, comment);
+         return NotificationLogItemInfo.CreateNew(_credit.Id, _credit.Borrower.Id, notificationDate, comment);
       }
 
       private string[] getPhoneNumbers()
@@ -128,7 +132,7 @@ namespace Buzzer.ViewModel.PaymentNotificationList
          return
             children == null
                ? Enumerable.Empty<SmsReceiverViewModel>()
-               : children.Select(item => new SmsReceiverViewModel(item, null, _buzzerDatabase)).ToArray();
+               : children.Select(item => new SmsReceiverViewModel(_credit, item, null, _buzzerDatabase)).ToArray();
       }
    }
 }

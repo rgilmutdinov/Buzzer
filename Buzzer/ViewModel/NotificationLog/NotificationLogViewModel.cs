@@ -1,10 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using Buzzer.DataAccess.Repository;
+using Buzzer.DomainModel.Models;
 using Buzzer.Properties;
 using Buzzer.ViewModel.Common;
 using Common;
@@ -99,12 +99,12 @@ namespace Buzzer.ViewModel.NotificationLog
       {
          try
          {
-            foreach (NotificationLogItemViewModel item in NotificationLogItems)
+            foreach (NotificationLogItemViewModel notificationLogItem in NotificationLogItems)
             {
-               if (item.IsChanged)
+               foreach (NotificationComment comment in notificationLogItem.GetChangedComments())
                {
-                  _buzzerDatabase.SaveNotificationLogItem(item.Original);
-                  item.IsChanged = false;
+                  _buzzerDatabase.SaveNotificationLogItem(comment.Original);
+                  comment.IsChanged = false;
                }
             }
          }
@@ -127,13 +127,9 @@ namespace Buzzer.ViewModel.NotificationLog
 
       private ListCollectionView getNotificationLogItems()
       {
-         return
-            new ListCollectionView(
-               _buzzerDatabase
-                  .GetNotificationLogItems()
-                  .Select(item => new NotificationLogItemViewModel(item))
-                  .ToList()
-               );
+         NotificationLogItemInfo[] notificationLogItemInfos = _buzzerDatabase.GetNotificationLogItems();
+         var notificationLogListBuilder = new NotificationLogListBuilder(notificationLogItemInfos);
+         return new ListCollectionView(notificationLogListBuilder.Build());
       }
 
       private void initFilterPeriod()
@@ -165,7 +161,7 @@ namespace Buzzer.ViewModel.NotificationLog
             return true;
 
          return contains(credit.CreditNumber, _creditNumberBorrowerNameFilter) ||
-                contains(credit.PersonName, _creditNumberBorrowerNameFilter);
+                contains(credit.BorrowerName, _creditNumberBorrowerNameFilter);
       }
 
       private static bool contains(string text, string value)

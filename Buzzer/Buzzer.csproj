@@ -82,7 +82,9 @@
     <Compile Include="ViewModel\CreditContract\PhoneNumberViewModel.cs" />
     <Compile Include="ViewModel\Common\ViewModelBase.cs" />
     <Compile Include="ViewModel\NotificationLog\NotificationLogItemViewModel.cs" />
+    <Compile Include="ViewModel\NotificationLog\NotificationLogListBuilder.cs" />
     <Compile Include="ViewModel\NotificationLog\NotificationLogViewModel.cs" />
+    <Compile Include="ViewModel\NotificationLog\NotificationComment.cs" />
     <Compile Include="ViewModel\PaymentNotificationList\PaymentNotificationListViewModel.cs" />
     <Compile Include="ViewModel\PaymentNotificationList\PaymentNotificationViewModel.cs" />
     <Compile Include="ViewModel\PaymentNotificationList\SmsReceiverViewModel.cs" />

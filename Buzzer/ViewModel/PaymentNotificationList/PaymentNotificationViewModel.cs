@@ -76,7 +76,7 @@ namespace Buzzer.ViewModel.PaymentNotificationList
 
       private IEnumerable<SmsReceiverViewModel> getSmsReceivers()
       {
-         return new[] {new SmsReceiverViewModel(_credit.Borrower, _credit.Guarantors, _buzzerDatabase)};
+         return new[] {new SmsReceiverViewModel(_credit, _credit.Borrower, _credit.Guarantors, _buzzerDatabase)};
       }
    }
 }
