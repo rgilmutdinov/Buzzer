@@ -162,4 +162,7 @@
   <data name="CreditsListViewModel_PayOffCreditMessageBoxMessage" xml:space="preserve">
     <value>Вы уверены, что хотите погасить выбранный кредит?</value>
   </data>
+  <data name="LoginViewModel_Caption" xml:space="preserve">
+    <value>Введите пароль</value>
+  </data>
 </root>

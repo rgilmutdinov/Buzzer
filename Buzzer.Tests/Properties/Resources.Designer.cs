@@ -74,6 +74,17 @@ namespace Buzzer.Tests.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to insert into Users (Login, Password) values (&apos;User1&apos;, &apos;pmWkWSBCL51Bfkhn79xPuKBKHz//H6B+mY6G9/eieuM=&apos;);
+        ///insert into Users (Login, Password) values (&apos;User2&apos;, &apos;jSPPbIboNKeqbt7VTCbOK7LnSQNTjGG91dIZeZerL3I=&apos;);
+        ///.
+        /// </summary>
+        internal static string GenerateTestDataForCheckUserTest {
+            get {
+                return ResourceManager.GetString("GenerateTestDataForCheckUserTest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CREATE TEMP TABLE ID (Value integer);
         ///
         ///INSERT INTO Credits

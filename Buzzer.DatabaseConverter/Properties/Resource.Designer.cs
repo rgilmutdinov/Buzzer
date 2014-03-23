@@ -95,5 +95,21 @@ namespace Buzzer.DatabaseConverter.Properties {
                 return ResourceManager.GetString("AddNotificationLogTable", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to create table Users
+        ///(
+        ///	ID integer primary key autoincrement not null,
+        ///	Login nvarchar(100) not null,
+        ///	Password nvarchar(100) not null
+        ///);
+        ///
+        ///insert into Users (Login, Password) values (&apos;Atai&apos;, &apos;WZRHGrsBESr8wYFZ9sx0tPURuZgG2lmzyvWpwXPKz8U=&apos;);.
+        /// </summary>
+        internal static string AddUsersTable {
+            get {
+                return ResourceManager.GetString("AddUsersTable", resourceCulture);
+            }
+        }
     }
 }

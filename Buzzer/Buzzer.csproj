@@ -76,6 +76,8 @@
     <Compile Include="ViewModel\CreditsList\CreditsListViewModel.cs" />
     <Compile Include="ViewModel\CreditsList\CreditViewModel.cs" />
     <Compile Include="ViewModel\MainWindow\IWorkspaceManager.cs" />
+    <Compile Include="ViewModel\MainWindow\LoginManager.cs" />
+    <Compile Include="ViewModel\MainWindow\LoginViewModel.cs" />
     <Compile Include="ViewModel\MainWindow\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\CreditContract\PaymentInfoViewModel.cs" />
     <Compile Include="ViewModel\CreditContract\PersonInfoViewModel.cs" />
@@ -98,6 +100,9 @@
     <Compile Include="View\CreditStateToBrushConverter.cs" />
     <Compile Include="View\DateConverter.cs" />
     <Compile Include="View\DateTimeConverter.cs" />
+    <Compile Include="View\LoginWindow.xaml.cs">
+      <DependentUpon>LoginWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\NotificationLogView.xaml.cs">
       <DependentUpon>NotificationLogView.xaml</DependentUpon>
     </Compile>
@@ -129,6 +134,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\CreditsListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\LoginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

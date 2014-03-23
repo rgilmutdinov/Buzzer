@@ -84,6 +84,20 @@ namespace Buzzer.DataAccess.Repository
          }
       }
 
+      public bool CheckUser(string login, string password)
+      {
+         using (DbConnection connection = createConnection())
+         {
+            using (DbTransaction transaction = createTransaction(connection))
+            {
+               var checkUserCommand = new CheckUserCommand(connection, transaction, login, password);
+               bool result = checkUserCommand.Execute();
+               transaction.Commit();
+               return result;
+            }
+         }
+      }
+
       private DbConnection createConnection()
       {
          DbConnection connection = _factory.CreateConnection();

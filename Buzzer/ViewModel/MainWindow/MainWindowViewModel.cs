@@ -19,6 +19,8 @@ namespace Buzzer.ViewModel.MainWindow
    public sealed class MainWindowViewModel : ViewModelBase, IWorkspaceManager
    {
       private readonly BuzzerDatabase _buzzerDatabase;
+      private readonly LoginManager _loginManager;
+
       private ObservableCollection<WorkspaceViewModel> _workspaces;
       private IEnumerable<CommandViewModel> _commands;
 
@@ -28,6 +30,8 @@ namespace Buzzer.ViewModel.MainWindow
          
          _buzzerDatabase = buzzerDatabase;
          DisplayName = Resources.MainWindowViewModel_BuzzerCaption;
+
+         _loginManager = new LoginManager(buzzerDatabase);
       }
 
       public ObservableCollection<WorkspaceViewModel> Workspaces
@@ -140,7 +144,10 @@ namespace Buzzer.ViewModel.MainWindow
          var workspace = Workspaces.FirstOrDefault(item => item is NotificationLogViewModel);
 
          if (workspace == null)
-            addWorkspace(new NotificationLogViewModel(_buzzerDatabase));
+         {
+            if (_loginManager.Login())
+               addWorkspace(new NotificationLogViewModel(_buzzerDatabase));
+         }
          else
             setActiveWorkspace(workspace);
       }

@@ -106,6 +106,15 @@ namespace Buzzer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Введите пароль.
+        /// </summary>
+        internal static string LoginViewModel_Caption {
+            get {
+                return ResourceManager.GetString("LoginViewModel_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Buzzer.
         /// </summary>
         internal static string MainWindowViewModel_BuzzerCaption {

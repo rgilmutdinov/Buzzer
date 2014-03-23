@@ -8,7 +8,6 @@ using NUnit.Framework;
 namespace Buzzer.Tests.DatabaseTests
 {
    [TestFixture]
-   [Category("IntegrationTest")]
    public class SaveCreditsTests
    {
       private BuzzerDatabase _database;
