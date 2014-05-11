@@ -11,6 +11,13 @@ namespace Buzzer.View
       public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
       {
          var phoneNumber = (string) value;
+
+         if (string.IsNullOrWhiteSpace(phoneNumber))
+            return string.Empty;
+
+         if (phoneNumber.Length != 9)
+            return string.Empty;
+
          return string.Format("({0}) {1}-{2}-{3}",
                               phoneNumber.Substring(0, 3), phoneNumber.Substring(3, 2),
                               phoneNumber.Substring(5, 2), phoneNumber.Substring(7));
