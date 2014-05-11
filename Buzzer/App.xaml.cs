@@ -18,7 +18,7 @@ namespace Buzzer
          
          ConnectionStringSettings connectionString = ConfigurationManager.ConnectionStrings["BuzzerDatabase"];
 
-         convertDatabase(connectionString);
+         convertDatabase();
 
          var buzzerDatabase = new BuzzerDatabase(connectionString.ConnectionString);
 
@@ -27,8 +27,9 @@ namespace Buzzer
          mainView.Show();
       }
 
-      private static void convertDatabase(ConnectionStringSettings connectionString)
+      private static void convertDatabase()
       {
+         ConnectionStringSettings connectionString = ConfigurationManager.ConnectionStrings["ConverterConnection"];
          var converter = new DatabaseConverter.DatabaseConverter(connectionString.ConnectionString);
          converter.Convert();
       }

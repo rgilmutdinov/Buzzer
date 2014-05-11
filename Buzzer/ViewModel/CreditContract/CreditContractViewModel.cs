@@ -341,7 +341,7 @@ namespace Buzzer.ViewModel.CreditContract
 
       private bool canSave()
       {
-         return _creditInfo.IsValid();
+         return true;
       }
    }
 }

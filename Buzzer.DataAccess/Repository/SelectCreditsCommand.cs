@@ -49,7 +49,7 @@ namespace Buzzer.DataAccess.Repository
                   result.Add(
                      CreditInfo.Create(
                         creditId,
-                        Convert.ToString(row[CreditNumber.Name]),
+                        get(row[CreditNumber.Name], Convert.ToString),
                         Convert.ToDecimal(row[CreditAmount.Name]),
                         Convert.ToDateTime(row[CreditIssueDate.Name]),
                         Convert.ToInt32(row[MonthsCount.Name]),
@@ -102,19 +102,20 @@ namespace Buzzer.DataAccess.Repository
                foreach (DataRow row in persons.Rows)
                {
                   int personId = Convert.ToInt32(row[Id.Name]);
-                  bool isBorrower = Convert.ToBoolean(row[IsBorrower.Name]);
+                  int personType = Convert.ToInt32(row[PersonType.Name]);
+                  bool isBorrower = personType == (int) PersonTypes.Borrower;
 
                   PersonInfo personInfo =
                      PersonInfo.Create(
                         personId,
                         Convert.ToInt32(row[CreditId.Name]),
-                        Convert.ToString(row[PersonalNumber.Name]),
-                        Convert.ToString(row[Name.Name]),
-                        Convert.ToString(row[RegistrationAddress.Name]),
-                        Convert.ToString(row[FactAddress.Name]),
-                        Convert.ToString(row[PassportNumber.Name]),
+                        get(row[PersonalNumber.Name], Convert.ToString),
+                        get(row[Name.Name], Convert.ToString),
+                        get(row[RegistrationAddress.Name], Convert.ToString),
+                        get(row[FactAddress.Name], Convert.ToString),
+                        get(row[PassportNumber.Name], Convert.ToString),
                         Convert.ToDateTime(row[PassportIssueDate.Name]),
-                        Convert.ToString(row[PassportIssuer.Name]),
+                        get(row[PassportIssuer.Name], Convert.ToString),
                         isBorrower,
                         getPhoneNumbers(personId)
                         );

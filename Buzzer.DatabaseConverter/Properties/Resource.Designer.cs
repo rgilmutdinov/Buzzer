@@ -111,5 +111,31 @@ namespace Buzzer.DatabaseConverter.Properties {
                 return ResourceManager.GetString("AddUsersTable", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to -- Recreate Credits table.
+        ///create table Credits2
+        ///(
+        ///	ID integer primary key autoincrement not null,
+        ///	CreditState integer not null,
+        ///	CreditNumber nvarchar(100),
+        ///	CreditAmount decimal not null,
+        ///	CreditIssueDate date not null,
+        ///	MonthsCount integer not null,
+        ///	DiscountRate decimal(18, 4) not null,
+        ///	EffectiveDiscountRate decimal(18, 4),
+        ///	ExchangeRate decimal(18, 4)
+        ///);
+        ///
+        ///insert into Credits2
+        ///(
+        ///	ID, CreditState, CreditNumber, CreditAmount, CreditIssueDate,
+        ///	MonthsCount, DiscountRate, EffectiveDiscoun [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ChangeCreditsAndPersonsTablesToAllowNullValues {
+            get {
+                return ResourceManager.GetString("ChangeCreditsAndPersonsTablesToAllowNullValues", resourceCulture);
+            }
+        }
     }
 }

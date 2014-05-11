@@ -10,7 +10,7 @@ namespace Buzzer.DataAccess.Repository
    {
       protected static readonly FieldInfo Id = new FieldInfo("ID", DbType.Int32);
 
-      protected static readonly FieldInfo CreditNumber = new FieldInfo("CreditNumber", DbType.String);
+      protected static readonly FieldInfo CreditNumber = new FieldInfo("CreditNumber", DbType.String, true);
       protected static readonly FieldInfo CreditAmount = new FieldInfo("CreditAmount", DbType.Decimal);
       protected static readonly FieldInfo CreditIssueDate = new FieldInfo("CreditIssueDate", DbType.Date);
       protected static readonly FieldInfo MonthsCount = new FieldInfo("MonthsCount", DbType.Int32);
@@ -20,14 +20,14 @@ namespace Buzzer.DataAccess.Repository
       protected static readonly FieldInfo CreditState = new FieldInfo("CreditState", DbType.Int32);
 
       protected static readonly FieldInfo CreditId = new FieldInfo("CreditId", DbType.Int32);
-      protected static readonly FieldInfo PersonalNumber = new FieldInfo("PersonalNumber", DbType.String);
-      protected static readonly FieldInfo Name = new FieldInfo("Name", DbType.String);
-      protected static readonly FieldInfo RegistrationAddress = new FieldInfo("RegistrationAddress", DbType.String);
-      protected static readonly FieldInfo FactAddress = new FieldInfo("FactAddress", DbType.String);
-      protected static readonly FieldInfo PassportNumber = new FieldInfo("PassportNumber", DbType.String);
+      protected static readonly FieldInfo PersonalNumber = new FieldInfo("PersonalNumber", DbType.String, true);
+      protected static readonly FieldInfo Name = new FieldInfo("Name", DbType.String, true);
+      protected static readonly FieldInfo RegistrationAddress = new FieldInfo("RegistrationAddress", DbType.String, true);
+      protected static readonly FieldInfo FactAddress = new FieldInfo("FactAddress", DbType.String, true);
+      protected static readonly FieldInfo PassportNumber = new FieldInfo("PassportNumber", DbType.String, true);
       protected static readonly FieldInfo PassportIssueDate = new FieldInfo("PassportIssueDate", DbType.Date);
-      protected static readonly FieldInfo PassportIssuer = new FieldInfo("PassportIssuer", DbType.String);
-      protected static readonly FieldInfo IsBorrower = new FieldInfo("IsBorrower", DbType.Boolean);
+      protected static readonly FieldInfo PassportIssuer = new FieldInfo("PassportIssuer", DbType.String, true);
+      protected static readonly FieldInfo PersonType = new FieldInfo("PersonType", DbType.Int32);
       
       protected static readonly FieldInfo PersonId = new FieldInfo("PersonID", DbType.Int32);
       protected static readonly FieldInfo PhoneNumber = new FieldInfo("PhoneNumber", DbType.String);

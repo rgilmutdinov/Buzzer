@@ -8,7 +8,7 @@ VALUES
 INSERT INTO ID VALUES ((SELECT last_insert_rowid()));
 
 INSERT INTO Persons
-	(CreditID, PersonalNumber, Name, RegistrationAddress, FactAddress, PassportNumber, PassportIssueDate, PassportIssuer, IsBorrower)
+	(CreditID, PersonalNumber, Name, RegistrationAddress, FactAddress, PassportNumber, PassportIssueDate, PassportIssuer, PersonType)
 VALUES
 	((SELECT Value FROM ID LIMIT 1), '11111111111111', 'Borrower', 'Address', 'Fact address', 'Passport', '2013-12-01', 'Issuer', 1),
 	((SELECT Value FROM ID LIMIT 1), '22222222222222', 'Guarantor 1', 'Address 1', 'Fact address 1', 'Passport 1', '2013-12-02', 'Issuer 1', 0),
@@ -39,7 +39,7 @@ VALUES
 	((SELECT Value FROM ID LIMIT 1), '2014-05-25', 107674, 0);
 
 INSERT INTO Persons
-	(CreditID, PersonalNumber, Name, RegistrationAddress, FactAddress, PassportNumber, PassportIssueDate, PassportIssuer, IsBorrower)
+	(CreditID, PersonalNumber, Name, RegistrationAddress, FactAddress, PassportNumber, PassportIssueDate, PassportIssuer, PersonType)
 VALUES
 	((SELECT Value FROM ID LIMIT 1), '12345678901234', 'Borrower of CN4', 'Address', 'Fact address', 'Passport', '2013-12-01', 'Issuer', 1),
 	((SELECT Value FROM ID LIMIT 1), '23456789012345', 'Guarantor of CN4', 'Address', 'Fact address', 'Passport', '2013-12-02', 'Issuer', 0);

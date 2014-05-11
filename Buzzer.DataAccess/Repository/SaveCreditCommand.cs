@@ -241,12 +241,12 @@ namespace Buzzer.DataAccess.Repository
                "SELECT last_insert_rowid();",
 
                CreditId.Name, PersonalNumber.Name, Name.Name, RegistrationAddress.Name, FactAddress.Name,
-               PassportNumber.Name, PassportIssueDate.Name, PassportIssuer.Name, IsBorrower.Name,
+               PassportNumber.Name, PassportIssueDate.Name, PassportIssuer.Name, PersonType.Name,
 
                CreditId.ParameterName, PersonalNumber.ParameterName, Name.ParameterName,
                RegistrationAddress.ParameterName, FactAddress.ParameterName,
                PassportNumber.ParameterName, PassportIssueDate.ParameterName, PassportIssuer.ParameterName,
-               IsBorrower.ParameterName
+               PersonType.ParameterName
                );
 
          using (DbCommand command = createCommand(insertPersonQuery))
@@ -259,7 +259,7 @@ namespace Buzzer.DataAccess.Repository
             command.AddParameter(personInfo.PassportNumber, PassportNumber);
             command.AddParameter(personInfo.PassportIssueDate, PassportIssueDate);
             command.AddParameter(personInfo.PassportIssuer, PassportIssuer);
-            command.AddParameter(personInfo.IsBorrower, IsBorrower);
+            command.AddParameter(personInfo.IsBorrower, PersonType);
 
             return Convert.ToInt32(command.ExecuteScalar());
          }
@@ -277,7 +277,7 @@ namespace Buzzer.DataAccess.Repository
                PassportNumber.Name, PassportNumber.ParameterName,
                PassportIssueDate.Name, PassportIssueDate.ParameterName,
                PassportIssuer.Name, PassportIssuer.ParameterName,
-               IsBorrower.Name, IsBorrower.ParameterName,
+               PersonType.Name, PersonType.ParameterName,
                Id.Name, Id.ParameterName
                );
 
@@ -290,7 +290,7 @@ namespace Buzzer.DataAccess.Repository
             command.AddParameter(personInfo.PassportNumber, PassportNumber);
             command.AddParameter(personInfo.PassportIssueDate, PassportIssueDate);
             command.AddParameter(personInfo.PassportIssuer, PassportIssuer);
-            command.AddParameter(personInfo.IsBorrower, IsBorrower);
+            command.AddParameter(personInfo.IsBorrower, PersonType);
             command.AddParameter(personInfo.Id, Id);
 
             command.ExecuteNonQuery();

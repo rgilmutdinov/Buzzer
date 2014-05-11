@@ -63,6 +63,7 @@ namespace Buzzer.DatabaseConverter
                   {2, () => new AddNotificationLogConverter(commandFactory)},
                   {3, () => new AddCreditStateColumnToCreditsTableConverter(commandFactory)},
                   {4, () => new AddUsersTableConverter(commandFactory)},
+                  {5, () => new AllowCreditsAndPersonsTablesAcceptNullValues(commandFactory)},
                };
 
          return

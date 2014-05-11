@@ -17,6 +17,24 @@ namespace Buzzer.Tests.DatabaseTests
       {
          _database = new BuzzerDatabase(TestSettings.ConnectionString);
       }
+
+      [Test]
+      public void SaveNewEmptyCreditTest()
+      {
+         // Arrange.
+         CreditInfo credit = CreditInfo.CreatNew();
+
+         // Act.
+         _database.SaveCredit(credit);
+
+         // Assert.
+         CreditInfo creditFromDatabase =
+            _database
+               .GetAllCredits()
+               .SingleOrDefault(item => item.Id == credit.Id);
+
+         AssertUtils.AssertCreditsAreEqual(credit, creditFromDatabase);
+      }
       
       [Test]
       public void SaveNewCreditTest()

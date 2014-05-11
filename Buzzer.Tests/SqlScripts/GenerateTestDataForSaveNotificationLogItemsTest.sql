@@ -8,7 +8,7 @@ VALUES
 INSERT INTO ID (CreditID, PersonID) VALUES ((SELECT last_insert_rowid()), 0);
 
 INSERT INTO Persons
-	(CreditID, PersonalNumber, Name, RegistrationAddress, FactAddress, PassportNumber, PassportIssueDate, PassportIssuer, IsBorrower)
+	(CreditID, PersonalNumber, Name, RegistrationAddress, FactAddress, PassportNumber, PassportIssueDate, PassportIssuer, PersonType)
 VALUES
 	((SELECT CreditID FROM ID LIMIT 1), '11111111111111', 'Borrower', 'Address', 'Fact address', 'Passport', '2013-12-01', 'Issuer', 1);
 
