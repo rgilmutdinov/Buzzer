@@ -32,6 +32,8 @@ namespace Buzzer.Tests.DatabaseTests
          // Assert.
          Assert.IsNotNull(credit);
          Assert.IsFalse(credit.IsNew);
+         Assert.AreEqual(credit.ApplicationDate, new DateTime(2013, 12, 31));
+         Assert.AreEqual(credit.ProtocolDate, new DateTime(2014, 1, 1));
          Assert.AreEqual(200000M, credit.CreditAmount);
          Assert.AreEqual(new DateTime(2014, 1, 2), credit.CreditIssueDate);
          Assert.AreEqual(24, credit.MonthsCount);
@@ -71,6 +73,8 @@ namespace Buzzer.Tests.DatabaseTests
 
          // Assert.
          Assert.IsNotNull(credit);
+         Assert.IsNull(credit.ApplicationDate);
+         Assert.IsNull(credit.ProtocolDate);
          Assert.IsNull(credit.EffectiveDiscountRate);
          Assert.IsNull(credit.ExchangeRate);
          Assert.AreEqual(CreditState.Repayed, credit.CreditState);

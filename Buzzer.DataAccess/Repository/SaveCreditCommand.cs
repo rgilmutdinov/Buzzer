@@ -171,20 +171,26 @@ namespace Buzzer.DataAccess.Repository
       {
          string insertCreditQuery =
             string.Format(
-               "INSERT INTO Credits ({0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}) VALUES ({8}, {9}, {10}, {11}, {12}, {13}, {14}, {15});" +
+               "INSERT INTO Credits ({0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}) " +
+               "VALUES ({10}, {11}, {12}, {13}, {14}, {15}, {16}, {17}, {18}, {19});" +
                "SELECT last_insert_rowid();",
 
-               CreditNumber.Name, CreditAmount.Name, CreditIssueDate.Name, MonthsCount.Name,
-               DiscountRate.Name, EffectiveDiscountRate.Name, ExchangeRate.Name, CreditState.Name,
+               CreditNumber.Name, ApplicationDate.Name, ProtocolDate.Name,
+               CreditAmount.Name, CreditIssueDate.Name, MonthsCount.Name,
+               DiscountRate.Name, EffectiveDiscountRate.Name, ExchangeRate.Name,
+               CreditState.Name,
 
-               CreditNumber.ParameterName, CreditAmount.ParameterName, CreditIssueDate.ParameterName,
-               MonthsCount.ParameterName, DiscountRate.ParameterName, EffectiveDiscountRate.ParameterName,
-               ExchangeRate.ParameterName, CreditState.ParameterName
+               CreditNumber.ParameterName, ApplicationDate.ParameterName, ProtocolDate.ParameterName,
+               CreditAmount.ParameterName, CreditIssueDate.ParameterName, MonthsCount.ParameterName,
+               DiscountRate.ParameterName, EffectiveDiscountRate.ParameterName, ExchangeRate.ParameterName,
+               CreditState.ParameterName
                );
 
          using (DbCommand command = createCommand(insertCreditQuery))
          {
             command.AddParameter(creditInfo.CreditNumber, CreditNumber);
+            command.AddParameter(creditInfo.ApplicationDate, ApplicationDate);
+            command.AddParameter(creditInfo.ProtocolDate, ProtocolDate);
             command.AddParameter(creditInfo.CreditAmount, CreditAmount);
             command.AddParameter(creditInfo.CreditIssueDate, CreditIssueDate);
             command.AddParameter(creditInfo.MonthsCount, MonthsCount);
@@ -201,8 +207,11 @@ namespace Buzzer.DataAccess.Repository
       {
          string updateCreditQuery =
             string.Format(
-               "UPDATE Credits SET {0}={1}, {2}={3}, {4}={5}, {6}={7}, {8}={9}, {10}={11}, {12}={13}, {14}={15} WHERE {16}={17};",
+               "UPDATE Credits SET {0}={1}, {2}={3}, {4}={5}, {6}={7}, {8}={9}, {10}={11}, {12}={13}, {14}={15}, {16}={17}, {18}={19} " +
+               "WHERE {20}={21};",
                CreditNumber.Name, CreditNumber.ParameterName,
+               ApplicationDate.Name, ApplicationDate.ParameterName,
+               ProtocolDate.Name, ProtocolDate.ParameterName,
                CreditAmount.Name, CreditAmount.ParameterName,
                CreditIssueDate.Name, CreditIssueDate.ParameterName,
                MonthsCount.Name, MonthsCount.ParameterName,
@@ -216,6 +225,8 @@ namespace Buzzer.DataAccess.Repository
          using (DbCommand command = createCommand(updateCreditQuery))
          {
             command.AddParameter(creditInfo.CreditNumber, CreditNumber);
+            command.AddParameter(creditInfo.ApplicationDate, ApplicationDate);
+            command.AddParameter(creditInfo.ProtocolDate, ProtocolDate);
             command.AddParameter(creditInfo.CreditAmount, CreditAmount);
             command.AddParameter(creditInfo.CreditIssueDate, CreditIssueDate);
             command.AddParameter(creditInfo.MonthsCount, MonthsCount);

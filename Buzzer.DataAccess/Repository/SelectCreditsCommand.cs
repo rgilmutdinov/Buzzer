@@ -50,6 +50,8 @@ namespace Buzzer.DataAccess.Repository
                      CreditInfo.Create(
                         creditId,
                         get(row[CreditNumber.Name], Convert.ToString),
+                        getNullable(row[ApplicationDate.Name], Convert.ToDateTime),
+                        getNullable(row[ProtocolDate.Name], Convert.ToDateTime),
                         Convert.ToDecimal(row[CreditAmount.Name]),
                         Convert.ToDateTime(row[CreditIssueDate.Name]),
                         Convert.ToInt32(row[MonthsCount.Name]),

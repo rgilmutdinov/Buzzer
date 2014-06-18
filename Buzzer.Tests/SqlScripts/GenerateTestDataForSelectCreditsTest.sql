@@ -2,9 +2,9 @@
 
 -- Credit without Guarantors.
 INSERT INTO Credits
-	(CreditNumber, CreditAmount, CreditIssueDate, MonthsCount, DiscountRate, EffectiveDiscountRate, ExchangeRate, CreditState)
+	(CreditNumber, CreditAmount, CreditIssueDate, MonthsCount, DiscountRate, EffectiveDiscountRate, ExchangeRate, CreditState, ApplicationDate, ProtocolDate)
 VALUES
-	('CNS1', 200000, '2014-01-02', 24, 0.36, 0.12, 47.5, 1);
+	('CNS1', 200000, '2014-01-02', 24, 0.36, 0.12, 47.5, 1, '2013-12-31', '2014-01-01');
 	
 INSERT INTO ID VALUES ((SELECT last_insert_rowid()));
 
@@ -15,9 +15,9 @@ VALUES
 
 -- Credit with Guarantors.
 INSERT INTO Credits
-	(CreditNumber, CreditAmount, CreditIssueDate, MonthsCount, DiscountRate, EffectiveDiscountRate, ExchangeRate, CreditState)
+	(CreditNumber, CreditAmount, CreditIssueDate, MonthsCount, DiscountRate, EffectiveDiscountRate, ExchangeRate, CreditState, ApplicationDate, ProtocolDate)
 VALUES
-	('CNS2', 300000, '2014-01-02', 24, 0.36, NULL, NULL, 2);
+	('CNS2', 300000, '2014-01-02', 24, 0.36, NULL, NULL, 2, NULL, NULL);
 
 UPDATE ID SET Value = (SELECT last_insert_rowid());
 
@@ -38,9 +38,9 @@ VALUES
 
 -- Credit with PaymentsSchedule.
 INSERT INTO Credits
-	(CreditNumber, CreditAmount, CreditIssueDate, MonthsCount, DiscountRate, EffectiveDiscountRate, ExchangeRate)
+	(CreditNumber, CreditAmount, CreditIssueDate, MonthsCount, DiscountRate, EffectiveDiscountRate, ExchangeRate, ApplicationDate, ProtocolDate)
 VALUES
-	('CNS3', 400000, '2014-01-25', 4, 0.36, NULL, NULL);
+	('CNS3', 400000, '2014-01-25', 4, 0.36, NULL, NULL, NULL, NULL);
 
 UPDATE ID SET Value = (SELECT last_insert_rowid());
 

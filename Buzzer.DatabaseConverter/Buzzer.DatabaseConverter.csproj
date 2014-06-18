@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\AddApplicationDateAndProtocolDateColumnsConverter.cs" />
     <Compile Include="Converters\AddCreditStateColumnToCreditsTableConverter.cs" />
     <Compile Include="Converters\AddNotificationLogConverter.cs" />
     <Compile Include="CommandFactory.cs" />
@@ -72,6 +73,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ConverterScripts\AddApplicationDateAndProtocolDateColumns.sql" />
     <Content Include="ConverterScripts\AddCreditStateColumnToCreditsTable.sql" />
     <Content Include="ConverterScripts\AddNotificationLogTable.sql" />
     <Content Include="ConverterScripts\AddUsersTable.sql" />

@@ -11,6 +11,8 @@ namespace Buzzer.DataAccess.Repository
       protected static readonly FieldInfo Id = new FieldInfo("ID", DbType.Int32);
 
       protected static readonly FieldInfo CreditNumber = new FieldInfo("CreditNumber", DbType.String, true);
+      protected static readonly FieldInfo ApplicationDate = new FieldInfo("ApplicationDate", DbType.Date, true);
+      protected static readonly FieldInfo ProtocolDate = new FieldInfo("ProtocolDate", DbType.Date, true);
       protected static readonly FieldInfo CreditAmount = new FieldInfo("CreditAmount", DbType.Decimal);
       protected static readonly FieldInfo CreditIssueDate = new FieldInfo("CreditIssueDate", DbType.Date);
       protected static readonly FieldInfo MonthsCount = new FieldInfo("MonthsCount", DbType.Int32);

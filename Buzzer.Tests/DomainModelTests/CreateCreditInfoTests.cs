@@ -18,6 +18,8 @@ namespace Buzzer.Tests.DomainModelTests
          // Assert.
          Assert.IsNotNull(credit);
          Assert.IsNull(credit.CreditNumber);
+         Assert.AreEqual(DateTime.Today, credit.ApplicationDate);
+         Assert.IsNull(credit.ProtocolDate);
          Assert.AreEqual(0M, credit.CreditAmount);
          Assert.AreEqual(DateTime.Today, credit.CreditIssueDate);
          Assert.AreEqual(0, credit.MonthsCount);
@@ -40,6 +42,8 @@ namespace Buzzer.Tests.DomainModelTests
       public void CreateCreditInfoTest(
          int id,
          string creditNumber,
+         DateTime? applicationDate,
+         DateTime? protocolDate,
          decimal creditAmount,
          DateTime creditIssueDate,
          int monthsCount,
@@ -57,6 +61,8 @@ namespace Buzzer.Tests.DomainModelTests
             CreditInfo.Create(
                id,
                creditNumber,
+               applicationDate,
+               protocolDate,
                creditAmount,
                creditIssueDate,
                monthsCount,
@@ -73,6 +79,9 @@ namespace Buzzer.Tests.DomainModelTests
          Assert.IsNotNull(credit);
 
          Assert.AreEqual(id, credit.Id);
+         Assert.AreEqual(creditNumber, credit.CreditNumber);
+         Assert.AreEqual(applicationDate, credit.ApplicationDate);
+         Assert.AreEqual(protocolDate, credit.ProtocolDate);
          Assert.AreEqual(creditAmount, credit.CreditAmount);
          Assert.AreEqual(creditIssueDate, credit.CreditIssueDate);
          Assert.AreEqual(monthsCount, credit.MonthsCount);
@@ -107,6 +116,8 @@ namespace Buzzer.Tests.DomainModelTests
             {
                const int id = 1;
                const string creditNumber = "Credit number";
+               DateTime? applicationDate = DateTime.Today.AddDays(-2);
+               DateTime? protocolDate = DateTime.Today.AddDays(-1);
                const decimal creditAmount = 100000M;
                DateTime creditIssueDate = DateTime.Today;
                const int monthsCount = 2;
@@ -151,8 +162,8 @@ namespace Buzzer.Tests.DomainModelTests
 
                var testCaseData =
                   new TestCaseData(
-                     id, creditNumber, creditAmount, creditIssueDate,
-                     monthsCount, discountRate, effectiveDiscountRate,
+                     id, creditNumber, applicationDate, protocolDate, creditAmount,
+                     creditIssueDate, monthsCount, discountRate, effectiveDiscountRate,
                      exchangeRate, creditState, borrower, guarantors, paymentsSchedule
                      );
                testCaseData.SetName("CreateValidCreditInfoTest");

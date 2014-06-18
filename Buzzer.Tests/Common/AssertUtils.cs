@@ -15,6 +15,8 @@ namespace Buzzer.Tests.Common
 
          Assert.AreEqual(expected.Id, actual.Id);
          Assert.AreEqual(expected.CreditNumber, actual.CreditNumber);
+         Assert.AreEqual(expected.ApplicationDate, actual.ApplicationDate);
+         Assert.AreEqual(expected.ProtocolDate, actual.ProtocolDate);
          Assert.AreEqual(expected.CreditAmount, actual.CreditAmount);
          Assert.AreEqual(expected.CreditIssueDate, actual.CreditIssueDate);
          Assert.AreEqual(expected.MonthsCount, actual.MonthsCount);

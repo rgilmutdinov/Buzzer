@@ -61,6 +61,16 @@ namespace Buzzer.DatabaseConverter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to alter table Credits add column ApplicationDate date null;
+        ///alter table Credits add column ProtocolDate date null;.
+        /// </summary>
+        internal static string AddApplicationDateAndProtocolDateColumns {
+            get {
+                return ResourceManager.GetString("AddApplicationDateAndProtocolDateColumns", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to alter table Credits add column CreditState integer not null default 1;.
         /// </summary>
         internal static string AddCreditStateColumnToCreditsTable {
@@ -117,7 +127,7 @@ namespace Buzzer.DatabaseConverter.Properties {
         ///create table Credits2
         ///(
         ///	ID integer primary key autoincrement not null,
-        ///	CreditState integer not null,
+        ///	CreditState integer not null default 1,
         ///	CreditNumber nvarchar(100),
         ///	CreditAmount decimal not null,
         ///	CreditIssueDate date not null,
@@ -130,7 +140,7 @@ namespace Buzzer.DatabaseConverter.Properties {
         ///insert into Credits2
         ///(
         ///	ID, CreditState, CreditNumber, CreditAmount, CreditIssueDate,
-        ///	MonthsCount, DiscountRate, EffectiveDiscoun [rest of string was truncated]&quot;;.
+        ///	MonthsCount, DiscountRate, Effect [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ChangeCreditsAndPersonsTablesToAllowNullValues {
             get {

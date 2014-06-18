@@ -42,6 +42,8 @@ namespace Buzzer.Tests.DatabaseTests
          // Arrange.
          CreditInfo credit = CreditInfo.CreatNew();
          credit.CreditNumber = "Credit number";
+         credit.ApplicationDate = DateTime.Today.AddDays(-2);
+         credit.ProtocolDate = DateTime.Today.AddDays(-1);
          credit.CreditAmount = 100.0M;
          credit.CreditIssueDate = DateTime.Today;
          credit.MonthsCount = 12;
@@ -114,6 +116,8 @@ namespace Buzzer.Tests.DatabaseTests
 
          // Act.
          credit.CreditNumber = "CN changed";
+         credit.ApplicationDate = new DateTime(2012, 12, 20);
+         credit.ProtocolDate = new DateTime(2012, 12, 25);
          credit.CreditAmount = 100.0M;
          credit.CreditIssueDate = new DateTime(2012, 12, 31);
          credit.MonthsCount = 24;

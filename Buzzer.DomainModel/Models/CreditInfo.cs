@@ -24,6 +24,8 @@ namespace Buzzer.DomainModel.Models
          var newCredit = new CreditInfo
                             {
                                Id = NullValues.Id,
+                               ApplicationDate = DateTime.Today,
+                               ProtocolDate = null,
                                CreditIssueDate = DateTime.Today,
                                CreditState = CreditState.Current,
                                Borrower = PersonInfo.CreateNew(NullValues.Id),
@@ -37,6 +39,8 @@ namespace Buzzer.DomainModel.Models
       public static CreditInfo Create(
          int id,
          string creditNumber,
+         DateTime? applicationDate,
+         DateTime? protocolDate,
          decimal creditAmount,
          DateTime creditIssueDate,
          int monthsCount,
@@ -55,6 +59,8 @@ namespace Buzzer.DomainModel.Models
                    {
                       Id = id,
                       CreditNumber = creditNumber,
+                      ApplicationDate = applicationDate,
+                      ProtocolDate = protocolDate,
                       CreditAmount = creditAmount,
                       CreditIssueDate = creditIssueDate,
                       MonthsCount = monthsCount,
@@ -70,6 +76,12 @@ namespace Buzzer.DomainModel.Models
 
       // Номер кредитного договора.
       public string CreditNumber { get; set; }
+
+      // Дата подачи заявления.
+      public DateTime? ApplicationDate { get; set; }
+
+      // Дата протокола.
+      public DateTime? ProtocolDate { get; set; }
 
       // Сумма кредита.
       public decimal CreditAmount
@@ -167,6 +179,12 @@ namespace Buzzer.DomainModel.Models
             case "CreditNumber":
                return validateCreditNumber();
 
+            case "ApplicationDate":
+               return validateApplicationDate();
+
+            case "ProtocolDate":
+               return validateProtocolDate();
+
             case "CreditAmount":
                return validateCreditAmount();
 
@@ -212,6 +230,16 @@ namespace Buzzer.DomainModel.Models
             return string.Format(Resources.MaxLengthExceeded, 100);
 
          return string.IsNullOrEmpty(CreditNumber) ? Resources.FieldMustBeFilled : null;
+      }
+
+      private string validateApplicationDate()
+      {
+         return null;
+      }
+
+      private string validateProtocolDate()
+      {
+         return null;
       }
 
       private string validateCreditAmount()
