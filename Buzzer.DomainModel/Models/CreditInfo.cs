@@ -234,7 +234,7 @@ namespace Buzzer.DomainModel.Models
 
       private string validateApplicationDate()
       {
-         return null;
+         return ApplicationDate.HasValue ? null : Resources.FieldMustBeFilled;
       }
 
       private string validateProtocolDate()

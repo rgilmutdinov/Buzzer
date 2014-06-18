@@ -93,6 +93,11 @@
       <Setter Property="Format" Value="Custom" />
       <Setter Property="FormatString" Value="dd/MM/yyyy" />
    </Style>
+   
+   <Style x:Key="DatePickerStyle" TargetType="{x:Type DatePicker}">
+      <Setter Property="Margin" Value="5" />
+      <Setter Property="Validation.ErrorTemplate" Value="{x:Null}" />
+   </Style>
     
    <!-- Converters -->
    <View:DateConverter x:Key="dateConverter" />

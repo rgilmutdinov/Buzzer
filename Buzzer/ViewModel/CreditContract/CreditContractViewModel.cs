@@ -62,6 +62,19 @@ namespace Buzzer.ViewModel.CreditContract
          }
       }
 
+      public DateTime? ApplicationDate
+      {
+         get { return _creditInfo.ApplicationDate; }
+         set
+         {
+            if (_creditInfo.ApplicationDate == value)
+               return;
+
+            _creditInfo.ApplicationDate = value;
+            propertyChanged("ApplicationDate");
+         }
+      }
+
       public decimal CreditAmount
       {
          get { return _creditInfo.CreditAmount; }
@@ -232,6 +245,7 @@ namespace Buzzer.ViewModel.CreditContract
             switch (columnName)
             {
                case "CreditNumber":
+               case "ApplicationDate":
                case "CreditAmount":
                case "CreditIssueDate":
                case "MonthsCount":

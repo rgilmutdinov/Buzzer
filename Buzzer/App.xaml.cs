@@ -14,6 +14,8 @@ namespace Buzzer
       {
          base.OnStartup(e);
 
+         setCulture();
+
          DispatcherUnhandledException += onUnhandledException;
          
          ConnectionStringSettings connectionString = ConfigurationManager.ConnectionStrings["BuzzerDatabase"];
@@ -25,6 +27,13 @@ namespace Buzzer
          var viewModel = new MainWindowViewModel(buzzerDatabase);
          var mainView = new MainWindow {DataContext = viewModel};
          mainView.Show();
+      }
+
+      private static void setCulture()
+      {
+         var cultureInfo = new System.Globalization.CultureInfo("ru-RU");
+         System.Threading.Thread.CurrentThread.CurrentCulture = cultureInfo;
+         System.Threading.Thread.CurrentThread.CurrentUICulture = cultureInfo;
       }
 
       private static void convertDatabase()

@@ -64,6 +64,7 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                      </Grid.RowDefinitions>
 
                      <!-- Номер кредитного договора -->
@@ -85,21 +86,40 @@
                         ContentTemplate="{StaticResource ErrorDataTemplate}"
                         Content="{Binding ElementName=textBoxCreditNumber, Path=(Validation.Errors).CurrentItem}"
                         />
-            
-                     <!-- Сумма кредита -->
+
+                     <!-- Дата подачи заявления -->
                      <Label
                         Grid.Row="1" Grid.Column="0"
+                        Style="{StaticResource LabelStyle}"
+                        Content="Дата подачи заявления:"
+                        />
+                     <DatePicker
+                        Grid.Row="1" Grid.Column="1"
+                        Style="{StaticResource DatePickerStyle}"
+                        x:Name="datePickerApplicationDate"
+                        SelectedDate="{Binding Path=ApplicationDate, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                        />
+                     <ContentPresenter
+                        Grid.Row="1" Grid.Column="2"
+                        Style="{StaticResource ContentPresenterStyle}"
+                        ContentTemplate="{StaticResource ErrorDataTemplate}"
+                        Content="{Binding ElementName=datePickerApplicationDate, Path=(Validation.Errors).CurrentItem}"
+                        />
+                     
+                     <!-- Сумма кредита -->
+                     <Label
+                        Grid.Row="2" Grid.Column="0"
                         Style="{StaticResource LabelStyle}"
                         Content="Сумма кредита:"
                         />
                      <xctk:DecimalUpDown
-                        Grid.Row="1" Grid.Column="1"
+                        Grid.Row="2" Grid.Column="1"
                         Style="{StaticResource DecimalUpDownStyle}"
                         x:Name="decimalUpDownCreditAmount"
                         Value="{Binding Path=CreditAmount, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                         />
                      <ContentPresenter
-                        Grid.Row="1" Grid.Column="2"
+                        Grid.Row="2" Grid.Column="2"
                         Style="{StaticResource ContentPresenterStyle}"
                         ContentTemplate="{StaticResource ErrorDataTemplate}"
                         Content="{Binding ElementName=decimalUpDownCreditAmount, Path=(Validation.Errors).CurrentItem}"
@@ -107,18 +127,18 @@
 
                      <!-- Дата выдачи -->
                      <Label
-                        Grid.Row="2" Grid.Column="0"
+                        Grid.Row="3" Grid.Column="0"
                         Style="{StaticResource LabelStyle}"
                         Content="Дата выдачи:"
                         />
                      <xctk:DateTimeUpDown
-                        Grid.Row="2" Grid.Column="1"
+                        Grid.Row="3" Grid.Column="1"
                         Style="{StaticResource DateTimeUpDownStyle}"
                         x:Name="dateTimeUpDownIssueDate"
                         Value="{Binding Path=CreditIssueDate, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                         />
                      <ContentPresenter
-                        Grid.Row="2" Grid.Column="2"
+                        Grid.Row="3" Grid.Column="2"
                         Style="{StaticResource ContentPresenterStyle}"
                         ContentTemplate="{StaticResource ErrorDataTemplate}"
                         Content="{Binding ElementName=dateTimeUpDownIssueDate, Path=(Validation.Errors).CurrentItem}"
@@ -126,18 +146,18 @@
 
                      <!-- Число месяцев -->
                      <Label
-                        Grid.Row="3" Grid.Column="0"
+                        Grid.Row="4" Grid.Column="0"
                         Style="{StaticResource LabelStyle}"
                         Content="Число месяцев:"
                         />
                      <xctk:IntegerUpDown
-                        Grid.Row="3" Grid.Column="1"
+                        Grid.Row="4" Grid.Column="1"
                         Style="{StaticResource IntegerUpDownStyle}"
                         x:Name="integerUpDownMonthsCount"
                         Value="{Binding Path=MonthsCount, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                         />
                      <ContentPresenter
-                        Grid.Row="3" Grid.Column="2"
+                        Grid.Row="4" Grid.Column="2"
                         Style="{StaticResource ContentPresenterStyle}"
                         ContentTemplate="{StaticResource ErrorDataTemplate}"
                         Content="{Binding ElementName=integerUpDownMonthsCount, Path=(Validation.Errors).CurrentItem}"
@@ -145,18 +165,18 @@
 
                      <!-- Процентная ставка -->
                      <Label
-                        Grid.Row="4" Grid.Column="0"
+                        Grid.Row="5" Grid.Column="0"
                         Style="{StaticResource LabelStyle}"
                         Content="Процентная ставка:"
                         />
                      <xctk:DecimalUpDown
-                        Grid.Row="4" Grid.Column="1"
+                        Grid.Row="5" Grid.Column="1"
                         Style="{StaticResource DecimalUpDownStyle}"
                         x:Name="decimalUpDownDiscountRate"
                         Value="{Binding Path=DiscountRate, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                         />
                      <ContentPresenter
-                        Grid.Row="4" Grid.Column="2"
+                        Grid.Row="5" Grid.Column="2"
                         Style="{StaticResource ContentPresenterStyle}"
                         ContentTemplate="{StaticResource ErrorDataTemplate}"
                         Content="{Binding ElementName=decimalUpDownDiscountRate, Path=(Validation.Errors).CurrentItem}"
@@ -164,18 +184,18 @@
 
                      <!-- Эффективная процентная ставка -->
                      <Label
-                        Grid.Row="5" Grid.Column="0"
+                        Grid.Row="6" Grid.Column="0"
                         Style="{StaticResource LabelStyle}"
                         Content="Эффективная процентная ставка:"
                         />
                      <xctk:DecimalUpDown
-                        Grid.Row="5" Grid.Column="1"
+                        Grid.Row="6" Grid.Column="1"
                         Style="{StaticResource DecimalUpDownStyle}"
                         x:Name="decimalUpDownEffectiveDiscountRate"
                         Value="{Binding Path=EffectiveDiscountRate, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                         />
                      <ContentPresenter
-                        Grid.Row="5" Grid.Column="2"
+                        Grid.Row="6" Grid.Column="2"
                         Style="{StaticResource ContentPresenterStyle}"
                         ContentTemplate="{StaticResource ErrorDataTemplate}"
                         Content="{Binding ElementName=decimalUpDownEffectiveDiscountRate, Path=(Validation.Errors).CurrentItem}"
@@ -183,11 +203,11 @@
 
                      <!-- Курс доллара США -->
                      <Label
-                        Grid.Row="6" Grid.Column="0"
+                        Grid.Row="7" Grid.Column="0"
                         Style="{StaticResource LabelStyle}"
                         Content="Курс доллара США:"
                         />
-                     <Grid Grid.Row="6" Grid.Column="1">
+                     <Grid Grid.Row="7" Grid.Column="1">
                         <Grid.ColumnDefinitions>
                            <ColumnDefinition Width="Auto"/>
                            <ColumnDefinition Width="*"/>
@@ -211,7 +231,7 @@
                            />
                      </Grid>
                      <ContentPresenter
-                        Grid.Row="6" Grid.Column="2"
+                        Grid.Row="7" Grid.Column="2"
                         Style="{StaticResource ContentPresenterStyle}"
                         ContentTemplate="{StaticResource ErrorDataTemplate}"
                         Content="{Binding ElementName=decimalUpDownUsdRate, Path=(Validation.Errors).CurrentItem}"
@@ -242,7 +262,7 @@
                      <DataGrid
                         Grid.Row="1" Grid.Column="0"
                         Margin="5"
-                        Height="215"
+                        Height="250"
                         ScrollViewer.VerticalScrollBarVisibility="Auto"
                         ItemsSource="{Binding Path=PaymentsSchedule, Mode=OneWay}"                      
                         AutoGenerateColumns="False"
