@@ -27,7 +27,7 @@ namespace Buzzer.DomainModel.Models
                                ApplicationDate = DateTime.Today,
                                ProtocolDate = null,
                                CreditIssueDate = DateTime.Today,
-                               CreditState = CreditState.Current,
+                               CreditState = CreditState.Consideration,
                                Borrower = PersonInfo.CreateNew(NullValues.Id),
                                _guarantors = new List<PersonInfo>(),
                                PaymentsSchedule = new PaymentInfo[0]
@@ -170,6 +170,16 @@ namespace Buzzer.DomainModel.Models
             isValid &= guarantor.IsValid();
 
          return isValid;
+      }
+
+      public void OnSave()
+      {
+         if (CreditState != CreditState.Repayed)
+         {
+            CreditState = string.IsNullOrEmpty(CreditNumber)
+                             ? CreditState.Consideration
+                             : CreditState.Current;
+         }
       }
 
       protected override string getErrorInfo(string columnName)

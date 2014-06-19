@@ -26,7 +26,7 @@ namespace Buzzer.Tests.DomainModelTests
          Assert.AreEqual(0M, credit.DiscountRate);
          Assert.IsNull(credit.EffectiveDiscountRate);
          Assert.IsNull(credit.ExchangeRate);
-         Assert.AreEqual(CreditState.Current, credit.CreditState);
+         Assert.AreEqual(CreditState.Consideration, credit.CreditState);
 
          Assert.IsNotNull(credit.Borrower);
 

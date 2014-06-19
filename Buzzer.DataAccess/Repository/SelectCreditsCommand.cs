@@ -81,6 +81,9 @@ namespace Buzzer.DataAccess.Repository
             case 2:
                return DomainModel.Models.CreditState.Repayed;
 
+            case 3:
+               return DomainModel.Models.CreditState.Consideration;
+
             default:
                throw new ArgumentException();
          }

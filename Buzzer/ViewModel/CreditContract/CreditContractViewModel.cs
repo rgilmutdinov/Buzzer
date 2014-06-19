@@ -341,6 +341,7 @@ namespace Buzzer.ViewModel.CreditContract
       {
          try
          {
+            _creditInfo.OnSave();
             _buzzerDatabase.SaveCredit(_creditInfo);
          }
          catch (Exception e)
