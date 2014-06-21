@@ -90,6 +90,8 @@
     <Compile Include="ViewModel\PaymentNotificationList\PaymentNotificationListViewModel.cs" />
     <Compile Include="ViewModel\PaymentNotificationList\PaymentNotificationViewModel.cs" />
     <Compile Include="ViewModel\PaymentNotificationList\SmsReceiverViewModel.cs" />
+    <Compile Include="ViewModel\RegistrationLog\RegistrationLogItemViewModel.cs" />
+    <Compile Include="ViewModel\RegistrationLog\RegistrationLogViewModel.cs" />
     <Compile Include="View\BooleanToBrushConverter.cs" />
     <Compile Include="View\CreditContractView.xaml.cs">
       <DependentUpon>CreditContractView.xaml</DependentUpon>
@@ -98,6 +100,7 @@
       <DependentUpon>CreditsListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\CreditStateToBrushConverter.cs" />
+    <Compile Include="View\CreditStateToStringConverter.cs" />
     <Compile Include="View\DateConverter.cs" />
     <Compile Include="View\DateTimeConverter.cs" />
     <Compile Include="View\LoginWindow.xaml.cs">
@@ -113,6 +116,9 @@
       <DependentUpon>PersonInfoView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\PhoneNumberConverter.cs" />
+    <Compile Include="View\RegistrationLogView.xaml.cs">
+      <DependentUpon>RegistrationLogView.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -150,6 +156,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\PersonInfoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\RegistrationLogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

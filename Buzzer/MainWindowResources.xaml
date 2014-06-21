@@ -4,7 +4,8 @@
                     xmlns:CreditContract="clr-namespace:Buzzer.ViewModel.CreditContract"
                     xmlns:CreditsList="clr-namespace:Buzzer.ViewModel.CreditsList"
                     xmlns:PaymentNotificationList="clr-namespace:Buzzer.ViewModel.PaymentNotificationList"
-                    xmlns:NotificationLog="clr-namespace:Buzzer.ViewModel.NotificationLog">
+                    xmlns:NotificationLog="clr-namespace:Buzzer.ViewModel.NotificationLog"
+                    xmlns:RegistrationLog="clr-namespace:Buzzer.ViewModel.RegistrationLog">
 
    <!-- DataTemplates -->
    <DataTemplate DataType="{x:Type CreditContract:CreditContractViewModel}">
@@ -25,6 +26,10 @@
 
    <DataTemplate DataType="{x:Type NotificationLog:NotificationLogViewModel}">
       <View:NotificationLogView />
+   </DataTemplate>
+   
+   <DataTemplate DataType="{x:Type RegistrationLog:RegistrationLogViewModel}">
+      <View:RegistrationLogView />
    </DataTemplate>
 
    <DataTemplate x:Key="ErrorDataTemplate" DataType="{x:Type ValidationError}">
@@ -104,5 +109,6 @@
    <View:DateTimeConverter x:Key="dateTimeConverter" />
    <View:BooleanToBrushConverter x:Key="booleanToBrushConverter"/>
    <View:CreditStateToBrushConverter x:Key="creditStateToBrushConverter"/>
+   <View:CreditStateToStringConverter x:Key="creditStateToStringConverter"/>
    <View:PhoneNumberConverter x:Key="phoneNumberConverter"/>
 </ResourceDictionary>

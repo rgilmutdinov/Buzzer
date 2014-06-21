@@ -165,4 +165,10 @@
   <data name="LoginViewModel_Caption" xml:space="preserve">
     <value>Введите пароль</value>
   </data>
+  <data name="MainWindowViewModel_RegistrationLog" xml:space="preserve">
+    <value>Журнал регистрации</value>
+  </data>
+  <data name="RegistrationLogViewModel_Caption" xml:space="preserve">
+    <value>Журнал регистрации</value>
+  </data>
 </root>

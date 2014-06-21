@@ -1,0 +1,113 @@
+﻿<UserControl x:Class="Buzzer.View.RegistrationLogView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:RegistrationLog="clr-namespace:Buzzer.ViewModel.RegistrationLog"
+             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="600"
+             d:DataContext="{d:DesignInstance RegistrationLog:RegistrationLogViewModel}">
+   <UserControl.Resources>
+      <ResourceDictionary Source="/MainWindowResources.xaml" />
+   </UserControl.Resources>
+
+   <Grid>
+      <Grid.ColumnDefinitions>
+         <ColumnDefinition />
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+         <RowDefinition Height="Auto"/>
+         <RowDefinition Height="*"/>
+      </Grid.RowDefinitions>
+      
+      <StackPanel Orientation="Horizontal">
+         <Label
+            Content="С:"
+            Style="{StaticResource LabelStyle}"
+            />
+         <DatePicker
+            Width="120"
+            Style="{StaticResource DatePickerStyle}"
+            SelectedDate="{Binding Path=FromDate, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+            />
+
+         <Label
+            Content="По:"
+            Style="{StaticResource LabelStyle}"
+            />
+         <DatePicker
+            Width="120"
+            Style="{StaticResource DatePickerStyle}"
+            SelectedDate="{Binding Path=ToDate, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+            />
+
+         <Label
+            Content="Заемщик:"
+            Style="{StaticResource LabelStyle}"
+            />
+         <TextBox
+            Width="200"
+            Style="{StaticResource TextBoxStyle}"
+            Text="{Binding Path=BorrowerNameFilter, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+            />
+
+         <Button
+            Content="Обновить"
+            Margin="5"
+            Command="{Binding Path=UpdateRegistrationLog, Mode=OneWay}"
+            />
+         
+         <Button
+            Margin="5"
+            Content="Сохранить"
+            Command="{Binding Path=SaveRegistrationLog, Mode=OneWay}"
+            />
+      </StackPanel>
+
+      <DataGrid
+         Grid.Row="1" Grid.Column="0"
+         AutoGenerateColumns="False"
+         SelectionMode="Single"
+         CanUserAddRows="False"
+         CanUserDeleteRows="False"
+         ItemsSource="{Binding Path=RegistrationLogItems, Mode=OneWay}"
+         SelectedItem="{Binding Path=SelectedRegistrationLogItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+         >
+
+         <DataGrid.RowStyle>
+            <Style TargetType="{x:Type DataGridRow}">
+               <EventSetter Event="Loaded" Handler="rowLoaded"/>
+            </Style>
+         </DataGrid.RowStyle>
+         
+         <DataGrid.Columns>
+            <DataGridTextColumn
+               Header="Дата подачи заявления"
+               Binding="{Binding Path=ApplicationDate, Mode=OneWay, Converter={StaticResource ResourceKey=dateConverter}}"
+               Width="10*"
+               />
+            
+            <DataGridTextColumn
+               Header="Заемщик"
+               Binding="{Binding Path=BorrowerName, Mode=OneWay}"
+               Width="30*"
+               />
+            
+            <DataGridTextColumn
+               Header="Решение по кредиту"
+               Binding="{Binding Path=CreditState, Mode=OneWay, Converter={StaticResource creditStateToStringConverter}}"
+               FontWeight="Bold"
+               Width="30*"
+               />
+
+            <DataGridTemplateColumn Header="Протокол от" Width="10*" SortMemberPath="ProtocolDate">
+               <DataGridTemplateColumn.CellTemplate>
+                  <DataTemplate>
+                     <DatePicker SelectedDate="{Binding Path=ProtocolDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                  </DataTemplate>
+               </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+
+         </DataGrid.Columns>
+      </DataGrid>
+   </Grid>
+</UserControl>

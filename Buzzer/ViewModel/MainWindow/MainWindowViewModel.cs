@@ -12,6 +12,7 @@ using Buzzer.ViewModel.CreditContract;
 using Buzzer.ViewModel.CreditsList;
 using Buzzer.ViewModel.NotificationLog;
 using Buzzer.ViewModel.PaymentNotificationList;
+using Buzzer.ViewModel.RegistrationLog;
 using Common;
 
 namespace Buzzer.ViewModel.MainWindow
@@ -76,6 +77,11 @@ namespace Buzzer.ViewModel.MainWindow
                         Resources.MainWindowViewModel_GuaranteeCredit,
                         new CommandDelegate(createNewGuaranteeCredit)
                         ),
+
+                     new CommandViewModel(
+                        Resources.MainWindowViewModel_RegistrationLog,
+                        new CommandDelegate(showRegistrationLog)
+                        ), 
                   };
 
             return _commands;
@@ -157,6 +163,16 @@ namespace Buzzer.ViewModel.MainWindow
          var credit = CreditInfo.CreatNew();
          var workspace = new CreditContractViewModel(credit, _buzzerDatabase);
          addWorkspace(workspace);
+      }
+
+      private void showRegistrationLog()
+      {
+         var workspace = Workspaces.FirstOrDefault(item => item is RegistrationLogViewModel);
+
+         if (workspace == null)
+            addWorkspace(new RegistrationLogViewModel(_buzzerDatabase, this));
+         else
+            setActiveWorkspace(workspace);
       }
    }
 }

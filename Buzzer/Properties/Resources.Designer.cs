@@ -160,6 +160,15 @@ namespace Buzzer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Журнал регистрации.
+        /// </summary>
+        internal static string MainWindowViewModel_RegistrationLog {
+            get {
+                return ResourceManager.GetString("MainWindowViewModel_RegistrationLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Новый кредит.
         /// </summary>
         internal static string NewCreditTabCaption {
@@ -183,6 +192,15 @@ namespace Buzzer.Properties {
         internal static string PaymentNotificationListViewModel_Caption {
             get {
                 return ResourceManager.GetString("PaymentNotificationListViewModel_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Журнал регистрации.
+        /// </summary>
+        internal static string RegistrationLogViewModel_Caption {
+            get {
+                return ResourceManager.GetString("RegistrationLogViewModel_Caption", resourceCulture);
             }
         }
         
