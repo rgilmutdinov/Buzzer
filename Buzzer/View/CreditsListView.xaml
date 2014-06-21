@@ -71,7 +71,6 @@
          SelectionMode="Single"
          CanUserAddRows="False"
          CanUserDeleteRows="False"
-         CanUserSortColumns="False"
          ItemsSource="{Binding Path=CreditsList, Mode=OneWay}"
          SelectedItem="{Binding Path=SelectedCredit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
          >
@@ -83,7 +82,7 @@
          </DataGrid.RowStyle>
          
          <DataGrid.Columns>
-            <DataGridTemplateColumn Width="Auto" CanUserResize="False">
+            <DataGridTemplateColumn Width="Auto" CanUserResize="False" SortMemberPath="CreditState">
                <DataGridTemplateColumn.CellTemplate>
                   <DataTemplate>
                      <Canvas>

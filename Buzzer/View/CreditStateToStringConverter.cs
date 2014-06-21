@@ -28,7 +28,7 @@ namespace Buzzer.View
                return "ОТКАЗАН";
 
             default:
-               throw new ArgumentException();
+               return "НЕВЕРНЫЙ СТАТУС";
          }
       }
 

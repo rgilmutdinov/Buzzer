@@ -100,7 +100,7 @@
                Width="10*"
                />
 
-            <DataGridTemplateColumn Header="Заемщик" Width="50*">
+            <DataGridTemplateColumn Header="Заемщик" Width="50*" SortMemberPath="SmsReceivers[0].PersonName">
                <DataGridTemplateColumn.CellTemplate>
                   <DataTemplate>
 
