@@ -73,20 +73,7 @@ namespace Buzzer.DataAccess.Repository
 
       private CreditState getCreditState(int creditState)
       {
-         switch (creditState)
-         {
-            case 1:
-               return DomainModel.Models.CreditState.Current;
-
-            case 2:
-               return DomainModel.Models.CreditState.Repayed;
-
-            case 3:
-               return DomainModel.Models.CreditState.Consideration;
-
-            default:
-               throw new ArgumentException();
-         }
+         return (CreditState) creditState;
       }
 
       private QueryPersonInfoResult getPersons(int creditId)

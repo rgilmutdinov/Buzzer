@@ -70,6 +70,24 @@ namespace Buzzer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Отказ в выдаче кредита.
+        /// </summary>
+        internal static string CreditContractViewModel_RefuseCreditMessageBoxCaption {
+            get {
+                return ResourceManager.GetString("CreditContractViewModel_RefuseCreditMessageBoxCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Вы уверены, что хотите ОТКАЗАТЬ в выдаче данного кредита?.
+        /// </summary>
+        internal static string CreditContractViewModel_RefuseCreditMessageBoxMessage {
+            get {
+                return ResourceManager.GetString("CreditContractViewModel_RefuseCreditMessageBoxMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Список кредитов.
         /// </summary>
         internal static string CreditsListViewModel_Caption {

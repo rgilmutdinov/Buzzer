@@ -23,9 +23,16 @@
          <RowDefinition Height="*"/>
       </Grid.RowDefinitions>
 
-      <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
+      <DockPanel Grid.Row="0" Grid.Column="0" >
          <Button Content="Сохранить" Command="{Binding Path=Save, Mode=OneWay}" Margin="5"/>
-      </StackPanel>
+         <Button Content="Отказать" Command="{Binding Path=Refuse, Mode=OneWay}" Margin="50,5,5,5" />
+
+         <Label
+            Style="{StaticResource LabelStyle}"
+            Content="{Binding Path=CreditState, Mode=OneWay, Converter={StaticResource ResourceKey=creditStateToStringConverter}}"
+            FontWeight="Bold"
+            />
+      </DockPanel>
       
       <ScrollViewer Grid.Row="1" Grid.Column="0" Margin="0,4,0,0">
       

@@ -26,6 +26,7 @@ namespace Buzzer.ViewModel.CreditContract
       private ICommand _addGuarantorCommand;
       private ICommand _removeGuarantorCommand;
       private ICommand _saveCommand;
+      private ICommand _refuseCommand;
 
       public CreditContractViewModel(CreditInfo creditInfo, BuzzerDatabase buzzerDatabase)
       {
@@ -46,6 +47,11 @@ namespace Buzzer.ViewModel.CreditContract
       }
 
       #region Fields
+
+      public CreditState CreditState
+      {
+         get { return _creditInfo.CreditState; }
+      }
 
       public string CreditNumber
       {
@@ -232,6 +238,18 @@ namespace Buzzer.ViewModel.CreditContract
          }
       }
 
+      public ICommand Refuse
+      {
+         get
+         {
+            if (_refuseCommand != null)
+               return _refuseCommand;
+
+            _refuseCommand = new CommandDelegate(refuse, canRefuse);
+            return _refuseCommand;
+         }
+      }
+
       #endregion
 
       #region IDataErrorInfo Members
@@ -339,9 +357,44 @@ namespace Buzzer.ViewModel.CreditContract
 
       private void save()
       {
+         _creditInfo.OnSave();
+         propertyChanged("CreditState");
+
+         saveChangesToDatabase();
+      }
+
+      private bool canSave()
+      {
+         return true;
+      }
+
+      private void refuse()
+      {
+         MessageBoxResult answer =
+            MessageBox.Show(Resources.CreditContractViewModel_RefuseCreditMessageBoxMessage,
+                            Resources.CreditContractViewModel_RefuseCreditMessageBoxCaption,
+                            MessageBoxButton.YesNo,
+                            MessageBoxImage.Question);
+
+         if (answer == MessageBoxResult.Yes)
+         {
+            _creditInfo.Refuse();
+            propertyChanged("CreditState");
+
+            saveChangesToDatabase();
+         }
+      }
+
+      private bool canRefuse()
+      {
+         return _creditInfo.CreditState != CreditState.Repayed &&
+                _creditInfo.CreditState != CreditState.Refused;
+      }
+
+      private void saveChangesToDatabase()
+      {
          try
          {
-            _creditInfo.OnSave();
             _buzzerDatabase.SaveCredit(_creditInfo);
          }
          catch (Exception e)
@@ -352,11 +405,6 @@ namespace Buzzer.ViewModel.CreditContract
                             MessageBoxImage.Error);
             Logger.Error(e);
          }
-      }
-
-      private bool canSave()
-      {
-         return true;
       }
    }
 }

@@ -24,6 +24,9 @@ namespace Buzzer.View
             case CreditState.Consideration:
                return "РАССМОТРЕНИЕ ЗАЯВЛЕНИЯ";
 
+            case CreditState.Refused:
+               return "ОТКАЗАН";
+
             default:
                throw new ArgumentException();
          }

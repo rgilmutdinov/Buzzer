@@ -174,11 +174,19 @@ namespace Buzzer.DomainModel.Models
 
       public void OnSave()
       {
-         if (CreditState != CreditState.Repayed)
+         if (CreditState != CreditState.Repayed && CreditState != CreditState.Refused)
          {
             CreditState = string.IsNullOrEmpty(CreditNumber)
                              ? CreditState.Consideration
                              : CreditState.Current;
+         }
+      }
+
+      public void Refuse()
+      {
+         if (CreditState != CreditState.Repayed && CreditState != CreditState.Refused)
+         {
+            CreditState = CreditState.Refused;
          }
       }
 

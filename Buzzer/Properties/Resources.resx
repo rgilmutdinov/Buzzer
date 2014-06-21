@@ -171,4 +171,10 @@
   <data name="RegistrationLogViewModel_Caption" xml:space="preserve">
     <value>Журнал регистрации</value>
   </data>
+  <data name="CreditContractViewModel_RefuseCreditMessageBoxCaption" xml:space="preserve">
+    <value>Отказ в выдаче кредита</value>
+  </data>
+  <data name="CreditContractViewModel_RefuseCreditMessageBoxMessage" xml:space="preserve">
+    <value>Вы уверены, что хотите ОТКАЗАТЬ в выдаче данного кредита?</value>
+  </data>
 </root>

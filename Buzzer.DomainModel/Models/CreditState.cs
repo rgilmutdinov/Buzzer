@@ -5,6 +5,7 @@ namespace Buzzer.DomainModel.Models
       None = 0,
       Current = 1,
       Repayed = 2,
-      Consideration = 3
+      Consideration = 3,
+      Refused = 4
    }
 }
