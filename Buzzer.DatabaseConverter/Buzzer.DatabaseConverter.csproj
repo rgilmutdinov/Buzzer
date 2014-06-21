@@ -47,6 +47,7 @@
     <Compile Include="Converters\AddCreditStateColumnToCreditsTableConverter.cs" />
     <Compile Include="Converters\AddNotificationLogConverter.cs" />
     <Compile Include="CommandFactory.cs" />
+    <Compile Include="Converters\AddRefusalReasonColumnToCreditsTableConverter.cs" />
     <Compile Include="Converters\AddUsersTableConverter.cs" />
     <Compile Include="Converters\AllowCreditsAndPersonsTablesAcceptNullValues.cs" />
     <Compile Include="DatabaseConverter.cs" />
@@ -76,6 +77,7 @@
     <Content Include="ConverterScripts\AddApplicationDateAndProtocolDateColumns.sql" />
     <Content Include="ConverterScripts\AddCreditStateColumnToCreditsTable.sql" />
     <Content Include="ConverterScripts\AddNotificationLogTable.sql" />
+    <Content Include="ConverterScripts\AddRefusalReasonColumnToCreditsTable.sql" />
     <Content Include="ConverterScripts\AddUsersTable.sql" />
     <Content Include="ConverterScripts\ChangeCreditsAndPersonsTablesToAllowNullValues.sql" />
   </ItemGroup>

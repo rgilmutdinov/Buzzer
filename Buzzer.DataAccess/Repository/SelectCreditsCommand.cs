@@ -59,6 +59,7 @@ namespace Buzzer.DataAccess.Repository
                         getNullable(row[EffectiveDiscountRate.Name], Convert.ToDecimal),
                         getNullable(row[ExchangeRate.Name], Convert.ToDecimal),
                         getCreditState(Convert.ToInt32(row[CreditState.Name])),
+                        get(row[RefusalReason.Name], Convert.ToString),
                         queryResult.Borrower,
                         queryResult.Guarantors,
                         payments

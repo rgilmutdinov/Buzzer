@@ -89,14 +89,14 @@
             <DataGridTextColumn
                Header="Заемщик"
                Binding="{Binding Path=BorrowerName, Mode=OneWay}"
-               Width="30*"
+               Width="20*"
                />
             
             <DataGridTextColumn
                Header="Решение по кредиту"
                Binding="{Binding Path=CreditState, Mode=OneWay, Converter={StaticResource creditStateToStringConverter}}"
                FontWeight="Bold"
-               Width="30*"
+               Width="15*"
                />
 
             <DataGridTemplateColumn Header="Протокол от" Width="10*" SortMemberPath="ProtocolDate">
@@ -106,6 +106,23 @@
                   </DataTemplate>
                </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
+            
+            <DataGridTextColumn
+               Header="Причина отказа"
+               Binding="{Binding Path=RefusalReason, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+               Width="30*">
+               <DataGridTextColumn.ElementStyle>
+                  <Style TargetType="TextBlock">
+                     <Setter Property="TextWrapping" Value="Wrap" />
+                  </Style>
+               </DataGridTextColumn.ElementStyle>
+               <DataGridTextColumn.EditingElementStyle>
+                  <Style TargetType="TextBox">
+                     <Setter Property="TextWrapping" Value="Wrap" />
+                     <Setter Property="AcceptsReturn" Value="true" />
+                  </Style>
+               </DataGridTextColumn.EditingElementStyle>
+            </DataGridTextColumn>
 
          </DataGrid.Columns>
       </DataGrid>

@@ -58,6 +58,21 @@ namespace Buzzer.ViewModel.RegistrationLog
          }
       }
 
+      public string RefusalReason
+      {
+         get { return _creditInfo.RefusalReason; }
+         set
+         {
+            if (_creditInfo.RefusalReason == value)
+               return;
+
+            _creditInfo.RefusalReason = value;
+            propertyChanged("RefusalReason");
+
+            IsChanged = true;
+         }
+      }
+
       public ICommand OpenCredit
       {
          get { return new CommandDelegate(openCredit); }

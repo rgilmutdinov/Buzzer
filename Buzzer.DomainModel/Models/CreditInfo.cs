@@ -48,6 +48,7 @@ namespace Buzzer.DomainModel.Models
          decimal? effectiveDiscountRate,
          decimal? exchangeRate,
          CreditState creditState,
+         string refusalReason,
          PersonInfo borrower,
          IEnumerable<PersonInfo> guarantors,
          IEnumerable<PaymentInfo> payments
@@ -68,6 +69,7 @@ namespace Buzzer.DomainModel.Models
                       EffectiveDiscountRate = effectiveDiscountRate,
                       ExchangeRate = exchangeRate,
                       CreditState = creditState,
+                      RefusalReason = refusalReason,
                       Borrower = borrower,
                       _guarantors = guarantors.ToList(),
                       PaymentsSchedule = paymentsSchedule
@@ -119,6 +121,9 @@ namespace Buzzer.DomainModel.Models
 
       // Статус кредита.
       public CreditState CreditState { get; set; }
+
+      // Причина отказа.
+      public string RefusalReason { get; set; }
 
       // Заемщик.
       public PersonInfo Borrower { get; private set; }

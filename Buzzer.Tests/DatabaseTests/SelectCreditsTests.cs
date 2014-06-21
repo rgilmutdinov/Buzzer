@@ -41,6 +41,7 @@ namespace Buzzer.Tests.DatabaseTests
          Assert.AreEqual(0.12M, credit.EffectiveDiscountRate);
          Assert.AreEqual(47.5M, credit.ExchangeRate);
          Assert.AreEqual(CreditState.Current, credit.CreditState);
+         Assert.IsNull(credit.RefusalReason);
 
          PersonInfo borrower = credit.Borrower;
 
@@ -78,6 +79,7 @@ namespace Buzzer.Tests.DatabaseTests
          Assert.IsNull(credit.EffectiveDiscountRate);
          Assert.IsNull(credit.ExchangeRate);
          Assert.AreEqual(CreditState.Repayed, credit.CreditState);
+         Assert.AreEqual("Refusal reason", credit.RefusalReason);
          Assert.IsNotNull(credit.Borrower);
 
          Assert.IsNotNull(credit.Guarantors);

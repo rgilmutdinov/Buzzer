@@ -107,6 +107,15 @@ namespace Buzzer.DatabaseConverter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to alter table Credits add column RefusalReason text null;.
+        /// </summary>
+        internal static string AddRefusalReasonColumnToCreditsTable {
+            get {
+                return ResourceManager.GetString("AddRefusalReasonColumnToCreditsTable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to create table Users
         ///(
         ///	ID integer primary key autoincrement not null,

@@ -1,0 +1,1 @@
+alter table Credits add column RefusalReason text null;

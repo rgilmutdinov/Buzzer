@@ -24,6 +24,7 @@ namespace Buzzer.Tests.Common
          Assert.AreEqual(expected.EffectiveDiscountRate, actual.EffectiveDiscountRate);
          Assert.AreEqual(expected.ExchangeRate, actual.ExchangeRate);
          Assert.AreEqual(expected.CreditState, actual.CreditState);
+         Assert.AreEqual(expected.RefusalReason, actual.RefusalReason);
 
          AssertPersonsAreEqual(expected.Borrower, actual.Borrower);
          AssertCollectionsAreEqual(expected.Guarantors, actual.Guarantors,

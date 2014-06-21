@@ -27,6 +27,7 @@ namespace Buzzer.Tests.DomainModelTests
          Assert.IsNull(credit.EffectiveDiscountRate);
          Assert.IsNull(credit.ExchangeRate);
          Assert.AreEqual(CreditState.Consideration, credit.CreditState);
+         Assert.IsNull(credit.RefusalReason);
 
          Assert.IsNotNull(credit.Borrower);
 
@@ -51,6 +52,7 @@ namespace Buzzer.Tests.DomainModelTests
          decimal? effectiveDiscountRate,
          decimal? exchangeRate,
          CreditState creditState,
+         string refusalReason,
          PersonInfo borrower,
          PersonInfo[] guarantors,
          PaymentInfo[] paymentsSchedule
@@ -70,6 +72,7 @@ namespace Buzzer.Tests.DomainModelTests
                effectiveDiscountRate,
                exchangeRate,
                creditState,
+               refusalReason,
                borrower,
                guarantors,
                paymentsSchedule
@@ -89,6 +92,7 @@ namespace Buzzer.Tests.DomainModelTests
          Assert.AreEqual(effectiveDiscountRate, credit.EffectiveDiscountRate);
          Assert.AreEqual(exchangeRate, credit.ExchangeRate);
          Assert.AreEqual(creditState, credit.CreditState);
+         Assert.AreEqual(refusalReason, credit.RefusalReason);
 
          AssertUtils.AssertPersonsAreEqual(borrower, credit.Borrower);
 
@@ -124,7 +128,8 @@ namespace Buzzer.Tests.DomainModelTests
                const decimal discountRate = 0.36M;
                decimal? effectiveDiscountRate = null;
                decimal? exchangeRate = null;
-               CreditState creditState = CreditState.Repayed;
+               const CreditState creditState = CreditState.Repayed;
+               const string refusalReason = "Refusal reason";
 
                PersonInfo borrower =
                   PersonInfo.Create(
@@ -164,7 +169,8 @@ namespace Buzzer.Tests.DomainModelTests
                   new TestCaseData(
                      id, creditNumber, applicationDate, protocolDate, creditAmount,
                      creditIssueDate, monthsCount, discountRate, effectiveDiscountRate,
-                     exchangeRate, creditState, borrower, guarantors, paymentsSchedule
+                     exchangeRate, creditState, refusalReason,
+                     borrower, guarantors, paymentsSchedule
                      );
                testCaseData.SetName("CreateValidCreditInfoTest");
 

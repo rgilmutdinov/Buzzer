@@ -20,6 +20,7 @@ namespace Buzzer.DataAccess.Repository
       protected static readonly FieldInfo EffectiveDiscountRate = new FieldInfo("EffectiveDiscountRate", DbType.Decimal, true);
       protected static readonly FieldInfo ExchangeRate = new FieldInfo("ExchangeRate", DbType.Decimal, true);
       protected static readonly FieldInfo CreditState = new FieldInfo("CreditState", DbType.Int32);
+      protected static readonly FieldInfo RefusalReason = new FieldInfo("RefusalReason", DbType.String, true);
 
       protected static readonly FieldInfo CreditId = new FieldInfo("CreditId", DbType.Int32);
       protected static readonly FieldInfo PersonalNumber = new FieldInfo("PersonalNumber", DbType.String, true);

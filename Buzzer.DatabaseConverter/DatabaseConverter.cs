@@ -65,6 +65,7 @@ namespace Buzzer.DatabaseConverter
                   {4, () => new AddUsersTableConverter(commandFactory)},
                   {5, () => new AllowCreditsAndPersonsTablesAcceptNullValues(commandFactory)},
                   {6, () => new AddApplicationDateAndProtocolDateColumnsConverter(commandFactory)},
+                  {7, () => new AddRefusalReasonColumnToCreditsTableConverter(commandFactory)},
                };
 
          return
