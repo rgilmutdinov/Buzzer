@@ -19,5 +19,11 @@ namespace Buzzer.View
          var gesture = new MouseGesture {MouseAction = MouseAction.LeftDoubleClick};
          row.InputBindings.Add(new MouseBinding(logItem.OpenCredit, gesture));
       }
+
+      private void MenuItemClicked(object sender, RoutedEventArgs e)
+      {
+         var menuItem = (MenuItem) sender;
+         _refusalReasonColumn.Visibility = menuItem.IsChecked ? Visibility.Visible : Visibility.Collapsed;
+      }
    }
 }

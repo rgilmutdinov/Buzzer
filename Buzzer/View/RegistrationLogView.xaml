@@ -73,6 +73,18 @@
          SelectedItem="{Binding Path=SelectedRegistrationLogItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
          >
 
+         <DataGrid.Resources>
+            <ContextMenu x:Key="DataGridColumnHeaderContextMenu">
+               <MenuItem Header="Причина отказа" IsCheckable="True" IsChecked="False" Click="MenuItemClicked" />
+            </ContextMenu>
+         </DataGrid.Resources>
+         
+         <DataGrid.ColumnHeaderStyle>
+            <Style TargetType="{x:Type DataGridColumnHeader}">
+               <Setter Property="ContextMenu" Value="{StaticResource ResourceKey=DataGridColumnHeaderContextMenu}" />
+            </Style>
+         </DataGrid.ColumnHeaderStyle>
+       
          <DataGrid.RowStyle>
             <Style TargetType="{x:Type DataGridRow}">
                <EventSetter Event="Loaded" Handler="rowLoaded"/>
@@ -108,7 +120,10 @@
             </DataGridTemplateColumn>
             
             <DataGridTextColumn
+               x:FieldModifier="private"
+               x:Name="_refusalReasonColumn"
                Header="Причина отказа"
+               Visibility="Collapsed"
                Binding="{Binding Path=RefusalReason, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                Width="30*">
                <DataGridTextColumn.ElementStyle>
