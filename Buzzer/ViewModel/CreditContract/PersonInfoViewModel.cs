@@ -100,7 +100,7 @@ namespace Buzzer.ViewModel.CreditContract
             if (Original.PassportIssueDate == value)
                return;
 
-            Original.PassportIssueDate = value;
+            Original.PassportIssueDate = value.Date;
             propertyChanged("PassportIssueDate");
          }
       }

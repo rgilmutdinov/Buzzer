@@ -102,7 +102,7 @@ namespace Buzzer.ViewModel.CreditContract
             if (_creditInfo.CreditIssueDate == value)
                return;
 
-            _creditInfo.CreditIssueDate = value;
+            _creditInfo.CreditIssueDate = value.Date;
             propertyChanged("CreditIssueDate");
          }
       }
