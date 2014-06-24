@@ -15,7 +15,7 @@ namespace Buzzer.DomainModel.Services
 
       public void Send(string message)
       {
-         var browser = new FireFox("http://o.kg/ru/chastnym_klientam/mobilnaja_svjaz/otpravka_sms_s_sajta");
+         var browser = new FireFox("http://www.o.kg/ru/chastnym_klientam/mobilnaja_svjaz/otpravka_sms_s_sajta");
          var frame = browser.Frame(Find.BySrc("http://portal.o.kg/SMS/index/index2"));
          frame.SelectList("MSISDN_PREFIX").Select(_phoneNumber.Code);
          frame.TextField("_MSISDN").TypeText(_phoneNumber.Phone);
