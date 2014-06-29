@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="Buzzer.View.DateSelector"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" d:DesignHeight="50" d:DesignWidth="300"             >
+   <Grid>
+      <Grid.ColumnDefinitions>
+         <ColumnDefinition Width="0.7*"/>
+         <ColumnDefinition Width="0.7*"/>
+         <ColumnDefinition Width="1*"/>
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+         <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+
+      <ComboBox
+         Grid.Row="0" Grid.Column="0"
+         x:Name="_comboBoxMonths"
+         x:FieldModifier="private"
+         Margin="0,0,1,0"
+         />
+
+      <ComboBox
+         Grid.Row="0" Grid.Column="1"
+         x:Name="_comboBoxDays"
+         x:FieldModifier="private"
+         Margin="1,0,1,0"
+         />
+
+      <ComboBox
+         Grid.Row="0" Grid.Column="2"
+         x:Name="_comboBoxYears"
+         x:FieldModifier="private"
+         Margin="1,0,0,0"
+         />
+   </Grid>
+</UserControl>

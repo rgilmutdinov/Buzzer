@@ -102,6 +102,9 @@
     <Compile Include="View\CreditStateToBrushConverter.cs" />
     <Compile Include="View\CreditStateToStringConverter.cs" />
     <Compile Include="View\DateConverter.cs" />
+    <Compile Include="View\DateSelector.xaml.cs">
+      <DependentUpon>DateSelector.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\DateTimeConverter.cs" />
     <Compile Include="View\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
@@ -140,6 +143,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\CreditsListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DateSelector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

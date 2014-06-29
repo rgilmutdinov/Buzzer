@@ -100,17 +100,17 @@
                         Style="{StaticResource LabelStyle}"
                         Content="Дата подачи заявления:"
                         />
-                     <DatePicker
+                     <View:DateSelector
                         Grid.Row="1" Grid.Column="1"
-                        Style="{StaticResource DatePickerStyle}"
-                        x:Name="datePickerApplicationDate"
+                        Style="{StaticResource DateSelectorStyle}"
+                        x:Name="dateSelectorApplicationDate"
                         SelectedDate="{Binding Path=ApplicationDate, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                         />
                      <ContentPresenter
                         Grid.Row="1" Grid.Column="2"
                         Style="{StaticResource ContentPresenterStyle}"
                         ContentTemplate="{StaticResource ErrorDataTemplate}"
-                        Content="{Binding ElementName=datePickerApplicationDate, Path=(Validation.Errors).CurrentItem}"
+                        Content="{Binding ElementName=dateSelectorApplicationDate, Path=(Validation.Errors).CurrentItem}"
                         />
                      
                      <!-- Сумма кредита -->
@@ -138,17 +138,17 @@
                         Style="{StaticResource LabelStyle}"
                         Content="Дата выдачи:"
                         />
-                     <xctk:DateTimeUpDown
+                     <View:DateSelector
                         Grid.Row="3" Grid.Column="1"
-                        Style="{StaticResource DateTimeUpDownStyle}"
-                        x:Name="dateTimeUpDownIssueDate"
-                        Value="{Binding Path=CreditIssueDate, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource DateSelectorStyle}"
+                        x:Name="dateSelectorIssueDate"
+                        SelectedDate="{Binding Path=CreditIssueDate, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                         />
                      <ContentPresenter
                         Grid.Row="3" Grid.Column="2"
                         Style="{StaticResource ContentPresenterStyle}"
                         ContentTemplate="{StaticResource ErrorDataTemplate}"
-                        Content="{Binding ElementName=dateTimeUpDownIssueDate, Path=(Validation.Errors).CurrentItem}"
+                        Content="{Binding ElementName=dateSelectorIssueDate, Path=(Validation.Errors).CurrentItem}"
                         />
 
                      <!-- Число месяцев -->

@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:RegistrationLog="clr-namespace:Buzzer.ViewModel.RegistrationLog"
-             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="600"
+             xmlns:View="clr-namespace:Buzzer.View" mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="900"
              d:DataContext="{d:DesignInstance RegistrationLog:RegistrationLogViewModel}">
    <UserControl.Resources>
       <ResourceDictionary Source="/MainWindowResources.xaml" />
@@ -24,20 +25,20 @@
             Content="С:"
             Style="{StaticResource LabelStyle}"
             />
-         <DatePicker
-            Width="120"
-            Style="{StaticResource DatePickerStyle}"
-            SelectedDate="{Binding Path=FromDate, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+         <View:DateSelector
+            Style="{StaticResource DateSelectorStyle}"
+            Width="150"
+            SelectedDate="{Binding Path=FromDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             />
 
          <Label
             Content="По:"
             Style="{StaticResource LabelStyle}"
             />
-         <DatePicker
-            Width="120"
-            Style="{StaticResource DatePickerStyle}"
-            SelectedDate="{Binding Path=ToDate, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+         <View:DateSelector
+            Style="{StaticResource DateSelectorStyle}"
+            Width="150"
+            SelectedDate="{Binding Path=ToDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             />
 
          <Label
@@ -111,10 +112,12 @@
                Width="15*"
                />
 
-            <DataGridTemplateColumn Header="Протокол от" Width="10*" SortMemberPath="ProtocolDate">
+            <DataGridTemplateColumn Header="Протокол от" Width="10*" MinWidth="150" SortMemberPath="ProtocolDate">
                <DataGridTemplateColumn.CellTemplate>
                   <DataTemplate>
-                     <DatePicker SelectedDate="{Binding Path=ProtocolDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                     <View:DateSelector
+                        SelectedDate="{Binding Path=ProtocolDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        />
                   </DataTemplate>
                </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
