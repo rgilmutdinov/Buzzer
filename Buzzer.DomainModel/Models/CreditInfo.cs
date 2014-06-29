@@ -26,7 +26,7 @@ namespace Buzzer.DomainModel.Models
                                Id = NullValues.Id,
                                ApplicationDate = DateTime.Today,
                                ProtocolDate = null,
-                               CreditIssueDate = DateTime.Today,
+                               CreditIssueDate = NullValues.DateTime,
                                CreditState = CreditState.Consideration,
                                Borrower = PersonInfo.CreateNew(NullValues.Id),
                                _guarantors = new List<PersonInfo>(),

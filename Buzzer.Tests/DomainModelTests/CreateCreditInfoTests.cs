@@ -21,7 +21,7 @@ namespace Buzzer.Tests.DomainModelTests
          Assert.AreEqual(DateTime.Today, credit.ApplicationDate);
          Assert.IsNull(credit.ProtocolDate);
          Assert.AreEqual(0M, credit.CreditAmount);
-         Assert.AreEqual(DateTime.Today, credit.CreditIssueDate);
+         Assert.AreEqual(NullValues.DateTime, credit.CreditIssueDate);
          Assert.AreEqual(0, credit.MonthsCount);
          Assert.AreEqual(0M, credit.DiscountRate);
          Assert.IsNull(credit.EffectiveDiscountRate);
