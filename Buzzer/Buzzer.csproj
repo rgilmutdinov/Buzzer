@@ -101,6 +101,7 @@
     </Compile>
     <Compile Include="View\CreditStateToBrushConverter.cs" />
     <Compile Include="View\CreditStateToStringConverter.cs" />
+    <Compile Include="View\CreditStateToStringConverterForRegistrationLog.cs" />
     <Compile Include="View\DateConverter.cs" />
     <Compile Include="View\DateSelector.xaml.cs">
       <DependentUpon>DateSelector.xaml</DependentUpon>

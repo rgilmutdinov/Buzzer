@@ -107,12 +107,12 @@
             
             <DataGridTextColumn
                Header="Решение по кредиту"
-               Binding="{Binding Path=CreditState, Mode=OneWay, Converter={StaticResource creditStateToStringConverter}}"
+               Binding="{Binding Path=CreditState, Mode=OneWay, Converter={StaticResource creditStateToStringConverterForRegistrationLog}}"
                FontWeight="Bold"
                Width="15*"
                />
 
-            <DataGridTemplateColumn Header="Протокол от" Width="10*" MinWidth="150" SortMemberPath="ProtocolDate">
+            <DataGridTemplateColumn Header="Протокол/Решение от" Width="10*" MinWidth="150" SortMemberPath="ProtocolDate">
                <DataGridTemplateColumn.CellTemplate>
                   <DataTemplate>
                      <View:DateSelector

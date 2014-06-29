@@ -116,5 +116,6 @@
    <View:BooleanToBrushConverter x:Key="booleanToBrushConverter"/>
    <View:CreditStateToBrushConverter x:Key="creditStateToBrushConverter"/>
    <View:CreditStateToStringConverter x:Key="creditStateToStringConverter"/>
+   <View:CreditStateToStringConverterForRegistrationLog x:Key="creditStateToStringConverterForRegistrationLog" />
    <View:PhoneNumberConverter x:Key="phoneNumberConverter"/>
 </ResourceDictionary>

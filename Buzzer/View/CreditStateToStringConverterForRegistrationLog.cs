@@ -1,4 +1,4 @@
-Ôªøusing System;
+using System;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
@@ -6,8 +6,8 @@ using Buzzer.DomainModel.Models;
 
 namespace Buzzer.View
 {
-   [ValueConversion(typeof (CreditState), typeof (string))]
-   internal sealed class CreditStateToStringConverter : IValueConverter
+   [ValueConversion(typeof(CreditState), typeof(string))]
+   internal sealed class CreditStateToStringConverterForRegistrationLog : IValueConverter
    {
       public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
       {
@@ -16,19 +16,17 @@ namespace Buzzer.View
          switch (creditState)
          {
             case CreditState.Current:
-               return "–í–´–î–ê–ù";
-
             case CreditState.Repayed:
-               return "–ü–û–ì–ê–®–ï–ù";
+               return "¬€ƒ¿Õ";
 
             case CreditState.Consideration:
-               return "–†–ê–°–°–ú–û–¢–†–ï–ù–ò–ï –ó–ê–Ø–í–õ–ï–ù–ò–Ø";
+               return "–¿——ÃŒ“–≈Õ»≈ «¿ﬂ¬À≈Õ»ﬂ";
 
             case CreditState.Refused:
-               return "–û–¢–ö–ê–ó–ê–ù";
+               return "Œ“ ¿«¿Õ";
 
             default:
-               return "–ù–ï–í–ï–†–ù–´–ô –°–¢–ê–¢–£–°";
+               return "Õ≈¬≈–Õ€… —“¿“”—";
          }
       }
 
