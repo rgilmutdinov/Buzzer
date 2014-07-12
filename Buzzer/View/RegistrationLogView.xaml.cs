@@ -12,18 +12,21 @@ namespace Buzzer.View
          InitializeComponent();
       }
 
-      private void rowLoaded(object sender, RoutedEventArgs e)
-      {
-         var row = (DataGridRow) sender;
-         var logItem = (RegistrationLogItemViewModel) row.DataContext;
-         var gesture = new MouseGesture {MouseAction = MouseAction.LeftDoubleClick};
-         row.InputBindings.Add(new MouseBinding(logItem.OpenCredit, gesture));
-      }
-
       private void MenuItemClicked(object sender, RoutedEventArgs e)
       {
          var menuItem = (MenuItem) sender;
          _refusalReasonColumn.Visibility = menuItem.IsChecked ? Visibility.Visible : Visibility.Collapsed;
+      }
+
+      private void onMouseDoubleClick(object sender, MouseButtonEventArgs e)
+      {
+         var row = (DataGridRow) sender;
+
+         if (row.IsSelected)
+         {
+            var logItem = (RegistrationLogItemViewModel) row.DataContext;
+            logItem.OpenCredit();
+         }
       }
    }
 }

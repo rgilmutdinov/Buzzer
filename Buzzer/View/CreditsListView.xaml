@@ -78,7 +78,7 @@
          
          <DataGrid.RowStyle>
             <Style TargetType="{x:Type DataGridRow}">
-               <EventSetter Event="Loaded" Handler="rowLoaded"/>
+               <EventSetter Event="MouseDoubleClick" Handler="onMouseDoubleClick" />
             </Style>
          </DataGrid.RowStyle>
          

@@ -1,5 +1,4 @@
 using System;
-using System.Windows.Input;
 using Buzzer.DomainModel.Models;
 using Buzzer.ViewModel.Common;
 using Buzzer.ViewModel.MainWindow;
@@ -73,12 +72,7 @@ namespace Buzzer.ViewModel.RegistrationLog
          }
       }
 
-      public ICommand OpenCredit
-      {
-         get { return new CommandDelegate(openCredit); }
-      }
-
-      private void openCredit()
+      public void OpenCredit()
       {
          _workspaceManager.ShowCreditInfo(_creditInfo);
       }

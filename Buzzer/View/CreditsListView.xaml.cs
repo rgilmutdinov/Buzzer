@@ -11,13 +11,16 @@ namespace Buzzer.View
       {
          InitializeComponent();
       }
-
-      private void rowLoaded(object sender, RoutedEventArgs e)
+      
+      private void onMouseDoubleClick(object sender, MouseButtonEventArgs e)
       {
          var row = (DataGridRow) sender;
-         var credit = (CreditViewModel) row.DataContext;
-         var gesture = new MouseGesture {MouseAction = MouseAction.LeftDoubleClick};
-         row.InputBindings.Add(new MouseBinding(credit.OpenCredit, gesture));
+
+         if (row.IsSelected)
+         {
+            var credit = (CreditViewModel) row.DataContext;
+            credit.OpenCredit();
+         }
       }
    }
 }

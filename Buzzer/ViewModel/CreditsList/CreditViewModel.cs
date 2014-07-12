@@ -1,5 +1,4 @@
 using System;
-using System.Windows.Input;
 using Buzzer.DomainModel.Models;
 using Buzzer.ViewModel.Common;
 using Buzzer.ViewModel.MainWindow;
@@ -13,8 +12,6 @@ namespace Buzzer.ViewModel.CreditsList
       private readonly IWorkspaceManager _workspaceManager;
 
       private CreditState _creditState;
-
-      private ICommand _openCreditCommand;
 
       public CreditViewModel(CreditInfo creditInfo, IWorkspaceManager workspaceManager)
       {
@@ -63,19 +60,7 @@ namespace Buzzer.ViewModel.CreditsList
          }
       }
 
-      public ICommand OpenCredit
-      {
-         get
-         {
-            if (_openCreditCommand != null)
-               return _openCreditCommand;
-
-            _openCreditCommand = new CommandDelegate(openCredit);
-            return _openCreditCommand;
-         }
-      }
-
-      private void openCredit()
+      public void OpenCredit()
       {
          _workspaceManager.ShowCreditInfo(_creditInfo);
       }
