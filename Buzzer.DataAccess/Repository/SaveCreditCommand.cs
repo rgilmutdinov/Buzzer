@@ -171,19 +171,19 @@ namespace Buzzer.DataAccess.Repository
       {
          string insertCreditQuery =
             string.Format(
-               "INSERT INTO Credits ({0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}) " +
-               "VALUES ({11}, {12}, {13}, {14}, {15}, {16}, {17}, {18}, {19}, {20}, {21});" +
+               "INSERT INTO Credits ({0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}) " +
+               "VALUES ({12}, {13}, {14}, {15}, {16}, {17}, {18}, {19}, {20}, {21}, {22}, {23});" +
                "SELECT last_insert_rowid();",
 
                CreditNumber.Name, ApplicationDate.Name, ProtocolDate.Name,
                CreditAmount.Name, CreditIssueDate.Name, MonthsCount.Name,
                DiscountRate.Name, EffectiveDiscountRate.Name, ExchangeRate.Name,
-               CreditState.Name, RefusalReason.Name,
+               CreditState.Name, RefusalReason.Name, RowState.Name,
 
                CreditNumber.ParameterName, ApplicationDate.ParameterName, ProtocolDate.ParameterName,
                CreditAmount.ParameterName, CreditIssueDate.ParameterName, MonthsCount.ParameterName,
                DiscountRate.ParameterName, EffectiveDiscountRate.ParameterName, ExchangeRate.ParameterName,
-               CreditState.ParameterName, RefusalReason.ParameterName
+               CreditState.ParameterName, RefusalReason.ParameterName, RowState.ParameterName
                );
 
          using (DbCommand command = createCommand(insertCreditQuery))
@@ -199,6 +199,7 @@ namespace Buzzer.DataAccess.Repository
             command.AddParameter(creditInfo.ExchangeRate, ExchangeRate);
             command.AddParameter((int) creditInfo.CreditState, CreditState);
             command.AddParameter(creditInfo.RefusalReason, RefusalReason);
+            command.AddParameter((int) creditInfo.RowState, RowState);
 
             return Convert.ToInt32(command.ExecuteScalar());
          }
@@ -208,8 +209,8 @@ namespace Buzzer.DataAccess.Repository
       {
          string updateCreditQuery =
             string.Format(
-               "UPDATE Credits SET {0}={1}, {2}={3}, {4}={5}, {6}={7}, {8}={9}, {10}={11}, {12}={13}, {14}={15}, {16}={17}, {18}={19}, {20}={21} " +
-               "WHERE {22}={23};",
+               "UPDATE Credits SET {0}={1}, {2}={3}, {4}={5}, {6}={7}, {8}={9}, {10}={11}, {12}={13}, {14}={15}, {16}={17}, {18}={19}, {20}={21}, {22}={23} " +
+               "WHERE {24}={25};",
                CreditNumber.Name, CreditNumber.ParameterName,
                ApplicationDate.Name, ApplicationDate.ParameterName,
                ProtocolDate.Name, ProtocolDate.ParameterName,
@@ -221,6 +222,7 @@ namespace Buzzer.DataAccess.Repository
                ExchangeRate.Name, ExchangeRate.ParameterName,
                CreditState.Name, CreditState.ParameterName,
                RefusalReason.Name, RefusalReason.ParameterName,
+               RowState.Name, RowState.ParameterName,
                Id.Name, Id.ParameterName
                );
 
@@ -237,6 +239,7 @@ namespace Buzzer.DataAccess.Repository
             command.AddParameter(creditInfo.ExchangeRate, ExchangeRate);
             command.AddParameter((int) creditInfo.CreditState, CreditState);
             command.AddParameter(creditInfo.RefusalReason, RefusalReason);
+            command.AddParameter((int) creditInfo.RowState, RowState);
             command.AddParameter(creditInfo.Id, Id);
 
             command.ExecuteNonQuery();

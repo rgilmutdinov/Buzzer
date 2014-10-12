@@ -30,7 +30,8 @@ namespace Buzzer.DomainModel.Models
                                CreditState = CreditState.Consideration,
                                Borrower = PersonInfo.CreateNew(NullValues.Id),
                                _guarantors = new List<PersonInfo>(),
-                               PaymentsSchedule = new PaymentInfo[0]
+                               PaymentsSchedule = new PaymentInfo[0],
+                               RowState = RowState.Modified
                             };
          newCredit.Borrower.IsBorrower = true;
          return newCredit;
@@ -49,6 +50,7 @@ namespace Buzzer.DomainModel.Models
          decimal? exchangeRate,
          CreditState creditState,
          string refusalReason,
+         RowState rowState,
          PersonInfo borrower,
          IEnumerable<PersonInfo> guarantors,
          IEnumerable<PaymentInfo> payments
@@ -70,6 +72,7 @@ namespace Buzzer.DomainModel.Models
                       ExchangeRate = exchangeRate,
                       CreditState = creditState,
                       RefusalReason = refusalReason,
+                      RowState = rowState,
                       Borrower = borrower,
                       _guarantors = guarantors.ToList(),
                       PaymentsSchedule = paymentsSchedule
@@ -124,6 +127,9 @@ namespace Buzzer.DomainModel.Models
 
       // Причина отказа.
       public string RefusalReason { get; set; }
+
+      // Статус.
+      public RowState RowState { get; private set; }
 
       // Заемщик.
       public PersonInfo Borrower { get; private set; }
@@ -195,6 +201,11 @@ namespace Buzzer.DomainModel.Models
          }
       }
 
+      public void Delete()
+      {
+         RowState = RowState.Deleted;
+      }
+      
       protected override string getErrorInfo(string columnName)
       {
          switch (columnName)

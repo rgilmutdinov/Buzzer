@@ -28,6 +28,7 @@ namespace Buzzer.Tests.DomainModelTests
          Assert.IsNull(credit.ExchangeRate);
          Assert.AreEqual(CreditState.Consideration, credit.CreditState);
          Assert.IsNull(credit.RefusalReason);
+         Assert.AreEqual(RowState.Modified, credit.RowState);
 
          Assert.IsNotNull(credit.Borrower);
 
@@ -53,6 +54,7 @@ namespace Buzzer.Tests.DomainModelTests
          decimal? exchangeRate,
          CreditState creditState,
          string refusalReason,
+         RowState rowState,
          PersonInfo borrower,
          PersonInfo[] guarantors,
          PaymentInfo[] paymentsSchedule
@@ -73,6 +75,7 @@ namespace Buzzer.Tests.DomainModelTests
                exchangeRate,
                creditState,
                refusalReason,
+               rowState,
                borrower,
                guarantors,
                paymentsSchedule
@@ -93,6 +96,7 @@ namespace Buzzer.Tests.DomainModelTests
          Assert.AreEqual(exchangeRate, credit.ExchangeRate);
          Assert.AreEqual(creditState, credit.CreditState);
          Assert.AreEqual(refusalReason, credit.RefusalReason);
+         Assert.AreEqual(rowState, credit.RowState);
 
          AssertUtils.AssertPersonsAreEqual(borrower, credit.Borrower);
 
@@ -130,6 +134,7 @@ namespace Buzzer.Tests.DomainModelTests
                decimal? exchangeRate = null;
                const CreditState creditState = CreditState.Repayed;
                const string refusalReason = "Refusal reason";
+               const RowState rowState = RowState.Modified;
 
                PersonInfo borrower =
                   PersonInfo.Create(
@@ -169,7 +174,7 @@ namespace Buzzer.Tests.DomainModelTests
                   new TestCaseData(
                      id, creditNumber, applicationDate, protocolDate, creditAmount,
                      creditIssueDate, monthsCount, discountRate, effectiveDiscountRate,
-                     exchangeRate, creditState, refusalReason,
+                     exchangeRate, creditState, refusalReason, rowState,
                      borrower, guarantors, paymentsSchedule
                      );
                testCaseData.SetName("CreateValidCreditInfoTest");

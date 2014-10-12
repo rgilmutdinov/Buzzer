@@ -128,6 +128,8 @@ namespace Buzzer.Tests.DatabaseTests
          credit.CreditState = CreditState.Repayed;
          credit.RefusalReason = "New refusal reason";
 
+         credit.Delete();
+
          PersonInfo borrower = credit.Borrower;
          borrower.PersonalNumber = "44444444444444";
          borrower.PersonName = "Borrower changed";
@@ -204,6 +206,25 @@ namespace Buzzer.Tests.DatabaseTests
 
          credit.BuildPaymentsSchedule();
          
+         _database.SaveCredit(credit);
+
+         // Assert.
+         CreditInfo creditFromDatabase =
+            _database
+               .GetAllCredits()
+               .SingleOrDefault(item => item.Id == credit.Id);
+
+         AssertUtils.AssertCreditsAreEqual(credit, creditFromDatabase);
+      }
+
+      [Test]
+      public void SaveDeletedCreditTest()
+      {
+         // Arrange.
+         CreditInfo credit = CreditInfo.CreatNew();
+         credit.Delete();
+
+         // Act.
          _database.SaveCredit(credit);
 
          // Assert.

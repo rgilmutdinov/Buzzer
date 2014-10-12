@@ -60,6 +60,7 @@ namespace Buzzer.DataAccess.Repository
                         getNullable(row[ExchangeRate.Name], Convert.ToDecimal),
                         getCreditState(Convert.ToInt32(row[CreditState.Name])),
                         get(row[RefusalReason.Name], Convert.ToString),
+                        getRowState(Convert.ToInt32(row[RowState.Name])),
                         queryResult.Borrower,
                         queryResult.Guarantors,
                         payments
@@ -75,6 +76,11 @@ namespace Buzzer.DataAccess.Repository
       private CreditState getCreditState(int creditState)
       {
          return (CreditState) creditState;
+      }
+
+      private RowState getRowState(int rowState)
+      {
+         return (RowState) rowState;
       }
 
       private QueryPersonInfoResult getPersons(int creditId)
