@@ -114,6 +114,7 @@ namespace Buzzer.ViewModel.CreditsList
          return new ListCollectionView(
             _buzzerDatabase
                .GetAllCredits()
+               .Where(item => item.RowState != RowState.Deleted)
                .Where(item => item.CreditState == CreditState.Current ||
                               item.CreditState == CreditState.Repayed)
                .Select(item => new CreditViewModel(item, _workspaceManager))

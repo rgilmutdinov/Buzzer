@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using Buzzer.DataAccess.Repository;
+using Buzzer.DomainModel.Models;
 using Buzzer.Properties;
 using Buzzer.ViewModel.Common;
 using Buzzer.ViewModel.MainWindow;
@@ -91,12 +92,18 @@ namespace Buzzer.ViewModel.RegistrationLog
          get { return new CommandDelegate(saveRegistrationLog); }
       }
 
+      public ICommand DeleteRegistrationLogItem
+      {
+         get { return new CommandDelegate(deleteRegistrationLogItem); }
+      }
+
       private ListCollectionView getRegistrationLogItems()
       {
          return
             new ListCollectionView(
                _buzzerDatabase
                   .GetAllCredits()
+                  .Where(item => item.RowState != RowState.Deleted)
                   .Select(item => new RegistrationLogItemViewModel(item, _workspaceManager))
                   .ToList()
                );
@@ -163,6 +170,38 @@ namespace Buzzer.ViewModel.RegistrationLog
                             MessageBoxButton.OK,
                             MessageBoxImage.Error);
             Logger.Error(e);
+         }
+      }
+
+      private void deleteRegistrationLogItem()
+      {
+         if (SelectedRegistrationLogItem == null)
+            return;
+
+         MessageBoxResult answer =
+            MessageBox.Show(Resources.RegistrationLogViewModel_DeleteRegistrationLogItemMessageBoxMessage,
+                            Resources.RegistrationLogViewModel_DeleteRegistrationLogItemMessageBoxCaption,
+                            MessageBoxButton.YesNo,
+                            MessageBoxImage.Question);
+
+         if (answer == MessageBoxResult.Yes)
+         {
+            CreditInfo credit = SelectedRegistrationLogItem.Original;
+            credit.Delete();
+
+            try
+            {
+               _buzzerDatabase.SaveCredit(credit);
+               RegistrationLogItems.Remove(SelectedRegistrationLogItem);
+            }
+            catch (Exception e)
+            {
+               MessageBox.Show(Resources.ErrorWhileSavingInformationToDatabase,
+                               Resources.BuzzerErrorMessageBoxCaption,
+                               MessageBoxButton.OK,
+                               MessageBoxImage.Error);
+               Logger.Error(e);
+            }
          }
       }
       

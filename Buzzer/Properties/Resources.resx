@@ -177,4 +177,10 @@
   <data name="CreditContractViewModel_RefuseCreditMessageBoxMessage" xml:space="preserve">
     <value>Вы уверены, что хотите ОТКАЗАТЬ в выдаче данного кредита?</value>
   </data>
+  <data name="RegistrationLogViewModel_DeleteRegistrationLogItemMessageBoxCaption" xml:space="preserve">
+    <value>Удалить запись</value>
+  </data>
+  <data name="RegistrationLogViewModel_DeleteRegistrationLogItemMessageBoxMessage" xml:space="preserve">
+    <value>Вы уверены,что хотите удалить выбранную запись?</value>
+  </data>
 </root>

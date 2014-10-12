@@ -87,6 +87,7 @@ namespace Buzzer.ViewModel.PaymentNotificationList
          IEnumerable<CreditInfo> creditInfos =
             _buzzerDatabase
                .GetAllCredits()
+               .Where(item => item.RowState != RowState.Deleted)
                .Where(item => item.CreditState == CreditState.Current);
 
          foreach (CreditInfo credit in creditInfos)
