@@ -51,6 +51,7 @@
     <Compile Include="Converters\AddRowStateColumnToCreditsTableConverter.cs" />
     <Compile Include="Converters\AddUsersTableConverter.cs" />
     <Compile Include="Converters\AllowCreditsAndPersonsTablesAcceptNullValues.cs" />
+    <Compile Include="Converters\AlterNotificationLogViewToFilterDeletedCreditsConverter.cs" />
     <Compile Include="DatabaseConverter.cs" />
     <Compile Include="DatabaseVersionProvider.cs" />
     <Compile Include="Converters\ConverterBase.cs" />
@@ -81,6 +82,7 @@
     <Content Include="ConverterScripts\AddRefusalReasonColumnToCreditsTable.sql" />
     <Content Include="ConverterScripts\AddRowStateColumnToCreditsTable.sql" />
     <Content Include="ConverterScripts\AddUsersTable.sql" />
+    <Content Include="ConverterScripts\AlterNotificationLogViewToFilterDeletedCredits.sql" />
     <Content Include="ConverterScripts\ChangeCreditsAndPersonsTablesToAllowNullValues.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

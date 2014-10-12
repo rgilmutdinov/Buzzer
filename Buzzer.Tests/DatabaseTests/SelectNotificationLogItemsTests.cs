@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Buzzer.DataAccess.Repository;
 using Buzzer.DomainModel.Models;
@@ -53,6 +54,28 @@ namespace Buzzer.Tests.DatabaseTests
             Assert.AreEqual(new DateTime(2014, 1, 15, 10, 20, 30), logItem.NotificationDate);
             Assert.AreEqual("Comment", logItem.Comment);
          }
+      }
+
+      [Test]
+      public void SelectNotificationLogItemsDoesNotReturnDeletedNotificationLogItems()
+      {
+         // Arrange.
+         const string creditNumber = "CNSDNLI1";
+         CreditInfo credit =
+            _database
+               .GetAllCredits()
+               .Single(item => item.CreditNumber == creditNumber);
+
+         // Act.
+         NotificationLogItemInfo[] logItems =
+            _database
+               .GetNotificationLogItems()
+               .Where(item => item.CreditId == credit.Id &&
+                              item.PersonId == credit.Borrower.Id)
+               .ToArray();
+
+         // Assert.
+         Assert.IsEmpty(logItems);
       }
    }
 }
