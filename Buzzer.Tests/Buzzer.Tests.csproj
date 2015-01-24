@@ -78,6 +78,10 @@
       <Project>{B7D61614-BD6B-487E-8E74-1CB2D212FB90}</Project>
       <Name>Buzzer.DomainModel</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{033C871F-F8CB-42F9-BBD3-1F7DC0444DC8}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="SqlScripts\ClearDatabase.sql" />

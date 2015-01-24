@@ -14,6 +14,7 @@ namespace Buzzer.DomainModel.Models
       private decimal? _effectiveDiscountRate;
       private decimal? _exchangeRate;
       private List<PersonInfo> _guarantors;
+      private List<TodoItem> _todoList; 
 
       private CreditInfo()
       {
@@ -31,7 +32,8 @@ namespace Buzzer.DomainModel.Models
                                Borrower = PersonInfo.CreateNew(NullValues.Id),
                                _guarantors = new List<PersonInfo>(),
                                PaymentsSchedule = new PaymentInfo[0],
-                               RowState = RowState.Modified
+                               RowState = RowState.Modified,
+                               _todoList = new List<TodoItem>()
                             };
          newCredit.Borrower.IsBorrower = true;
          return newCredit;
@@ -53,7 +55,8 @@ namespace Buzzer.DomainModel.Models
          RowState rowState,
          PersonInfo borrower,
          IEnumerable<PersonInfo> guarantors,
-         IEnumerable<PaymentInfo> payments
+         IEnumerable<PaymentInfo> payments,
+         IEnumerable<TodoItem> todoList 
          )
       {
          var paymentsSchedule = payments.OrderBy(item => item.PaymentDate).ToArray();
@@ -75,7 +78,8 @@ namespace Buzzer.DomainModel.Models
                       RowState = rowState,
                       Borrower = borrower,
                       _guarantors = guarantors.ToList(),
-                      PaymentsSchedule = paymentsSchedule
+                      PaymentsSchedule = paymentsSchedule,
+                      _todoList = todoList.ToList()
                    };
       }
 
@@ -143,6 +147,12 @@ namespace Buzzer.DomainModel.Models
       // График погашений платежей.
       public PaymentInfo[] PaymentsSchedule { get; private set; }
 
+      // Список заданий/действий, которые нужно выполнить.
+      public ReadOnlyCollection<TodoItem> TodoList
+      {
+         get { return _todoList.AsReadOnly(); } 
+      }
+
       public PersonInfo AddGuarantor()
       {
          var newGuarantor = PersonInfo.CreateNew(Id);
@@ -154,6 +164,18 @@ namespace Buzzer.DomainModel.Models
       public void RemoveGuarantor(PersonInfo guarantor)
       {
          _guarantors.Remove(guarantor);
+      }
+
+      public TodoItem AddTodoItem()
+      {
+         TodoItem todoItem = TodoItem.CreateNew(Id);
+         _todoList.Add(todoItem);
+         return todoItem;
+      }
+
+      public void RemoveTodoItem(TodoItem todoItem)
+      {
+         _todoList.Remove(todoItem);
       }
 
       public bool CanBuildPaymentsSchedule()

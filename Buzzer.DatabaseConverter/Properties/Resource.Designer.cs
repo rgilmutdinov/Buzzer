@@ -125,6 +125,22 @@ namespace Buzzer.DatabaseConverter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to create table TodoItems
+        ///(
+        ///	ID integer primary key autoincrement not null,
+        ///	CreditID integer not null,
+        ///	Description nvarchar(255) not null,
+        ///	State integer not null,
+        ///	foreign key(CreditID) references Credits(ID)
+        ///);.
+        /// </summary>
+        internal static string AddTodoItemsTable {
+            get {
+                return ResourceManager.GetString("AddTodoItemsTable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to create table Users
         ///(
         ///	ID integer primary key autoincrement not null,

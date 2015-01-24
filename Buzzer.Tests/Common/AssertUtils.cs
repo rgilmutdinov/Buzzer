@@ -33,6 +33,9 @@ namespace Buzzer.Tests.Common
 
          AssertCollectionsAreEqual(expected.PaymentsSchedule, actual.PaymentsSchedule,
                                    AssertPaymentsAreEqual);
+
+         AssertCollectionsAreEqual(expected.TodoList, actual.TodoList,
+                                   AssertTodoItemsAreEqual);
       }
 
       public static void AssertPersonsAreEqual(PersonInfo expected, PersonInfo actual)
@@ -73,6 +76,19 @@ namespace Buzzer.Tests.Common
          Assert.AreEqual(expected.PaymentAmount, actual.PaymentAmount);
          Assert.AreEqual(expected.PaymentAmount, actual.PaymentAmount);
          Assert.AreEqual(expected.IsNotified, actual.IsNotified);
+      }
+
+      public static void AssertTodoItemsAreEqual(TodoItem expected, TodoItem actual)
+      {
+         Assert.IsNotNull(expected);
+         Assert.IsNotNull(actual);
+
+         Assert.AreEqual(expected.Id, actual.Id);
+         Assert.AreEqual(expected.CreditId, actual.CreditId);
+         Assert.AreEqual(expected.Description, actual.Description);
+         Assert.AreEqual(expected.State, actual.State);
+         Assert.AreEqual(expected.NotificationCount, actual.NotificationCount);
+         Assert.AreEqual(expected.NotificationDate, actual.NotificationDate);
       }
 
       public static void AssertCollectionsAreEqual<T>(

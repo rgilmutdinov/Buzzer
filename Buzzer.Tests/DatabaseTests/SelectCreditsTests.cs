@@ -136,6 +136,27 @@ namespace Buzzer.Tests.DatabaseTests
          checkPaymentInfo(credit.PaymentsSchedule[3], false, 107674M, new DateTime(2014, 5, 25), false);
       }
 
+      [Test]
+      public void SelectCreditWithTodoListTest()
+      {
+         // Arrange.
+         const string creditNumber = "CNS4";
+         
+         // Act.
+         CreditInfo credit =
+            _database
+               .GetAllCredits()
+               .SingleOrDefault(item => item.CreditNumber == creditNumber);
+
+         // Assert.
+         Assert.IsNotNull(credit);
+         Assert.IsNotNull(credit.TodoList);
+         Assert.AreEqual(2, credit.TodoList.Count);
+
+         checkTodoItem(credit.TodoList[0], credit.Id, "Todo description 1", TodoItemState.None, 0, null);
+         checkTodoItem(credit.TodoList[1], credit.Id, "Todo description 2", TodoItemState.Done, 1, new DateTime(2015, 1, 24));
+      }
+
       private static void checkPersonInfo(
          PersonInfo borrower,
          bool isNew,
@@ -182,6 +203,23 @@ namespace Buzzer.Tests.DatabaseTests
          Assert.AreEqual(paymentAmount, paymentInfo.PaymentAmount);
          Assert.AreEqual(paymentDate, paymentInfo.PaymentDate);
          Assert.AreEqual(isNotified, paymentInfo.IsNotified);
+      }
+
+      private void checkTodoItem(
+         TodoItem todoItem,
+         int creditId,
+         string description,
+         TodoItemState state,
+         int notificationCount,
+         DateTime? notificationDate
+         )
+      {
+         Assert.IsNotNull(todoItem);
+         Assert.AreEqual(creditId, todoItem.CreditId);
+         Assert.AreEqual(description, todoItem.Description);
+         Assert.AreEqual(state, todoItem.State);
+         Assert.AreEqual(notificationCount, todoItem.NotificationCount);
+         Assert.AreEqual(notificationDate, todoItem.NotificationDate);
       }
    }
 }

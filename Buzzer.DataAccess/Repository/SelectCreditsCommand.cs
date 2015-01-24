@@ -45,6 +45,7 @@ namespace Buzzer.DataAccess.Repository
                   int creditId = Convert.ToInt32(row[Id.Name]);
                   QueryPersonInfoResult queryResult = getPersons(creditId);
                   IEnumerable<PaymentInfo> payments = getPayments(creditId);
+                  IEnumerable<TodoItem> todoList = getTodoList(creditId);
 
                   result.Add(
                      CreditInfo.Create(
@@ -63,7 +64,8 @@ namespace Buzzer.DataAccess.Repository
                         getRowState(Convert.ToInt32(row[RowState.Name])),
                         queryResult.Borrower,
                         queryResult.Guarantors,
-                        payments
+                        payments,
+                        todoList
                         )
                      );
                }
@@ -183,6 +185,41 @@ namespace Buzzer.DataAccess.Repository
                return result;
             }
          }
+      }
+
+      private IEnumerable<TodoItem> getTodoList(int creditId)
+      {
+         string selectTodoItemsQuery =
+            string.Format("SELECT * FROM TodoItems WHERE {0} = {1}", CreditId.Name, creditId);
+
+         using (DbCommand command = createCommand(selectTodoItemsQuery))
+         {
+            using (DbDataReader reader = command.ExecuteReader())
+            {
+               var result = new List<TodoItem>();
+
+               while (reader.Read())
+               {
+                  result.Add(
+                     TodoItem.Create(
+                        Convert.ToInt32(reader[Id.Name]),
+                        Convert.ToInt32(reader[CreditId.Name]),
+                        Convert.ToString(reader[Description.Name]),
+                        getTodoItemState(Convert.ToInt32(reader[TodoItemState.Name])),
+                        Convert.ToInt32(reader[NotificationCount.Name]),
+                        getNullable(reader[NotificationDate.Name], Convert.ToDateTime)
+                        )
+                     );
+               }
+
+               return result;
+            }
+         }
+      }
+
+      private TodoItemState getTodoItemState(int todoItemState)
+      {
+         return (TodoItemState) todoItemState;
       }
 
       private sealed class QueryPersonInfoResult

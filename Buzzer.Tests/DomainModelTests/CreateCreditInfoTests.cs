@@ -37,6 +37,9 @@ namespace Buzzer.Tests.DomainModelTests
 
          Assert.IsNotNull(credit.PaymentsSchedule);
          Assert.IsEmpty(credit.PaymentsSchedule);
+
+         Assert.IsNotNull(credit.TodoList);
+         Assert.IsEmpty(credit.TodoList);
       }
 
       [Test]
@@ -57,7 +60,8 @@ namespace Buzzer.Tests.DomainModelTests
          RowState rowState,
          PersonInfo borrower,
          PersonInfo[] guarantors,
-         PaymentInfo[] paymentsSchedule
+         PaymentInfo[] paymentsSchedule,
+         TodoItem[] todoList
          )
       {
          // Arrange/Act.
@@ -78,7 +82,8 @@ namespace Buzzer.Tests.DomainModelTests
                rowState,
                borrower,
                guarantors,
-               paymentsSchedule
+               paymentsSchedule,
+               todoList
                );
 
          // Assert.
@@ -110,6 +115,12 @@ namespace Buzzer.Tests.DomainModelTests
             paymentsSchedule,
             credit.PaymentsSchedule,
             AssertUtils.AssertPaymentsAreEqual
+            );
+
+         AssertUtils.AssertCollectionsAreEqual(
+            todoList,
+            credit.TodoList,
+            AssertUtils.AssertTodoItemsAreEqual
             );
       }
 
@@ -170,12 +181,18 @@ namespace Buzzer.Tests.DomainModelTests
                         PaymentInfo.Create(2, 150000M, DateTime.Today.AddMonths(1), false)
                      };
 
+               TodoItem[] todoList =
+                  {
+                     TodoItem.Create(1, id, "TodoItem description 1", TodoItemState.None, 0, null),
+                     TodoItem.Create(2, id, "TodoItem description 2", TodoItemState.Done, 1, DateTime.Today)
+                  };
+
                var testCaseData =
                   new TestCaseData(
                      id, creditNumber, applicationDate, protocolDate, creditAmount,
                      creditIssueDate, monthsCount, discountRate, effectiveDiscountRate,
                      exchangeRate, creditState, refusalReason, rowState,
-                     borrower, guarantors, paymentsSchedule
+                     borrower, guarantors, paymentsSchedule, todoList
                      );
                testCaseData.SetName("CreateValidCreditInfoTest");
 

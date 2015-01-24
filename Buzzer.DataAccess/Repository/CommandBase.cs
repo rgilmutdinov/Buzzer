@@ -40,6 +40,11 @@ namespace Buzzer.DataAccess.Repository
       protected static readonly FieldInfo PaymentDate = new FieldInfo("PaymentDate", DbType.Date);
       protected static readonly FieldInfo IsNotified = new FieldInfo("IsNotified", DbType.Boolean);
 
+      protected static readonly FieldInfo Description = new FieldInfo("Description", DbType.String);
+      protected static readonly FieldInfo TodoItemState = new FieldInfo("State", DbType.Int32);
+      protected static readonly FieldInfo NotificationCount = new FieldInfo("NotificationCount", DbType.Int32);
+      protected static readonly FieldInfo NotificationDate = new FieldInfo("NotificationDate", DbType.Date, true);
+
       protected CommandBase(DbConnection connection, DbTransaction transaction)
       {
          Check.NotNull(connection, "connection");

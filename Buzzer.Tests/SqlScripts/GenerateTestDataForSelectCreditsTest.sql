@@ -58,4 +58,22 @@ VALUES
 	((SELECT Value FROM ID LIMIT 1), '12345678901234', 'Borrower of CN4', 'Address', 'Fact address', 'Passport', '2013-12-01', 'Issuer', 1),
 	((SELECT Value FROM ID LIMIT 1), '23456789012345', 'Guarantor of CN4', 'Address', 'Fact address', 'Passport', '2013-12-02', 'Issuer', 0);
 
+INSERT INTO Credits
+	(CreditNumber, CreditAmount, CreditIssueDate, MonthsCount, DiscountRate, EffectiveDiscountRate, ExchangeRate, ApplicationDate, ProtocolDate)
+VALUES
+	('CNS4', 400000, '2014-01-25', 4, 0.36, NULL, NULL, NULL, NULL);
+	
+UPDATE ID SET Value = (SELECT last_insert_rowid());
+
+INSERT INTO Persons
+	(CreditID, PersonalNumber, Name, RegistrationAddress, FactAddress, PassportNumber, PassportIssueDate, PassportIssuer, PersonType)
+VALUES
+	((SELECT Value FROM ID LIMIT 1), '56789123450000', 'Borrower of CN4', 'Address', 'Fact address', 'Passport', '2013-12-01', 'Issuer', 1);
+
+INSERT INTO TodoItems
+	(CreditID, Description, State, NotificationCount, NotificationDate)
+VALUES
+	((SELECT Value FROM ID LIMIT 1), 'Todo description 1', 0, 0, null),
+	((SELECT Value FROM ID LIMIT 1), 'Todo description 2', 1, 1, '2015-01-24');
+	
 DROP TABLE ID;

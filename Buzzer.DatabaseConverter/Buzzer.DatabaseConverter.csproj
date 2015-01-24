@@ -49,6 +49,7 @@
     <Compile Include="CommandFactory.cs" />
     <Compile Include="Converters\AddRefusalReasonColumnToCreditsTableConverter.cs" />
     <Compile Include="Converters\AddRowStateColumnToCreditsTableConverter.cs" />
+    <Compile Include="Converters\AddTodoItemsTableConverter.cs" />
     <Compile Include="Converters\AddUsersTableConverter.cs" />
     <Compile Include="Converters\AllowCreditsAndPersonsTablesAcceptNullValues.cs" />
     <Compile Include="Converters\AlterNotificationLogViewToFilterDeletedCreditsConverter.cs" />
@@ -81,6 +82,7 @@
     <Content Include="ConverterScripts\AddNotificationLogTable.sql" />
     <Content Include="ConverterScripts\AddRefusalReasonColumnToCreditsTable.sql" />
     <Content Include="ConverterScripts\AddRowStateColumnToCreditsTable.sql" />
+    <Content Include="ConverterScripts\AddTodoItemsTable.sql" />
     <Content Include="ConverterScripts\AddUsersTable.sql" />
     <Content Include="ConverterScripts\AlterNotificationLogViewToFilterDeletedCredits.sql" />
     <Content Include="ConverterScripts\ChangeCreditsAndPersonsTablesToAllowNullValues.sql" />

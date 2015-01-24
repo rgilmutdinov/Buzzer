@@ -7,6 +7,12 @@ VALUES
 
 INSERT INTO ID VALUES ((SELECT last_insert_rowid()));
 
+INSERT INTO TodoItems
+	(CreditID, Description, State, NotificationCount, NotificationDate)
+VALUES
+	((SELECT Value FROM ID LIMIT 1), 'Todo item 1', 0, 0, null),
+	((SELECT Value FROM ID LIMIT 1), 'Todo item 2', 0, 0, null);
+
 INSERT INTO Persons
 	(CreditID, PersonalNumber, Name, RegistrationAddress, FactAddress, PassportNumber, PassportIssueDate, PassportIssuer, PersonType)
 VALUES

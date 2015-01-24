@@ -41,6 +41,8 @@ namespace Buzzer.DataAccess.Repository
          PaymentInfo[] paymentsSchedule = _credit.PaymentsSchedule;
          int[] paymentsIds = insertPayments(paymentsSchedule, creditId);
 
+         int[] todoItemsIds = insertTodoItems(_credit.TodoList, creditId);
+
          _credit.Id = creditId;
          fillPersonIds(_credit.Borrower, insertBorrowerResult, creditId);
 
@@ -48,6 +50,7 @@ namespace Buzzer.DataAccess.Repository
             fillPersonIds(guarantors[i], insertGuarantorsResult[i], creditId);
 
          fillPaymentsIds(paymentsIds);
+         fillTodoItemsIds(todoItemsIds, creditId);
       }
 
       private void saveEditedCredit()
@@ -96,6 +99,8 @@ namespace Buzzer.DataAccess.Repository
             int[] paymentsIds = insertPayments(payments, _credit.Id);
             fillPaymentsIds(paymentsIds);
          }
+
+         saveTodoList(_credit.TodoList, original.TodoList);
 
          int i = 0;
 
@@ -158,11 +163,50 @@ namespace Buzzer.DataAccess.Repository
 
          return paymentsIds;
       }
-      
+
+      private int[] insertTodoItems(ReadOnlyCollection<TodoItem> todoList, int creditId)
+      {
+         var todoItemsIds = new int[todoList.Count];
+
+         for (int i = 0; i < todoList.Count; i++)
+            todoItemsIds[i] = insertTodoItem(todoList[i], creditId);
+
+         return todoItemsIds;
+      }
+
       private void fillPaymentsIds(int[] paymentsIds)
       {
          for (int i = 0; i < paymentsIds.Length; i++)
             _credit.PaymentsSchedule[i].Id = paymentsIds[i];
+      }
+
+      private void fillTodoItemsIds(int[] todoItemsIds, int creditId)
+      {
+         for (int i = 0; i < todoItemsIds.Length; i++)
+         {
+            _credit.TodoList[i].Id = todoItemsIds[i];
+            _credit.TodoList[i].CreditId = creditId;
+         }
+      }
+
+      private void saveTodoList(ReadOnlyCollection<TodoItem> current, ReadOnlyCollection<TodoItem> original)
+      {
+         foreach (TodoItem todoItem in current)
+         {
+            if (todoItem.IsNew)
+            {
+               int id = insertTodoItem(todoItem, _credit.Id);
+               todoItem.Id = id;
+            }
+            else
+               updateTodoItem(todoItem);
+         }
+
+         List<TodoItem> deletedTodoItems =
+            original
+               .Where(o => current.All(c => c.Id != o.Id))
+               .ToList();
+         deletedTodoItems.ForEach(item => deleteTodoItem(item));
       }
 
       #region Credits
@@ -424,6 +468,73 @@ namespace Buzzer.DataAccess.Repository
          using (DbCommand command = createCommand(deletePaymentInfoQuery))
          {
             command.AddParameter(paymentId, Id);
+            command.ExecuteNonQuery();
+         }
+      }
+
+      #endregion
+
+      #region TodoList
+
+      private int insertTodoItem(TodoItem todoItem, int creditId)
+      {
+         string insertTodoItemQuery =
+            string.Format(
+               "INSERT INTO TodoItems ({0}, {1}, {2}, {3}, {4}) VALUES ({5}, {6}, {7}, {8}, {9});" +
+               "SELECT last_insert_rowid();",
+
+               CreditId.Name, Description.Name, TodoItemState.Name,
+               NotificationCount.Name, NotificationDate.Name,
+
+               CreditId.ParameterName, Description.ParameterName, TodoItemState.ParameterName,
+               NotificationCount.ParameterName, NotificationDate.ParameterName
+               );
+
+         using (DbCommand command = createCommand(insertTodoItemQuery))
+         {
+            command.AddParameter(creditId, CreditId);
+            command.AddParameter(todoItem.Description, Description);
+            command.AddParameter(todoItem.State, TodoItemState);
+            command.AddParameter(todoItem.NotificationCount, NotificationCount);
+            command.AddParameter(todoItem.NotificationDate, NotificationDate);
+
+            return Convert.ToInt32(command.ExecuteScalar());
+         }
+      }
+
+      private void updateTodoItem(TodoItem todoItem)
+      {
+         string updateTodoItemQuery =
+            string.Format(
+               "UPDATE TodoItems SET {0}={1}, {2}={3}, {4}={5}, {6}={7} WHERE {8}={9};",
+               Description.Name, Description.ParameterName,
+               TodoItemState.Name, TodoItemState.ParameterName,
+               NotificationCount.Name, NotificationCount.ParameterName,
+               NotificationDate.Name, NotificationDate.ParameterName,
+               Id.Name, Id.ParameterName
+               );
+
+
+         using (DbCommand command = createCommand(updateTodoItemQuery))
+         {
+            command.AddParameter(todoItem.Description, Description);
+            command.AddParameter(todoItem.State, TodoItemState);
+            command.AddParameter(todoItem.NotificationCount, NotificationCount);
+            command.AddParameter(todoItem.NotificationDate, NotificationDate);
+            command.AddParameter(todoItem.Id, Id);
+
+            command.ExecuteNonQuery();
+         }
+      }
+
+      private void deleteTodoItem(TodoItem todoItem)
+      {
+         string deleteTodoItemQuery =
+            string.Format("DELETE FROM TodoItems WHERE {0}={1};", Id.Name, Id.ParameterName);
+
+         using (DbCommand command = createCommand(deleteTodoItemQuery))
+         {
+            command.AddParameter(todoItem.Id, Id);
             command.ExecuteNonQuery();
          }
       }

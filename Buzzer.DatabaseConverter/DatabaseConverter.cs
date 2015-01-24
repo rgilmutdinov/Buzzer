@@ -68,6 +68,7 @@ namespace Buzzer.DatabaseConverter
                   {7, () => new AddRefusalReasonColumnToCreditsTableConverter(commandFactory)},
                   {8, () => new AddRowStateColumnToCreditsTableConverter(commandFactory)},
                   {9, () => new AlterNotificationLogViewToFilterDeletedCreditsConverter(commandFactory)},
+                  {10, () => new AddTodoItemsTableConverter(commandFactory)},
                };
 
          return
