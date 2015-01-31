@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 
 namespace Buzzer.View
 {
@@ -7,6 +8,11 @@ namespace Buzzer.View
       public CreditContractView()
       {
          InitializeComponent();
+      }
+
+      private void expanderExpanded(object sender, RoutedEventArgs e)
+      {
+         _scrollViewer.ScrollToBottom();
       }
    }
 }

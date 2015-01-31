@@ -34,7 +34,7 @@
             />
       </DockPanel>
       
-      <ScrollViewer Grid.Row="1" Grid.Column="0" Margin="0,4,0,0">
+      <ScrollViewer Grid.Row="1" Grid.Column="0" Margin="0,4,0,0" x:Name="_scrollViewer">
       
          <Grid Margin="4">
             <Grid.ColumnDefinitions>
@@ -345,7 +345,8 @@
             <Expander Grid.Row="3" Grid.Column="1"
                       Header="TODO list"
                       BorderBrush="#FFD5DFE5" BorderThickness="1"
-                      Margin="1,5,1,5">
+                      Margin="1,5,1,5"
+                      Expanded="expanderExpanded">
                <StackPanel>
                   <ListBox ItemsSource="{Binding Path=TodoList, Mode=OneWay, ValidatesOnDataErrors=True}"
                            SelectedItem="{Binding Path=SelectedTodoItem, Mode=TwoWay}"
