@@ -57,11 +57,13 @@
     <Compile Include="Repository\BuzzerDatabase.cs" />
     <Compile Include="Repository\PersonTypes.cs" />
     <Compile Include="Repository\SaveCreditCommand.cs" />
+    <Compile Include="Repository\SaveCreditTypeCommand.cs" />
     <Compile Include="Repository\SaveDocumentTypeCommand.cs" />
     <Compile Include="Repository\SaveNotificationLogItemCommand.cs" />
     <Compile Include="Repository\SavePaymentCommand.cs" />
     <Compile Include="Repository\SaveTodoItemCommand.cs" />
     <Compile Include="Repository\SelectCreditsCommand.cs" />
+    <Compile Include="Repository\SelectCreditTypesCommand.cs" />
     <Compile Include="Repository\SelectDocumentTypesCommand.cs" />
     <Compile Include="Repository\SelectNotificationLogItemsCommand.cs" />
   </ItemGroup>

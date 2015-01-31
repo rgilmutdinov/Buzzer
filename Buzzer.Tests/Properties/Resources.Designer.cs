@@ -66,7 +66,8 @@ namespace Buzzer.Tests.Properties {
         ///DELETE FROM Persons;
         ///DELETE FROM PaymentsSchedule;
         ///DELETE FROM TodoItems;
-        ///DELETE FROM Credits;.
+        ///DELETE FROM Credits;
+        ///DELETE FROM DocumentTypes;.
         /// </summary>
         internal static string ClearDatabase {
             get {
@@ -86,19 +87,18 @@ namespace Buzzer.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to CREATE TEMP TABLE ID (CreditID integer, PersonID integer);
-        ///
-        ///INSERT INTO Credits
-        ///	(CreditNumber, CreditAmount, CreditIssueDate, MonthsCount, DiscountRate, EffectiveDiscountRate, ExchangeRate)
-        ///VALUES
-        ///	(&apos;CNSNLI1&apos;, 100000, &apos;2013-12-31&apos;, 12, 0.36, 0.24, 45);
-        ///
-        ///INSERT INTO ID (CreditID, PersonID) VALUES ((SELECT last_insert_rowid()), 0);
-        ///
-        ///INSERT INTO Persons
-        ///	(CreditID, PersonalNumber, Name, RegistrationAddress, FactAddress, PassportNumber, PassportIssueDate, PassportIssuer, PersonType)
-        ///VALUES
-        ///	((SELEC [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to INSERT INTO DocumentTypes (Name) VALUES (&apos;Document type 1&apos;), (&apos;Document type 2&apos;), (&apos;Document to update&apos;);
+        ///.
+        /// </summary>
+        internal static string GenerateTestDataForCreditTypesTest {
+            get {
+                return ResourceManager.GetString("GenerateTestDataForCreditTypesTest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to INSERT INTO DocumentTypes (Name) VALUES (&apos;Document type 1&apos;), (&apos;Document type 2&apos;), (&apos;Document to update&apos;);
+        ///.
         /// </summary>
         internal static string GenerateTestDataForDocumentTypesTest {
             get {

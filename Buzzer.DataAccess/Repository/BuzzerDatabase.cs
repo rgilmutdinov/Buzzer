@@ -144,8 +144,35 @@ namespace Buzzer.DataAccess.Repository
          {
             using (DbTransaction transaction = createTransaction(connection))
             {
-               var save = new SaveDocumentTypeCommand(connection, transaction, documentType);
-               save.Execute();
+               var saveCommand = new SaveDocumentTypeCommand(connection, transaction, documentType);
+               saveCommand.Execute();
+               transaction.Commit();
+            }
+         }
+      }
+
+      public CreditType[] GetAllCreditTypes()
+      {
+         using (DbConnection connection = createConnection())
+         {
+            using (DbTransaction transaction = createTransaction(connection))
+            {
+               var selectCommand = new SelectCreditTypesCommand(connection, transaction);
+               CreditType[] result = selectCommand.Execute();
+               transaction.Commit();
+               return result;
+            }
+         }
+      }
+
+      public void SaveCreditType(CreditType creditType)
+      {
+         using (DbConnection connection = createConnection())
+         {
+            using (DbTransaction transaction = createTransaction(connection))
+            {
+               var saveCommand = new SaveCreditTypeCommand(connection, transaction, creditType);
+               saveCommand.Execute();
                transaction.Commit();
             }
          }

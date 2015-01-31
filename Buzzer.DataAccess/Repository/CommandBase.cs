@@ -46,6 +46,8 @@ namespace Buzzer.DataAccess.Repository
       protected static readonly FieldInfo NotificationDate = new FieldInfo("NotificationDate", DbType.Date, true);
 
       protected static readonly FieldInfo DocumentTypeName = new FieldInfo("Name", DbType.String);
+      
+      protected static readonly FieldInfo CreditTypeName = new FieldInfo("Name", DbType.String);
 
       protected CommandBase(DbConnection connection, DbTransaction transaction)
       {

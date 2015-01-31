@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DatabaseTests\CheckUserTests.cs" />
+    <Compile Include="DatabaseTests\CreditTypesTests.cs" />
     <Compile Include="DatabaseTests\DocumentTypesTests.cs" />
     <Compile Include="DatabaseTests\PrepareTestDatabase.cs" />
     <Compile Include="DatabaseTests\SaveCreditsTests.cs" />
@@ -89,6 +90,7 @@
   <ItemGroup>
     <Content Include="SqlScripts\ClearDatabase.sql" />
     <Content Include="SqlScripts\GenerateTestDataForCheckUserTest.sql" />
+    <Content Include="SqlScripts\GenerateTestDataForCreditTypesTest.sql" />
     <Content Include="SqlScripts\GenerateTestDataForDocumentTypesTest.sql" />
     <Content Include="SqlScripts\GenerateTestDataForSaveCreditsTest.sql" />
     <Content Include="SqlScripts\GenerateTestDataForSaveNotificationLogItemsTest.sql" />
