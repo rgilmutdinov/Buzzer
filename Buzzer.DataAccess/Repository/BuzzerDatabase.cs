@@ -98,6 +98,19 @@ namespace Buzzer.DataAccess.Repository
          }
       }
 
+      public void SaveTodoItem(TodoItem todoItem)
+      {
+         using (DbConnection connection = createConnection())
+         {
+            using (DbTransaction transaction = createTransaction(connection))
+            {
+               var command = new SaveTodoItemCommand(connection, transaction, todoItem);
+               command.Execute();
+               transaction.Commit();
+            }
+         }
+      }
+
       private DbConnection createConnection()
       {
          DbConnection connection = _factory.CreateConnection();

@@ -50,6 +50,7 @@
     <Compile Include="DatabaseTests\PrepareTestDatabase.cs" />
     <Compile Include="DatabaseTests\SaveCreditsTests.cs" />
     <Compile Include="DatabaseTests\SaveNotificationLogItemTests.cs" />
+    <Compile Include="DatabaseTests\SaveNotifiedTodoItemTests.cs" />
     <Compile Include="DatabaseTests\SelectCreditsTests.cs" />
     <Compile Include="DatabaseTests\SelectNotificationLogItemsTests.cs" />
     <Compile Include="DatabaseTests\TestSettings.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="DomainModelTests\CreateCreditInfoTests.cs" />
     <Compile Include="DomainModelTests\DeleteCreditInfoTests.cs" />
     <Compile Include="DomainModelTests\PhoneNumberInfoTests.cs" />
+    <Compile Include="DomainModelTests\TodoItemTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -88,6 +90,7 @@
     <Content Include="SqlScripts\GenerateTestDataForCheckUserTest.sql" />
     <Content Include="SqlScripts\GenerateTestDataForSaveCreditsTest.sql" />
     <Content Include="SqlScripts\GenerateTestDataForSaveNotificationLogItemsTest.sql" />
+    <Content Include="SqlScripts\GenerateTestDataForSaveNotifiedTodoItemTest.sql" />
     <Content Include="SqlScripts\GenerateTestDataForSelectNotificationLogItemsTest.sql" />
     <Content Include="SqlScripts\GenerateTestDataForSelectCreditsTest.sql" />
   </ItemGroup>

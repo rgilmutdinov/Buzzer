@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using Buzzer.DomainModel.Properties;
 
 namespace Buzzer.DomainModel.Models
 {
@@ -52,14 +52,38 @@ namespace Buzzer.DomainModel.Models
 
       public DateTime? NotificationDate { get; set; }
 
-      protected override string getErrorInfo(string columnName)
+      public void Notified()
       {
-         return null;
+         if (NotificationDate.HasValue && NotificationDate.Value == DateTime.Today)
+         {
+            NotificationCount++;
+         }
+         else
+         {
+            NotificationDate = DateTime.Today;
+            NotificationCount = 1;
+         }
       }
 
+      protected override string getErrorInfo(string columnName)
+      {
+         if (columnName == "Description")
+            return validateDescription();
+
+         throw new ArgumentException(columnName, "columnName");
+      }
+      
       protected override IEnumerable<string> getRequiredFields()
       {
-         return Enumerable.Empty<string>();
+         return new[] {"Description"};
+      }
+
+      private string validateDescription()
+      {
+         if (Description.SafeGetLength() > 255)
+            return string.Format(Resources.MaxLengthExceeded, 255);
+
+         return string.IsNullOrEmpty(Description) ? Resources.FieldMustBeFilled : null;
       }
    }
 }

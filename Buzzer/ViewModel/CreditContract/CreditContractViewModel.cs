@@ -25,6 +25,8 @@ namespace Buzzer.ViewModel.CreditContract
       private ICommand _buildPaymentsScheduleCommand;
       private ICommand _addGuarantorCommand;
       private ICommand _removeGuarantorCommand;
+      private ICommand _addTodoItemCommand;
+      private ICommand _removeTodoItemCommand;
       private ICommand _saveCommand;
       private ICommand _refuseCommand;
 
@@ -42,6 +44,7 @@ namespace Buzzer.ViewModel.CreditContract
 
          Guarantors = getGuarantors();
          PaymentsSchedule = getPaymentsSchedule();
+         TodoList = getTodoList();
 
          DisplayName = getDisplayName();
       }
@@ -186,6 +189,10 @@ namespace Buzzer.ViewModel.CreditContract
 
       public PaymentInfoViewModel[] PaymentsSchedule { get; private set; }
 
+      public TodoItemViewModel SelectedTodoItem { get; set; }
+
+      public ObservableCollection<TodoItemViewModel> TodoList { get; private set; }
+
       #endregion
       
       #region Commands
@@ -223,6 +230,30 @@ namespace Buzzer.ViewModel.CreditContract
 
             _removeGuarantorCommand = new CommandDelegate(removeGuarantor, canRemoveGuarantor);
             return _removeGuarantorCommand;
+         }
+      }
+
+      public ICommand AddTodoItem 
+      {
+         get
+         {
+            if (_addTodoItemCommand != null)
+               return _addTodoItemCommand;
+
+            _addTodoItemCommand = new CommandDelegate(addTodoItem);
+            return _addTodoItemCommand;
+         } 
+      }
+
+      public ICommand RemoveTodoItem 
+      {
+         get
+         {
+            if (_removeTodoItemCommand != null)
+               return _removeTodoItemCommand;
+
+            _removeTodoItemCommand = new CommandDelegate(removeTodoItem, canRemoveTodoItem);
+            return _removeTodoItemCommand;
          }
       }
 
@@ -314,6 +345,13 @@ namespace Buzzer.ViewModel.CreditContract
          return result;
       }
 
+      private ObservableCollection<TodoItemViewModel> getTodoList()
+      {
+         return new ObservableCollection<TodoItemViewModel>(
+            _creditInfo.TodoList.Select(item => new TodoItemViewModel(item, Borrower.PhoneNumbers, _buzzerDatabase))
+            );
+      }
+
       private string getDisplayName()
       {
          return _creditInfo.IsNew ? Resources.NewCreditTabCaption : _creditInfo.CreditNumber;
@@ -353,6 +391,24 @@ namespace Buzzer.ViewModel.CreditContract
       private bool canRemoveGuarantor()
       {
          return SelectedGuarantor != null;
+      }
+
+      private void addTodoItem()
+      {
+         TodoItem todoItem = _creditInfo.AddTodoItem();
+         TodoList.Add(new TodoItemViewModel(todoItem, Borrower.PhoneNumbers, _buzzerDatabase));
+      }
+
+      private void removeTodoItem()
+      {
+         TodoItem todoItem = SelectedTodoItem.Original;
+         _creditInfo.RemoveTodoItem(todoItem);
+         TodoList.Remove(SelectedTodoItem);
+      }
+
+      private bool canRemoveTodoItem()
+      {
+         return SelectedTodoItem != null;
       }
 
       private void save()

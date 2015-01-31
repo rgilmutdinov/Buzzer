@@ -130,6 +130,9 @@
   <data name="GenerateTestDataForSaveNotificationLogItemsTest" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\SqlScripts\GenerateTestDataForSaveNotificationLogItemsTest.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
   </data>
+  <data name="GenerateTestDataForSaveNotifiedTodoItemTest" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\SqlScripts\GenerateTestDataForSaveNotifiedTodoItemTest.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
   <data name="GenerateTestDataForSelectCreditsTest" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\SqlScripts\GenerateTestDataForSelectCreditsTest.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
