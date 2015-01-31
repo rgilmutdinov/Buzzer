@@ -80,6 +80,35 @@ namespace Buzzer.DatabaseConverter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to create table CreditTypes
+        ///(
+        ///	ID integer primary key autoincrement not null,
+        ///	Name nvarchar(255)
+        ///);
+        ///
+        ///create table DocumentTypes
+        ///(
+        ///	ID integer primary key autoincrement not null,
+        ///	Name nvarchar(255)
+        ///);
+        ///
+        ///create table RequiredCreditDocuments
+        ///(
+        ///	ID integer primary key autoincrement not null,
+        ///	CreditTypeID integer not null,
+        ///	DocumentTypeID integer not null,
+        ///	foreign key(CreditTypeID) references CreditTypes(ID),
+        ///	foreign key(DocumentTypeID) references DocumentTypes(ID)
+        ///);
+        ///.
+        /// </summary>
+        internal static string AddCreditTypesAndDocumentTypesTables {
+            get {
+                return ResourceManager.GetString("AddCreditTypesAndDocumentTypesTables", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to create table NotificationLog
         ///(
         ///	ID integer primary key autoincrement not null,
@@ -131,6 +160,8 @@ namespace Buzzer.DatabaseConverter.Properties {
         ///	CreditID integer not null,
         ///	Description nvarchar(255) not null,
         ///	State integer not null,
+        ///	NotificationCount integer not null default 0,
+        ///	NotificationDate date,
         ///	foreign key(CreditID) references Credits(ID)
         ///);.
         /// </summary>

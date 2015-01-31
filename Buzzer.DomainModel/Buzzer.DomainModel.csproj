@@ -47,6 +47,7 @@
     <Compile Include="Models\CreditInfo.cs" />
     <Compile Include="Models\CreditPayment.cs" />
     <Compile Include="Models\CreditState.cs" />
+    <Compile Include="Models\DocumentType.cs" />
     <Compile Include="Models\NotificationLogItemInfo.cs" />
     <Compile Include="Models\NullValues.cs" />
     <Compile Include="Models\PaymentInfo.cs" />

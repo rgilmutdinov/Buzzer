@@ -123,5 +123,32 @@ namespace Buzzer.DataAccess.Repository
       {
          return connection.BeginTransaction();
       }
+
+      public DocumentType[] GetAllDocumentTypes()
+      {
+         using (DbConnection connection = createConnection())
+         {
+            using (DbTransaction transaction = createTransaction(connection))
+            {
+               var select = new SelectDocumentTypesCommand(connection, transaction);
+               DocumentType[] result = select.Execute();
+               transaction.Commit();
+               return result;
+            }
+         }
+      }
+
+      public void SaveDocumentType(DocumentType documentType)
+      {
+         using (DbConnection connection = createConnection())
+         {
+            using (DbTransaction transaction = createTransaction(connection))
+            {
+               var save = new SaveDocumentTypeCommand(connection, transaction, documentType);
+               save.Execute();
+               transaction.Commit();
+            }
+         }
+      }
    }
 }

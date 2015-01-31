@@ -86,6 +86,27 @@ namespace Buzzer.Tests.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to CREATE TEMP TABLE ID (CreditID integer, PersonID integer);
+        ///
+        ///INSERT INTO Credits
+        ///	(CreditNumber, CreditAmount, CreditIssueDate, MonthsCount, DiscountRate, EffectiveDiscountRate, ExchangeRate)
+        ///VALUES
+        ///	(&apos;CNSNLI1&apos;, 100000, &apos;2013-12-31&apos;, 12, 0.36, 0.24, 45);
+        ///
+        ///INSERT INTO ID (CreditID, PersonID) VALUES ((SELECT last_insert_rowid()), 0);
+        ///
+        ///INSERT INTO Persons
+        ///	(CreditID, PersonalNumber, Name, RegistrationAddress, FactAddress, PassportNumber, PassportIssueDate, PassportIssuer, PersonType)
+        ///VALUES
+        ///	((SELEC [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string GenerateTestDataForDocumentTypesTest {
+            get {
+                return ResourceManager.GetString("GenerateTestDataForDocumentTypesTest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CREATE TEMP TABLE ID (Value integer);
         ///
         ///INSERT INTO Credits
@@ -129,19 +150,19 @@ namespace Buzzer.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to CREATE TEMP TABLE ID (CreditID integer, PersonID integer);
+        ///   Looks up a localized string similar to CREATE TEMP TABLE ID (CreditID integer);
         ///
         ///INSERT INTO Credits
         ///	(CreditNumber, CreditAmount, CreditIssueDate, MonthsCount, DiscountRate, EffectiveDiscountRate, ExchangeRate)
         ///VALUES
-        ///	(&apos;CNSNLI2&apos;, 100000, &apos;2013-12-31&apos;, 12, 0.36, 0.24, 45);
+        ///	(&apos;CNSNTI&apos;, 100000, &apos;2015-01-25&apos;, 12, 0.36, 0.24, 60);
         ///
-        ///INSERT INTO ID (CreditID, PersonID) VALUES ((SELECT last_insert_rowid()), 0);
+        ///INSERT INTO ID (CreditID) VALUES ((SELECT last_insert_rowid()));
         ///
         ///INSERT INTO Persons
         ///	(CreditID, PersonalNumber, Name, RegistrationAddress, FactAddress, PassportNumber, PassportIssueDate, PassportIssuer, PersonType)
         ///VALUES
-        ///	((SELEC [rest of string was truncated]&quot;;.
+        ///	((SELECT CreditID FROM ID LIMIT 1), &apos;11 [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GenerateTestDataForSaveNotifiedTodoItemTest {
             get {

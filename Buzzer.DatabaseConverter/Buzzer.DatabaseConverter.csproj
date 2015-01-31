@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Converters\AddApplicationDateAndProtocolDateColumnsConverter.cs" />
     <Compile Include="Converters\AddCreditStateColumnToCreditsTableConverter.cs" />
+    <Compile Include="Converters\AddCreditTypesAndDocumentTypesTablesConverter.cs" />
     <Compile Include="Converters\AddNotificationLogConverter.cs" />
     <Compile Include="CommandFactory.cs" />
     <Compile Include="Converters\AddRefusalReasonColumnToCreditsTableConverter.cs" />
@@ -79,6 +80,7 @@
   <ItemGroup>
     <Content Include="ConverterScripts\AddApplicationDateAndProtocolDateColumns.sql" />
     <Content Include="ConverterScripts\AddCreditStateColumnToCreditsTable.sql" />
+    <Content Include="ConverterScripts\AddCreditTypesAndDocumentTypesTables.sql" />
     <Content Include="ConverterScripts\AddNotificationLogTable.sql" />
     <Content Include="ConverterScripts\AddRefusalReasonColumnToCreditsTable.sql" />
     <Content Include="ConverterScripts\AddRowStateColumnToCreditsTable.sql" />

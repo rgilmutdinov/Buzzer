@@ -69,6 +69,7 @@ namespace Buzzer.DatabaseConverter
                   {8, () => new AddRowStateColumnToCreditsTableConverter(commandFactory)},
                   {9, () => new AlterNotificationLogViewToFilterDeletedCreditsConverter(commandFactory)},
                   {10, () => new AddTodoItemsTableConverter(commandFactory)},
+                  {11, () => new AddCreditTypesAndDocumentTypesTablesConverter(commandFactory)},
                };
 
          return

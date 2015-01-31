@@ -36,6 +36,7 @@ namespace Buzzer.Tests.DatabaseTests
             execute(connection, Resources.GenerateTestDataForSelectNotificationLogItemsTest);
             execute(connection, Resources.GenerateTestDataForCheckUserTest);
             execute(connection, Resources.GenerateTestDataForSaveNotifiedTodoItemTest);
+            execute(connection, Resources.GenerateTestDataForDocumentTypesTest);
          }
       }
 
