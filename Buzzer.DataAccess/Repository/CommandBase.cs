@@ -49,6 +49,9 @@ namespace Buzzer.DataAccess.Repository
       
       protected static readonly FieldInfo CreditTypeName = new FieldInfo("Name", DbType.String);
 
+      protected static readonly FieldInfo CreditTypeId = new FieldInfo("CreditTypeID", DbType.Int32);
+      protected static readonly FieldInfo DocumentTypeId = new FieldInfo("DocumentTypeID", DbType.Int32);
+
       protected CommandBase(DbConnection connection, DbTransaction transaction)
       {
          Check.NotNull(connection, "connection");

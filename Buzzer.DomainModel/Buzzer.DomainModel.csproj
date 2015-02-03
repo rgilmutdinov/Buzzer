@@ -56,6 +56,7 @@
     <Compile Include="Models\PersonInfo.cs" />
     <Compile Include="Models\PhoneNumberInfo.cs" />
     <Compile Include="Models\DomainObject.cs" />
+    <Compile Include="Models\RequiredCreditDocuments.cs" />
     <Compile Include="Models\RowState.cs" />
     <Compile Include="Models\StringHelper.cs" />
     <Compile Include="Models\TodoItem.cs" />

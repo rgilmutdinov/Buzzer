@@ -50,6 +50,7 @@
     <Compile Include="DatabaseTests\CreditTypesTests.cs" />
     <Compile Include="DatabaseTests\DocumentTypesTests.cs" />
     <Compile Include="DatabaseTests\PrepareTestDatabase.cs" />
+    <Compile Include="DatabaseTests\RequiredCreditDocumentsTests.cs" />
     <Compile Include="DatabaseTests\SaveCreditsTests.cs" />
     <Compile Include="DatabaseTests\SaveNotificationLogItemTests.cs" />
     <Compile Include="DatabaseTests\SaveNotifiedTodoItemTests.cs" />
@@ -92,6 +93,7 @@
     <Content Include="SqlScripts\GenerateTestDataForCheckUserTest.sql" />
     <Content Include="SqlScripts\GenerateTestDataForCreditTypesTest.sql" />
     <Content Include="SqlScripts\GenerateTestDataForDocumentTypesTest.sql" />
+    <Content Include="SqlScripts\GenerateTestDataForRequiredCreditDocumentsTest.sql" />
     <Content Include="SqlScripts\GenerateTestDataForSaveCreditsTest.sql" />
     <Content Include="SqlScripts\GenerateTestDataForSaveNotificationLogItemsTest.sql" />
     <Content Include="SqlScripts\GenerateTestDataForSaveNotifiedTodoItemTest.sql" />

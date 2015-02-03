@@ -177,5 +177,32 @@ namespace Buzzer.DataAccess.Repository
             }
          }
       }
+
+      public RequiredCreditDocuments[] GetAllRequiredCreditDocuments()
+      {
+         using (DbConnection connection = createConnection())
+         {
+            using (DbTransaction transaction = createTransaction(connection))
+            {
+               var selectCommand = new SelectRequiredCreditDocuments(connection, transaction);
+               RequiredCreditDocuments[] result = selectCommand.Execute();
+               transaction.Commit();
+               return result;
+            }
+         }
+      }
+
+      public void SaveRequiredCreditDocuments(RequiredCreditDocuments requiredCreditDocuments)
+      {
+         using (DbConnection connection = createConnection())
+         {
+            using (DbTransaction transaction = createTransaction(connection))
+            {
+               var saveCommand = new SaveRequiredCreditDocumentsCommand(connection, transaction, requiredCreditDocuments);
+               saveCommand.Execute();
+               transaction.Commit();
+            }
+         }
+      }
    }
 }

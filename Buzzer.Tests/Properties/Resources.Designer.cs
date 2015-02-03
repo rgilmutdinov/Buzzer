@@ -67,7 +67,8 @@ namespace Buzzer.Tests.Properties {
         ///DELETE FROM PaymentsSchedule;
         ///DELETE FROM TodoItems;
         ///DELETE FROM Credits;
-        ///DELETE FROM DocumentTypes;.
+        ///DELETE FROM DocumentTypes;
+        ///DELETE FROM CreditTypes;.
         /// </summary>
         internal static string ClearDatabase {
             get {
@@ -87,7 +88,7 @@ namespace Buzzer.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to INSERT INTO DocumentTypes (Name) VALUES (&apos;Document type 1&apos;), (&apos;Document type 2&apos;), (&apos;Document to update&apos;);
+        ///   Looks up a localized string similar to INSERT INTO CreditTypes (Name) VALUES (&apos;Credit type 1&apos;), (&apos;Credit type 2&apos;), (&apos;Credit type to update&apos;);
         ///.
         /// </summary>
         internal static string GenerateTestDataForCreditTypesTest {
@@ -103,6 +104,16 @@ namespace Buzzer.Tests.Properties {
         internal static string GenerateTestDataForDocumentTypesTest {
             get {
                 return ResourceManager.GetString("GenerateTestDataForDocumentTypesTest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to INSERT INTO CreditTypes (Name) VALUES (&apos;Credit type 1&apos;), (&apos;Credit type 2&apos;), (&apos;Credit type to update&apos;);
+        ///.
+        /// </summary>
+        internal static string GenerateTestDataForRequiredCreditDocumentsTest {
+            get {
+                return ResourceManager.GetString("GenerateTestDataForRequiredCreditDocumentsTest", resourceCulture);
             }
         }
         

@@ -12,7 +12,6 @@ create table DocumentTypes
 
 create table RequiredCreditDocuments
 (
-	ID integer primary key autoincrement not null,
 	CreditTypeID integer not null,
 	DocumentTypeID integer not null,
 	foreign key(CreditTypeID) references CreditTypes(ID),
