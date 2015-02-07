@@ -2,6 +2,7 @@
 using System.Linq;
 using Buzzer.DataAccess.Repository;
 using Buzzer.DomainModel.Models;
+using Buzzer.Tests.Common;
 using NUnit.Framework;
 
 namespace Buzzer.Tests.DatabaseTests
@@ -24,10 +25,7 @@ namespace Buzzer.Tests.DatabaseTests
          const string creditNumber = "CNS1";
 
          // Act.
-         CreditInfo credit =
-            _database
-               .GetAllCredits()
-               .SingleOrDefault(item => item.CreditNumber == creditNumber);
+         CreditInfo credit = getCreditByNumber(creditNumber);
 
          // Assert.
          Assert.IsNotNull(credit);
@@ -43,6 +41,10 @@ namespace Buzzer.Tests.DatabaseTests
          Assert.AreEqual(CreditState.Current, credit.CreditState);
          Assert.IsNull(credit.RefusalReason);
          Assert.AreEqual(RowState.Modified, credit.RowState);
+         Assert.IsNull(credit.CreditType);
+         Assert.IsNullOrEmpty(credit.NotificationDescription);
+         Assert.AreEqual(0, credit.NotificationCount);
+         Assert.IsNull(credit.NotificationDate);
 
          PersonInfo borrower = credit.Borrower;
 
@@ -59,6 +61,9 @@ namespace Buzzer.Tests.DatabaseTests
 
          Assert.IsNotNull(credit.PaymentsSchedule);
          Assert.IsEmpty(credit.PaymentsSchedule);
+
+         Assert.IsNotNull(credit.TodoList);
+         Assert.IsEmpty(credit.TodoList);
       }
 
       [Test]
@@ -68,10 +73,7 @@ namespace Buzzer.Tests.DatabaseTests
          const string creditNumber = "CNS2";
 
          // Act.
-         CreditInfo credit =
-            _database
-               .GetAllCredits()
-               .SingleOrDefault(item => item.CreditNumber == creditNumber);
+         CreditInfo credit = getCreditByNumber(creditNumber);
 
          // Assert.
          Assert.IsNotNull(credit);
@@ -111,6 +113,9 @@ namespace Buzzer.Tests.DatabaseTests
 
          Assert.IsNotNull(credit.PaymentsSchedule);
          Assert.IsEmpty(credit.PaymentsSchedule);
+
+         Assert.IsNotNull(credit.TodoList);
+         Assert.IsEmpty(credit.TodoList);
       }
 
       [Test]
@@ -120,10 +125,7 @@ namespace Buzzer.Tests.DatabaseTests
          const string creditNumber = "CNS3";
 
          // Act.
-         CreditInfo credit =
-            _database
-               .GetAllCredits()
-               .SingleOrDefault(item => item.CreditNumber == creditNumber);
+         CreditInfo credit = getCreditByNumber(creditNumber);
 
          // Assert.
          Assert.IsNotNull(credit);
@@ -143,10 +145,7 @@ namespace Buzzer.Tests.DatabaseTests
          const string creditNumber = "CNS4";
          
          // Act.
-         CreditInfo credit =
-            _database
-               .GetAllCredits()
-               .SingleOrDefault(item => item.CreditNumber == creditNumber);
+         CreditInfo credit = getCreditByNumber(creditNumber);
 
          // Assert.
          Assert.IsNotNull(credit);
@@ -155,6 +154,58 @@ namespace Buzzer.Tests.DatabaseTests
 
          checkTodoItem(credit.TodoList[0], credit.Id, "Todo description 1", TodoItemState.None, 0, null);
          checkTodoItem(credit.TodoList[1], credit.Id, "Todo description 2", TodoItemState.Done, 1, new DateTime(2015, 1, 24));
+      }
+
+      [Test]
+      public void SelectCreditWithRequiredDocumentsTest()
+      {
+         // Arrange.
+         const string creditNumber = "CNS5";
+
+         // Act.
+         CreditInfo credit = getCreditByNumber(creditNumber);
+
+         // Assert.
+         Assert.IsNotNull(credit);
+
+         CreditType creditType = getCreditTypeByName("CNS5_CT1");
+         AssertUtils.AssertCreditTypesAreEqual(creditType, credit.CreditType);
+
+         Assert.AreEqual("Description", credit.NotificationDescription);
+         Assert.AreEqual(1, credit.NotificationCount);
+         Assert.AreEqual(new DateTime(2015, 2, 7), credit.NotificationDate);
+
+         Assert.IsNotNull(credit.RequiredDocuments);
+         Assert.AreEqual(2, credit.RequiredDocuments.Count);
+
+         checkRequiredDocument(credit.RequiredDocuments[0], credit.Id,
+                               getDocumentTypeByName("CNS5_DT1"), RequiredDocumentState.None);
+         checkRequiredDocument(credit.RequiredDocuments[1], credit.Id,
+                               getDocumentTypeByName("CNS5_DT2"), RequiredDocumentState.Carried);
+      }
+
+      private CreditInfo getCreditByNumber(string creditNumber)
+      {
+         return
+            _database
+               .GetAllCredits()
+               .SingleOrDefault(item => item.CreditNumber == creditNumber);
+      }
+
+      private CreditType getCreditTypeByName(string name)
+      {
+         return
+            _database
+               .GetAllCreditTypes()
+               .SingleOrDefault(item => item.Name == name);
+      }
+
+      private DocumentType getDocumentTypeByName(string name)
+      {
+         return
+            _database
+               .GetAllDocumentTypes()
+               .Single(item => item.Name == name);
       }
 
       private static void checkPersonInfo(
@@ -220,6 +271,19 @@ namespace Buzzer.Tests.DatabaseTests
          Assert.AreEqual(state, todoItem.State);
          Assert.AreEqual(notificationCount, todoItem.NotificationCount);
          Assert.AreEqual(notificationDate, todoItem.NotificationDate);
+      }
+
+      private void checkRequiredDocument(
+         RequiredDocument requiredDocument,
+         int creditId,
+         DocumentType documentType,
+         RequiredDocumentState state
+         )
+      {
+         Assert.IsNotNull(requiredDocument);
+         Assert.AreEqual(creditId, requiredDocument.CreditId);
+         AssertUtils.AssertDocumentTypesAreEqual(documentType, requiredDocument.DocumentType);
+         Assert.AreEqual(state, requiredDocument.State);
       }
    }
 }

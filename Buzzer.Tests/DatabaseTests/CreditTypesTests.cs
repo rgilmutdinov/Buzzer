@@ -1,6 +1,7 @@
 using System.Linq;
 using Buzzer.DataAccess.Repository;
 using Buzzer.DomainModel.Models;
+using Buzzer.Tests.Common;
 using NUnit.Framework;
 
 namespace Buzzer.Tests.DatabaseTests
@@ -36,7 +37,7 @@ namespace Buzzer.Tests.DatabaseTests
          _buzzerDatabase.SaveCreditType(creditType);
 
          CreditType creditTypeFromDb = getCreditTypeById(creditType.Id);
-         assertCreditTypesAreEqual(creditType, creditTypeFromDb);
+         AssertUtils.AssertCreditTypesAreEqual(creditType, creditTypeFromDb);
       }
 
       [Test]
@@ -48,7 +49,7 @@ namespace Buzzer.Tests.DatabaseTests
          _buzzerDatabase.SaveCreditType(creditType);
 
          CreditType creditTypeFromDb = getCreditTypeById(creditType.Id);
-         assertCreditTypesAreEqual(creditType, creditTypeFromDb);
+         AssertUtils.AssertCreditTypesAreEqual(creditType, creditTypeFromDb);
       }
       
       private void assertContainsCreditType(string creditType, CreditType[] creditTypes)
@@ -62,15 +63,6 @@ namespace Buzzer.Tests.DatabaseTests
             _buzzerDatabase
                .GetAllCreditTypes()
                .Single(item => item.Id == id);
-      }
-
-      private void assertCreditTypesAreEqual(CreditType expectedCreditType, CreditType actualCreditType)
-      {
-         Assert.IsNotNull(expectedCreditType);
-         Assert.IsNotNull(actualCreditType);
-
-         Assert.AreEqual(expectedCreditType.Id, actualCreditType.Id);
-         Assert.AreEqual(expectedCreditType.Name, actualCreditType.Name);
       }
 
       private CreditType getCreditTypeByName(string name)

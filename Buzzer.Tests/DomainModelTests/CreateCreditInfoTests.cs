@@ -29,6 +29,10 @@ namespace Buzzer.Tests.DomainModelTests
          Assert.AreEqual(CreditState.Consideration, credit.CreditState);
          Assert.IsNull(credit.RefusalReason);
          Assert.AreEqual(RowState.Modified, credit.RowState);
+         Assert.IsNull(credit.CreditType);
+         Assert.IsNullOrEmpty(credit.NotificationDescription);
+         Assert.AreEqual(0, credit.NotificationCount);
+         Assert.IsNull(credit.NotificationDate);
 
          Assert.IsNotNull(credit.Borrower);
 
@@ -40,6 +44,9 @@ namespace Buzzer.Tests.DomainModelTests
 
          Assert.IsNotNull(credit.TodoList);
          Assert.IsEmpty(credit.TodoList);
+
+         Assert.IsNotNull(credit.RequiredDocuments);
+         Assert.IsEmpty(credit.RequiredDocuments);
       }
 
       [Test]
@@ -59,9 +66,14 @@ namespace Buzzer.Tests.DomainModelTests
          string refusalReason,
          RowState rowState,
          PersonInfo borrower,
+         CreditType creditType,
+         string notificationDescription,
+         int notificationCount,
+         DateTime notificationDate,
          PersonInfo[] guarantors,
          PaymentInfo[] paymentsSchedule,
-         TodoItem[] todoList
+         TodoItem[] todoList,
+         RequiredDocument[] requiredDocuments
          )
       {
          // Arrange/Act.
@@ -81,9 +93,14 @@ namespace Buzzer.Tests.DomainModelTests
                refusalReason,
                rowState,
                borrower,
+               creditType,
+               notificationDescription,
+               notificationCount,
+               notificationDate,
                guarantors,
                paymentsSchedule,
-               todoList
+               todoList,
+               requiredDocuments
                );
 
          // Assert.
@@ -105,6 +122,11 @@ namespace Buzzer.Tests.DomainModelTests
 
          AssertUtils.AssertPersonsAreEqual(borrower, credit.Borrower);
 
+         Assert.AreEqual(creditType.Id, credit.CreditType.Id);
+         Assert.AreEqual(notificationDescription, credit.NotificationDescription);
+         Assert.AreEqual(notificationCount, credit.NotificationCount);
+         Assert.AreEqual(notificationDate, credit.NotificationDate);
+
          AssertUtils.AssertCollectionsAreEqual(
             guarantors,
             credit.Guarantors,
@@ -121,6 +143,12 @@ namespace Buzzer.Tests.DomainModelTests
             todoList,
             credit.TodoList,
             AssertUtils.AssertTodoItemsAreEqual
+            );
+
+         AssertUtils.AssertCollectionsAreEqual(
+            requiredDocuments,
+            credit.RequiredDocuments,
+            AssertUtils.AssertRequiredDocumentsAreEqual
             );
       }
 
@@ -153,6 +181,11 @@ namespace Buzzer.Tests.DomainModelTests
                      "Borrower fact address", "Borrower passport number", DateTime.Today,
                      "Passport issuer", true, new[] {PhoneNumberInfo.Create(1, 1, "555123456")}
                      );
+
+               CreditType creditType = CreditType.Create(1, "CreditType");
+               const string notificationDescription = "Description";
+               const int notificationCount = 5;
+               DateTime? notificationDate = DateTime.Today;
 
                var guarantors =
                   new[]
@@ -187,12 +220,19 @@ namespace Buzzer.Tests.DomainModelTests
                      TodoItem.Create(2, id, "TodoItem description 2", TodoItemState.Done, 1, DateTime.Today)
                   };
 
+               RequiredDocument[] requiredDocuments =
+                  {
+                     RequiredDocument.Create(1, id, DocumentType.Create(1, "DT1"), RequiredDocumentState.None),
+                     RequiredDocument.Create(2, id, DocumentType.Create(1, "DT2"), RequiredDocumentState.Carried)
+                  };
+
                var testCaseData =
                   new TestCaseData(
                      id, creditNumber, applicationDate, protocolDate, creditAmount,
                      creditIssueDate, monthsCount, discountRate, effectiveDiscountRate,
-                     exchangeRate, creditState, refusalReason, rowState,
-                     borrower, guarantors, paymentsSchedule, todoList
+                     exchangeRate, creditState, refusalReason, rowState, borrower,
+                     creditType, notificationDescription, notificationCount, notificationDate,
+                     guarantors, paymentsSchedule, todoList, requiredDocuments
                      );
                testCaseData.SetName("CreateValidCreditInfoTest");
 

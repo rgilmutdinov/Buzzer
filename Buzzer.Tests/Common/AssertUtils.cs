@@ -26,6 +26,10 @@ namespace Buzzer.Tests.Common
          Assert.AreEqual(expected.CreditState, actual.CreditState);
          Assert.AreEqual(expected.RefusalReason, actual.RefusalReason);
          Assert.AreEqual(expected.RowState, actual.RowState);
+         AssertCreditTypesAreEqual(expected.CreditType, actual.CreditType);
+         Assert.AreEqual(expected.NotificationDescription, actual.NotificationDescription);
+         Assert.AreEqual(expected.NotificationCount, actual.NotificationCount);
+         Assert.AreEqual(expected.NotificationDate, actual.NotificationDate);
 
          AssertPersonsAreEqual(expected.Borrower, actual.Borrower);
          AssertCollectionsAreEqual(expected.Guarantors, actual.Guarantors,
@@ -36,6 +40,9 @@ namespace Buzzer.Tests.Common
 
          AssertCollectionsAreEqual(expected.TodoList, actual.TodoList,
                                    AssertTodoItemsAreEqual);
+
+         AssertCollectionsAreEqual(expected.RequiredDocuments, actual.RequiredDocuments,
+                                   AssertRequiredDocumentsAreEqual);
       }
 
       public static void AssertPersonsAreEqual(PersonInfo expected, PersonInfo actual)
@@ -89,6 +96,39 @@ namespace Buzzer.Tests.Common
          Assert.AreEqual(expected.State, actual.State);
          Assert.AreEqual(expected.NotificationCount, actual.NotificationCount);
          Assert.AreEqual(expected.NotificationDate, actual.NotificationDate);
+      }
+
+      public static void AssertDocumentTypesAreEqual(DocumentType expectedDocumentType, DocumentType actualDocumentType)
+      {
+         Assert.IsNotNull(expectedDocumentType);
+         Assert.IsNotNull(actualDocumentType);
+
+         Assert.AreEqual(expectedDocumentType.Id, actualDocumentType.Id);
+         Assert.AreEqual(expectedDocumentType.Name, actualDocumentType.Name);
+      }
+
+      public static void AssertCreditTypesAreEqual(CreditType expected, CreditType actual)
+      {
+         if (expected == null && actual == null)
+            return;
+
+         Assert.IsNotNull(expected);
+         Assert.IsNotNull(actual);
+
+         Assert.AreEqual(expected.Id, actual.Id);
+         Assert.AreEqual(expected.Name, actual.Name);
+      }
+
+      public static void AssertRequiredDocumentsAreEqual(
+         RequiredDocument expecteRequiredDocument, RequiredDocument actualRequiredDocument
+         )
+      {
+         Assert.IsNotNull(expecteRequiredDocument);
+         Assert.IsNotNull(actualRequiredDocument);
+
+         Assert.AreEqual(expecteRequiredDocument.Id, actualRequiredDocument.Id);
+         AssertDocumentTypesAreEqual(expecteRequiredDocument.DocumentType, actualRequiredDocument.DocumentType);
+         Assert.AreEqual(expecteRequiredDocument.State, actualRequiredDocument.State);
       }
 
       public static void AssertCollectionsAreEqual<T>(

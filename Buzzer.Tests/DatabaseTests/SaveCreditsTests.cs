@@ -28,14 +28,10 @@ namespace Buzzer.Tests.DatabaseTests
          _database.SaveCredit(credit);
 
          // Assert.
-         CreditInfo creditFromDatabase =
-            _database
-               .GetAllCredits()
-               .SingleOrDefault(item => item.Id == credit.Id);
-
+         CreditInfo creditFromDatabase = getCreditById(credit.Id);
          AssertUtils.AssertCreditsAreEqual(credit, creditFromDatabase);
       }
-      
+
       [Test]
       public void SaveNewCreditTest()
       {
@@ -52,6 +48,10 @@ namespace Buzzer.Tests.DatabaseTests
          credit.ExchangeRate = 45.0M;
          credit.CreditState = CreditState.Repayed;
          credit.RefusalReason = "Refusal reason";
+         credit.CreditType = getCreditTypeByName("SC_CT1");
+         credit.NotificationDescription = "Notification description";
+         credit.NotificationCount = 1;
+         credit.NotificationDate = DateTime.Today;
          
          {
             PersonInfo borrower = credit.Borrower;
@@ -104,17 +104,24 @@ namespace Buzzer.Tests.DatabaseTests
             todoItem.NotificationDate = DateTime.Today;
          }
 
+         {
+            DocumentType documentType = getDocumentTypeByName("DT1");
+            credit.AddRequiredDocument(documentType);
+         }
+
+         {
+            DocumentType documentType = getDocumentTypeByName("DT2");
+            RequiredDocument requiredDocument = credit.AddRequiredDocument(documentType);
+            requiredDocument.State = RequiredDocumentState.Carried;
+         }
+
          credit.BuildPaymentsSchedule();
 
          // Act.
          _database.SaveCredit(credit);
 
          // Assert.
-         CreditInfo creditFromDatabase =
-            _database
-               .GetAllCredits()
-               .SingleOrDefault(item => item.Id == credit.Id);
-
+         CreditInfo creditFromDatabase = getCreditById(credit.Id);
          AssertUtils.AssertCreditsAreEqual(credit, creditFromDatabase);
       }
 
@@ -123,10 +130,7 @@ namespace Buzzer.Tests.DatabaseTests
       {
          // Arrange.
          const string creditNumber = "CNE1";
-         CreditInfo credit =
-            _database
-               .GetAllCredits()
-               .Single(item => item.CreditNumber == creditNumber);
+         CreditInfo credit = getCreditByNumber(creditNumber);
 
          // Act.
          credit.CreditNumber = "CN changed";
@@ -140,6 +144,10 @@ namespace Buzzer.Tests.DatabaseTests
          credit.ExchangeRate = 60.0M;
          credit.CreditState = CreditState.Repayed;
          credit.RefusalReason = "New refusal reason";
+         credit.CreditType = getCreditTypeByName("SC_CT1");
+         credit.NotificationDescription = "Changed notification description";
+         credit.NotificationCount = 2;
+         credit.NotificationDate = DateTime.Today;
 
          credit.Delete();
 
@@ -153,18 +161,12 @@ namespace Buzzer.Tests.DatabaseTests
          borrower.PassportIssueDate = new DateTime(2012, 12, 1);
 
          {
-            PersonInfo guarantor =
-               credit
-                  .Guarantors
-                  .Single(item => item.PersonalNumber == "22222222222222");
+            PersonInfo guarantor = getPersonByPersonalNumber(credit, "22222222222222");
             credit.RemoveGuarantor(guarantor);
          }
 
          {
-            PersonInfo guarantor =
-               credit
-                  .Guarantors
-                  .Single(item => item.PersonalNumber == "33333333333333");
+            PersonInfo guarantor = getPersonByPersonalNumber(credit, "33333333333333");
             guarantor.PersonalNumber = "55555555555555";
             guarantor.PersonName = "Guarantor 2 changed";
             guarantor.RegistrationAddress = "Address 2 changed";
@@ -190,18 +192,12 @@ namespace Buzzer.Tests.DatabaseTests
          }
 
          {
-            TodoItem todoItem =
-               credit
-                  .TodoList
-                  .Single(item => item.Description == "Todo item 1");
+            TodoItem todoItem = getTodoItemByDescription(credit, "Todo item 1");
             credit.RemoveTodoItem(todoItem);
          }
 
          {
-            TodoItem todoItem =
-               credit
-                  .TodoList
-                  .Single(item => item.Description == "Todo item 2");
+            TodoItem todoItem = getTodoItemByDescription(credit, "Todo item 2");
             
             todoItem.Description = "Todo item 2 changed";
             todoItem.State = TodoItemState.Done;
@@ -214,14 +210,27 @@ namespace Buzzer.Tests.DatabaseTests
             todoItem.Description = "Todo item 3";
          }
 
+         {
+            RequiredDocument requiredDocument =
+               getRequiredDocumentByDocumentType(credit, getDocumentTypeByName("SC_DT1"));
+            credit.RemoveRequiredDocument(requiredDocument);
+         }
+
+         {
+            RequiredDocument requiredDocument =
+               getRequiredDocumentByDocumentType(credit, getDocumentTypeByName("SC_DT2"));
+            requiredDocument.State = RequiredDocumentState.Carried;
+         }
+
+         {
+            DocumentType documentType = getDocumentTypeByName("SC_DT3");
+            credit.AddRequiredDocument(documentType);
+         }
+
          _database.SaveCredit(credit);
 
          // Assert.
-         CreditInfo creditFromDatabase =
-            _database
-               .GetAllCredits()
-               .SingleOrDefault(item => item.Id == credit.Id);
-
+         CreditInfo creditFromDatabase = getCreditById(credit.Id);
          AssertUtils.AssertCreditsAreEqual(credit, creditFromDatabase);
       }
 
@@ -230,10 +239,7 @@ namespace Buzzer.Tests.DatabaseTests
       {
          // Arrange.
          const string creditNumber = "CNE2";
-         CreditInfo credit =
-            _database
-               .GetAllCredits()
-               .Single(item => item.CreditNumber == creditNumber);
+         CreditInfo credit = getCreditByNumber(creditNumber);
 
          // Act.
          credit.CreditAmount = 500000M;
@@ -247,11 +253,7 @@ namespace Buzzer.Tests.DatabaseTests
          _database.SaveCredit(credit);
 
          // Assert.
-         CreditInfo creditFromDatabase =
-            _database
-               .GetAllCredits()
-               .SingleOrDefault(item => item.Id == credit.Id);
-
+         CreditInfo creditFromDatabase = getCreditById(credit.Id);
          AssertUtils.AssertCreditsAreEqual(credit, creditFromDatabase);
       }
 
@@ -266,12 +268,64 @@ namespace Buzzer.Tests.DatabaseTests
          _database.SaveCredit(credit);
 
          // Assert.
-         CreditInfo creditFromDatabase =
+         CreditInfo creditFromDatabase = getCreditById(credit.Id);
+         AssertUtils.AssertCreditsAreEqual(credit, creditFromDatabase);
+      }
+
+      private CreditInfo getCreditById(int id)
+      {
+         return
             _database
                .GetAllCredits()
-               .SingleOrDefault(item => item.Id == credit.Id);
+               .SingleOrDefault(item => item.Id == id);
+      }
 
-         AssertUtils.AssertCreditsAreEqual(credit, creditFromDatabase);
+      private CreditType getCreditTypeByName(string name)
+      {
+         return
+            _database
+               .GetAllCreditTypes()
+               .Single(item => item.Name == name);
+      }
+
+      private DocumentType getDocumentTypeByName(string name)
+      {
+         return
+            _database
+               .GetAllDocumentTypes()
+               .Single(item => item.Name == name);
+      }
+
+      private CreditInfo getCreditByNumber(string creditNumber)
+      {
+         return
+            _database
+               .GetAllCredits()
+               .Single(item => item.CreditNumber == creditNumber);
+      }
+
+      private static PersonInfo getPersonByPersonalNumber(CreditInfo credit, string personalNumber)
+      {
+         return
+            credit
+               .Guarantors
+               .Single(item => item.PersonalNumber == personalNumber);
+      }
+
+      private static TodoItem getTodoItemByDescription(CreditInfo credit, string description)
+      {
+         return
+            credit
+               .TodoList
+               .Single(item => item.Description == description);
+      }
+      
+      private RequiredDocument getRequiredDocumentByDocumentType(CreditInfo credit, DocumentType documentType)
+      {
+         return
+            credit
+               .RequiredDocuments
+               .Single(item => item.DocumentType.Id == documentType.Id);
       }
    }
 }

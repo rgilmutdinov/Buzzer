@@ -42,6 +42,7 @@ namespace Buzzer.DataAccess.Repository
          int[] paymentsIds = insertPayments(paymentsSchedule, creditId);
 
          int[] todoItemsIds = insertTodoItems(_credit.TodoList, creditId);
+         int[] requiredDocumentsIds = insertRequiredDocuments(creditId);
 
          _credit.Id = creditId;
          fillPersonIds(_credit.Borrower, insertBorrowerResult, creditId);
@@ -51,6 +52,7 @@ namespace Buzzer.DataAccess.Repository
 
          fillPaymentsIds(paymentsIds);
          fillTodoItemsIds(todoItemsIds, creditId);
+         fillRequiredDocumentsIds(requiredDocumentsIds, creditId);
       }
 
       private void saveEditedCredit()
@@ -101,6 +103,7 @@ namespace Buzzer.DataAccess.Repository
          }
 
          saveTodoList(_credit.TodoList, original.TodoList);
+         saveRequiredDocuments(original.RequiredDocuments);
 
          int i = 0;
 
@@ -174,6 +177,17 @@ namespace Buzzer.DataAccess.Repository
          return todoItemsIds;
       }
 
+      private int[] insertRequiredDocuments(int creditId)
+      {
+         ReadOnlyCollection<RequiredDocument> requiredDocuments = _credit.RequiredDocuments;
+         var requiredDocumentsIds = new int[requiredDocuments.Count];
+
+         for (int i = 0; i < requiredDocuments.Count; i++)
+            requiredDocumentsIds[i] = insertRequiredDocument(requiredDocuments[i], creditId);
+
+         return requiredDocumentsIds;
+      }
+
       private void fillPaymentsIds(int[] paymentsIds)
       {
          for (int i = 0; i < paymentsIds.Length; i++)
@@ -186,6 +200,15 @@ namespace Buzzer.DataAccess.Repository
          {
             _credit.TodoList[i].Id = todoItemsIds[i];
             _credit.TodoList[i].CreditId = creditId;
+         }
+      }
+
+      private void fillRequiredDocumentsIds(int[] requiredDocumentsIds, int creditId)
+      {
+         for (int i = 0; i < requiredDocumentsIds.Length; i++)
+         {
+            _credit.RequiredDocuments[i].Id = requiredDocumentsIds[i];
+            _credit.RequiredDocuments[i].CreditId = creditId;
          }
       }
 
@@ -206,7 +229,29 @@ namespace Buzzer.DataAccess.Repository
             original
                .Where(o => current.All(c => c.Id != o.Id))
                .ToList();
-         deletedTodoItems.ForEach(item => deleteTodoItem(item));
+         deletedTodoItems.ForEach(deleteTodoItem);
+      }
+
+      private void saveRequiredDocuments(ReadOnlyCollection<RequiredDocument> original)
+      {
+         ReadOnlyCollection<RequiredDocument> current = _credit.RequiredDocuments;
+
+         foreach (RequiredDocument requiredDocument in current)
+         {
+            if (requiredDocument.IsNew)
+            {
+               int id = insertRequiredDocument(requiredDocument, _credit.Id);
+               requiredDocument.Id = id;
+            }
+            else
+               updateRequiredDocument(requiredDocument);
+         }
+
+         List<RequiredDocument> deletedRequiredDocuments =
+            original
+               .Where(o => current.All(c => c.Id != o.Id))
+               .ToList();
+         deletedRequiredDocuments.ForEach(deleteRequiredDocument);
       }
 
       #region Credits
@@ -215,19 +260,23 @@ namespace Buzzer.DataAccess.Repository
       {
          string insertCreditQuery =
             string.Format(
-               "INSERT INTO Credits ({0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}) " +
-               "VALUES ({12}, {13}, {14}, {15}, {16}, {17}, {18}, {19}, {20}, {21}, {22}, {23});" +
+               "INSERT INTO Credits ({0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}, {13}, {14}, {15}) " +
+               "VALUES ({16}, {17}, {18}, {19}, {20}, {21}, {22}, {23}, {24}, {25}, {26}, {27}, {28}, {29}, {30}, {31});" +
                "SELECT last_insert_rowid();",
 
                CreditNumber.Name, ApplicationDate.Name, ProtocolDate.Name,
                CreditAmount.Name, CreditIssueDate.Name, MonthsCount.Name,
                DiscountRate.Name, EffectiveDiscountRate.Name, ExchangeRate.Name,
                CreditState.Name, RefusalReason.Name, RowState.Name,
+               RequiredDocumentCreditTypeId.Name, RequiredDocumentNotificationDescription.Name,
+               RequiredDocumentNotificationCount.Name, RequiredDocumentNotificationDate.Name,
 
                CreditNumber.ParameterName, ApplicationDate.ParameterName, ProtocolDate.ParameterName,
                CreditAmount.ParameterName, CreditIssueDate.ParameterName, MonthsCount.ParameterName,
                DiscountRate.ParameterName, EffectiveDiscountRate.ParameterName, ExchangeRate.ParameterName,
-               CreditState.ParameterName, RefusalReason.ParameterName, RowState.ParameterName
+               CreditState.ParameterName, RefusalReason.ParameterName, RowState.ParameterName,
+               RequiredDocumentCreditTypeId.ParameterName, RequiredDocumentNotificationDescription.ParameterName,
+               RequiredDocumentNotificationCount.ParameterName, RequiredDocumentNotificationDate.ParameterName
                );
 
          using (DbCommand command = createCommand(insertCreditQuery))
@@ -244,6 +293,13 @@ namespace Buzzer.DataAccess.Repository
             command.AddParameter((int) creditInfo.CreditState, CreditState);
             command.AddParameter(creditInfo.RefusalReason, RefusalReason);
             command.AddParameter((int) creditInfo.RowState, RowState);
+            command.AddParameter(
+               creditInfo.CreditType == null ? null : (int?) creditInfo.CreditType.Id,
+               RequiredDocumentCreditTypeId
+               );
+            command.AddParameter(creditInfo.NotificationDescription, RequiredDocumentNotificationDescription);
+            command.AddParameter(creditInfo.NotificationCount, RequiredDocumentNotificationCount);
+            command.AddParameter(creditInfo.NotificationDate, RequiredDocumentNotificationDate);
 
             return Convert.ToInt32(command.ExecuteScalar());
          }
@@ -253,8 +309,9 @@ namespace Buzzer.DataAccess.Repository
       {
          string updateCreditQuery =
             string.Format(
-               "UPDATE Credits SET {0}={1}, {2}={3}, {4}={5}, {6}={7}, {8}={9}, {10}={11}, {12}={13}, {14}={15}, {16}={17}, {18}={19}, {20}={21}, {22}={23} " +
-               "WHERE {24}={25};",
+               "UPDATE Credits SET {0}={1}, {2}={3}, {4}={5}, {6}={7}, {8}={9}, {10}={11}, {12}={13}, {14}={15}, {16}={17}, {18}={19}, {20}={21}, {22}={23}, " +
+               "{24}={25}, {26}={27}, {28}={29}, {30}={31} " +
+               "WHERE {32}={33};",
                CreditNumber.Name, CreditNumber.ParameterName,
                ApplicationDate.Name, ApplicationDate.ParameterName,
                ProtocolDate.Name, ProtocolDate.ParameterName,
@@ -267,6 +324,10 @@ namespace Buzzer.DataAccess.Repository
                CreditState.Name, CreditState.ParameterName,
                RefusalReason.Name, RefusalReason.ParameterName,
                RowState.Name, RowState.ParameterName,
+               RequiredDocumentCreditTypeId.Name, RequiredDocumentCreditTypeId.ParameterName,
+               RequiredDocumentNotificationDescription.Name, RequiredDocumentNotificationDescription.ParameterName,
+               RequiredDocumentNotificationCount.Name, RequiredDocumentNotificationCount.ParameterName,
+               RequiredDocumentNotificationDate.Name, RequiredDocumentNotificationDate.ParameterName,
                Id.Name, Id.ParameterName
                );
 
@@ -284,6 +345,13 @@ namespace Buzzer.DataAccess.Repository
             command.AddParameter((int) creditInfo.CreditState, CreditState);
             command.AddParameter(creditInfo.RefusalReason, RefusalReason);
             command.AddParameter((int) creditInfo.RowState, RowState);
+            command.AddParameter(
+               creditInfo.CreditType == null ? null : (int?) creditInfo.CreditType.Id,
+               RequiredDocumentCreditTypeId
+               );
+            command.AddParameter(creditInfo.NotificationDescription, RequiredDocumentNotificationDescription);
+            command.AddParameter(creditInfo.NotificationCount, RequiredDocumentNotificationCount);
+            command.AddParameter(creditInfo.NotificationDate, RequiredDocumentNotificationDate);
             command.AddParameter(creditInfo.Id, Id);
 
             command.ExecuteNonQuery();
@@ -483,20 +551,20 @@ namespace Buzzer.DataAccess.Repository
                "INSERT INTO TodoItems ({0}, {1}, {2}, {3}, {4}) VALUES ({5}, {6}, {7}, {8}, {9});" +
                "SELECT last_insert_rowid();",
 
-               CreditId.Name, Description.Name, TodoItemState.Name,
-               NotificationCount.Name, NotificationDate.Name,
+               CreditId.Name, TodoItemDescription.Name, TodoItemState.Name,
+               TodoItemNotificationCount.Name, TodoItemNotificationDate.Name,
 
-               CreditId.ParameterName, Description.ParameterName, TodoItemState.ParameterName,
-               NotificationCount.ParameterName, NotificationDate.ParameterName
+               CreditId.ParameterName, TodoItemDescription.ParameterName, TodoItemState.ParameterName,
+               TodoItemNotificationCount.ParameterName, TodoItemNotificationDate.ParameterName
                );
 
          using (DbCommand command = createCommand(insertTodoItemQuery))
          {
             command.AddParameter(creditId, CreditId);
-            command.AddParameter(todoItem.Description, Description);
+            command.AddParameter(todoItem.Description, TodoItemDescription);
             command.AddParameter(todoItem.State, TodoItemState);
-            command.AddParameter(todoItem.NotificationCount, NotificationCount);
-            command.AddParameter(todoItem.NotificationDate, NotificationDate);
+            command.AddParameter(todoItem.NotificationCount, TodoItemNotificationCount);
+            command.AddParameter(todoItem.NotificationDate, TodoItemNotificationDate);
 
             return Convert.ToInt32(command.ExecuteScalar());
          }
@@ -507,20 +575,19 @@ namespace Buzzer.DataAccess.Repository
          string updateTodoItemQuery =
             string.Format(
                "UPDATE TodoItems SET {0}={1}, {2}={3}, {4}={5}, {6}={7} WHERE {8}={9};",
-               Description.Name, Description.ParameterName,
+               TodoItemDescription.Name, TodoItemDescription.ParameterName,
                TodoItemState.Name, TodoItemState.ParameterName,
-               NotificationCount.Name, NotificationCount.ParameterName,
-               NotificationDate.Name, NotificationDate.ParameterName,
+               TodoItemNotificationCount.Name, TodoItemNotificationCount.ParameterName,
+               TodoItemNotificationDate.Name, TodoItemNotificationDate.ParameterName,
                Id.Name, Id.ParameterName
                );
-
-
+         
          using (DbCommand command = createCommand(updateTodoItemQuery))
          {
-            command.AddParameter(todoItem.Description, Description);
+            command.AddParameter(todoItem.Description, TodoItemDescription);
             command.AddParameter(todoItem.State, TodoItemState);
-            command.AddParameter(todoItem.NotificationCount, NotificationCount);
-            command.AddParameter(todoItem.NotificationDate, NotificationDate);
+            command.AddParameter(todoItem.NotificationCount, TodoItemNotificationCount);
+            command.AddParameter(todoItem.NotificationDate, TodoItemNotificationDate);
             command.AddParameter(todoItem.Id, Id);
 
             command.ExecuteNonQuery();
@@ -535,6 +602,63 @@ namespace Buzzer.DataAccess.Repository
          using (DbCommand command = createCommand(deleteTodoItemQuery))
          {
             command.AddParameter(todoItem.Id, Id);
+            command.ExecuteNonQuery();
+         }
+      }
+
+      #endregion
+
+      #region RequiredDocuments
+
+      private int insertRequiredDocument(RequiredDocument requiredDocument, int creditId)
+      {
+         string insertRequiredDocumentQuery =
+            string.Format(
+               "INSERT INTO RequiredDocuments ({0}, {1}, {2}) VALUES ({3}, {4}, {5});" +
+               "SELECT last_insert_rowid();",
+               CreditId.Name, RequiredDocumentType.Name, RequiredDocumentState.Name,
+               CreditId.ParameterName, RequiredDocumentType.ParameterName, RequiredDocumentState.ParameterName
+               );
+
+         using (DbCommand command = createCommand(insertRequiredDocumentQuery))
+         {
+            command.AddParameter(creditId, CreditId);
+            command.AddParameter(requiredDocument.DocumentType.Id, RequiredDocumentType);
+            command.AddParameter((int) requiredDocument.State, RequiredDocumentState);
+
+            return Convert.ToInt32(command.ExecuteScalar());
+         }
+      }
+
+      private void updateRequiredDocument(RequiredDocument requiredDocument)
+      {
+         string updateRequiredDocumentQuery =
+            string.Format(
+               "UPDATE RequiredDocuments SET {0}={1} WHERE {2}={3};",
+               RequiredDocumentState.Name, RequiredDocumentState.ParameterName,
+               Id.Name, Id.ParameterName
+               );
+
+         using (DbCommand command = createCommand(updateRequiredDocumentQuery))
+         {
+            command.AddParameter((int) requiredDocument.State, RequiredDocumentState);
+            command.AddParameter(requiredDocument.Id, Id);
+
+            command.ExecuteNonQuery();
+         }
+      }
+
+      private void deleteRequiredDocument(RequiredDocument requiredDocument)
+      {
+         string deleteRequiredDocument =
+            string.Format(
+               "DELETE FROM RequiredDocuments WHERE {0}={1};",
+               Id.Name, Id.ParameterName
+               );
+
+         using (DbCommand command = createCommand(deleteRequiredDocument))
+         {
+            command.AddParameter(requiredDocument.Id, Id);
             command.ExecuteNonQuery();
          }
       }

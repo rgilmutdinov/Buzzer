@@ -1,6 +1,7 @@
 using System.Linq;
 using Buzzer.DataAccess.Repository;
 using Buzzer.DomainModel.Models;
+using Buzzer.Tests.Common;
 using NUnit.Framework;
 
 namespace Buzzer.Tests.DatabaseTests
@@ -36,7 +37,7 @@ namespace Buzzer.Tests.DatabaseTests
          _buzzerDatabase.SaveDocumentType(documentType);
 
          DocumentType documentTypeFromDb = getDocumentTypeById(documentType.Id);
-         assertDocumentTypesAreEqual(documentType, documentTypeFromDb);
+         AssertUtils.AssertDocumentTypesAreEqual(documentType, documentTypeFromDb);
       }
 
       [Test]
@@ -48,7 +49,7 @@ namespace Buzzer.Tests.DatabaseTests
          _buzzerDatabase.SaveDocumentType(documentType);
 
          DocumentType documentTypeFromDb = getDocumentTypeById(documentType.Id);
-         assertDocumentTypesAreEqual(documentType, documentTypeFromDb);
+         AssertUtils.AssertDocumentTypesAreEqual(documentType, documentTypeFromDb);
       }
 
       private void assertContainsDocumentType(string documentTypeName, DocumentType[] documentTypes)
@@ -64,15 +65,6 @@ namespace Buzzer.Tests.DatabaseTests
                .Single(item => item.Id == id);
 
          return documentTypeFromDb;
-      }
-
-      private void assertDocumentTypesAreEqual(DocumentType expectedDocumentType, DocumentType actualDocumentType)
-      {
-         Assert.IsNotNull(expectedDocumentType);
-         Assert.IsNotNull(actualDocumentType);
-         
-         Assert.AreEqual(expectedDocumentType.Id, actualDocumentType.Id);
-         Assert.AreEqual(expectedDocumentType.Name, actualDocumentType.Name);
       }
 
       private DocumentType getDocumentTypeByName(string name)

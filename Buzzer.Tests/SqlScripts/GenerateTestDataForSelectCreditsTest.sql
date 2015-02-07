@@ -1,4 +1,4 @@
-﻿CREATE TEMP TABLE ID (Value integer);
+﻿CREATE TEMP TABLE ID (Value integer, CT1 integer, DT1 integer, DT2 integer);
 
 -- Credit without Guarantors.
 INSERT INTO Credits
@@ -6,7 +6,7 @@ INSERT INTO Credits
 VALUES
 	('CNS1', 200000, '2014-01-02', 24, 0.36, 0.12, 47.5, 1, '2013-12-31', '2014-01-01', NULL, 0);
 	
-INSERT INTO ID VALUES ((SELECT last_insert_rowid()));
+INSERT INTO ID VALUES ((SELECT last_insert_rowid()), 0, 0, 0);
 
 INSERT INTO Persons
 	(CreditID, PersonalNumber, Name, RegistrationAddress, FactAddress, PassportNumber, PassportIssueDate, PassportIssuer, PersonType)
@@ -75,5 +75,33 @@ INSERT INTO TodoItems
 VALUES
 	((SELECT Value FROM ID LIMIT 1), 'Todo description 1', 0, 0, null),
 	((SELECT Value FROM ID LIMIT 1), 'Todo description 2', 1, 1, '2015-01-24');
-	
+
+INSERT INTO DocumentTypes (Name) VALUES ('CNS5_DT1');
+UPDATE ID SET DT1 = (SELECT last_insert_rowid());
+INSERT INTO DocumentTypes (Name) VALUES ('CNS5_DT2');
+UPDATE ID SET DT2 = (SELECT last_insert_rowid());
+
+INSERT INTO CreditTypes (Name) VALUES ('CNS5_CT1');
+UPDATE ID SET CT1 = (SELECT last_insert_rowid());
+
+INSERT INTO Credits
+	(CreditNumber, CreditAmount, CreditIssueDate, MonthsCount, DiscountRate, EffectiveDiscountRate, ExchangeRate,
+	 ApplicationDate, ProtocolDate, CreditTypeID, NotificationDescription, NotificationCount, NotificationDate)
+VALUES
+	('CNS5', 500000, '2015-02-07', 12, 0.36, NULL, NULL, NULL, NULL,
+	 (SELECT CT1 FROM ID LIMIT 1), 'Description', 1, '2015-02-07');
+
+UPDATE ID SET Value = (SELECT last_insert_rowid());
+
+INSERT INTO Persons
+	(CreditID, PersonalNumber, Name, RegistrationAddress, FactAddress, PassportNumber, PassportIssueDate, PassportIssuer, PersonType)
+VALUES
+	((SELECT Value FROM ID LIMIT 1), '12345884521657', 'Borrower of CSN5', 'Address', 'Fact address', 'Passport', '2013-12-01', 'Issuer', 1);
+
+INSERT INTO RequiredDocuments
+	(CreditID, DocumentTypeID, State)
+VALUES
+	((SELECT Value FROM ID LIMIT 1), (SELECT DT1 FROM ID LIMIT 1), 0),
+	((SELECT Value FROM ID LIMIT 1), (SELECT DT2 FROM ID LIMIT 1), 1);
+
 DROP TABLE ID;

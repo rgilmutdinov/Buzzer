@@ -57,6 +57,8 @@
     <Compile Include="Models\PhoneNumberInfo.cs" />
     <Compile Include="Models\DomainObject.cs" />
     <Compile Include="Models\RequiredCreditDocuments.cs" />
+    <Compile Include="Models\RequiredDocument.cs" />
+    <Compile Include="Models\RequiredDocumentState.cs" />
     <Compile Include="Models\RowState.cs" />
     <Compile Include="Models\StringHelper.cs" />
     <Compile Include="Models\TodoItem.cs" />

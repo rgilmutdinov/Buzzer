@@ -23,6 +23,15 @@ namespace Buzzer.DataAccess.Repository
       protected static readonly FieldInfo RefusalReason = new FieldInfo("RefusalReason", DbType.String, true);
       protected static readonly FieldInfo RowState = new FieldInfo("RowState", DbType.Int32);
 
+      protected static readonly FieldInfo RequiredDocumentCreditTypeId =
+         new FieldInfo("CreditTypeID", DbType.Int32, true);
+      protected static readonly FieldInfo RequiredDocumentNotificationDescription =
+         new FieldInfo("NotificationDescription", DbType.String, true);
+      protected static readonly FieldInfo RequiredDocumentNotificationCount =
+         new FieldInfo("NotificationCount", DbType.Int32);
+      protected static readonly FieldInfo RequiredDocumentNotificationDate =
+         new FieldInfo("NotificationDate", DbType.Date, true);
+
       protected static readonly FieldInfo CreditId = new FieldInfo("CreditId", DbType.Int32);
       protected static readonly FieldInfo PersonalNumber = new FieldInfo("PersonalNumber", DbType.String, true);
       protected static readonly FieldInfo Name = new FieldInfo("Name", DbType.String, true);
@@ -40,10 +49,10 @@ namespace Buzzer.DataAccess.Repository
       protected static readonly FieldInfo PaymentDate = new FieldInfo("PaymentDate", DbType.Date);
       protected static readonly FieldInfo IsNotified = new FieldInfo("IsNotified", DbType.Boolean);
 
-      protected static readonly FieldInfo Description = new FieldInfo("Description", DbType.String);
+      protected static readonly FieldInfo TodoItemDescription = new FieldInfo("Description", DbType.String);
       protected static readonly FieldInfo TodoItemState = new FieldInfo("State", DbType.Int32);
-      protected static readonly FieldInfo NotificationCount = new FieldInfo("NotificationCount", DbType.Int32);
-      protected static readonly FieldInfo NotificationDate = new FieldInfo("NotificationDate", DbType.Date, true);
+      protected static readonly FieldInfo TodoItemNotificationCount = new FieldInfo("NotificationCount", DbType.Int32);
+      protected static readonly FieldInfo TodoItemNotificationDate = new FieldInfo("NotificationDate", DbType.Date, true);
 
       protected static readonly FieldInfo DocumentTypeName = new FieldInfo("Name", DbType.String);
       
@@ -51,6 +60,9 @@ namespace Buzzer.DataAccess.Repository
 
       protected static readonly FieldInfo CreditTypeId = new FieldInfo("CreditTypeID", DbType.Int32);
       protected static readonly FieldInfo DocumentTypeId = new FieldInfo("DocumentTypeID", DbType.Int32);
+
+      protected static readonly FieldInfo RequiredDocumentType = new FieldInfo("DocumentTypeID", DbType.Int32);
+      protected static readonly FieldInfo RequiredDocumentState = new FieldInfo("State", DbType.Int32);
 
       protected CommandBase(DbConnection connection, DbTransaction transaction)
       {

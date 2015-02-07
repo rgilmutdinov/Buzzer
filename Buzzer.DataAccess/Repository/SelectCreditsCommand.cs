@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Linq;
 using Buzzer.DomainModel.Models;
 using Common;
 
@@ -38,14 +39,25 @@ namespace Buzzer.DataAccess.Repository
                using (DbDataReader reader = command.ExecuteReader())
                   credits.Load(reader);
 
+               Dictionary<int, CreditType> creditTypesById =
+                  getCreditTypes().ToDictionary(item => item.Id);
+               Dictionary<int, DocumentType> documentTypesById =
+                  getDocumentTypes().ToDictionary(item => item.Id);
+
                var result = new List<CreditInfo>();
 
                foreach (DataRow row in credits.Rows)
                {
                   int creditId = Convert.ToInt32(row[Id.Name]);
+
+                  CreditType creditType =
+                     getCreditType(creditTypesById,
+                                   getNullable(row[RequiredDocumentCreditTypeId.Name], Convert.ToInt32));
+
                   QueryPersonInfoResult queryResult = getPersons(creditId);
                   IEnumerable<PaymentInfo> payments = getPayments(creditId);
                   IEnumerable<TodoItem> todoList = getTodoList(creditId);
+                  IEnumerable<RequiredDocument> requiredDocuments = getRequiredDocuments(creditId, documentTypesById);
 
                   result.Add(
                      CreditInfo.Create(
@@ -63,9 +75,14 @@ namespace Buzzer.DataAccess.Repository
                         get(row[RefusalReason.Name], Convert.ToString),
                         getRowState(Convert.ToInt32(row[RowState.Name])),
                         queryResult.Borrower,
+                        creditType,
+                        get(row[RequiredDocumentNotificationDescription.Name], Convert.ToString),
+                        Convert.ToInt32(row[RequiredDocumentNotificationCount.Name]),
+                        getNullable(row[RequiredDocumentNotificationDate.Name], Convert.ToDateTime),
                         queryResult.Guarantors,
                         payments,
-                        todoList
+                        todoList,
+                        requiredDocuments
                         )
                      );
                }
@@ -75,6 +92,18 @@ namespace Buzzer.DataAccess.Repository
          }
       }
 
+      private IEnumerable<CreditType> getCreditTypes()
+      {
+         var selectCommand = new SelectCreditTypesCommand(Connection, Transaction);
+         return selectCommand.Execute();
+      }
+
+      private IEnumerable<DocumentType> getDocumentTypes()
+      {
+         var selectCommand = new SelectDocumentTypesCommand(Connection, Transaction);
+         return selectCommand.Execute();
+      } 
+
       private CreditState getCreditState(int creditState)
       {
          return (CreditState) creditState;
@@ -83,6 +112,14 @@ namespace Buzzer.DataAccess.Repository
       private RowState getRowState(int rowState)
       {
          return (RowState) rowState;
+      }
+
+      private CreditType getCreditType(Dictionary<int, CreditType> creditTypesById, int? id)
+      {
+         if (!id.HasValue)
+            return null;
+
+         return creditTypesById[id.Value];
       }
 
       private QueryPersonInfoResult getPersons(int creditId)
@@ -190,7 +227,7 @@ namespace Buzzer.DataAccess.Repository
       private IEnumerable<TodoItem> getTodoList(int creditId)
       {
          string selectTodoItemsQuery =
-            string.Format("SELECT * FROM TodoItems WHERE {0} = {1}", CreditId.Name, creditId);
+            string.Format("SELECT * FROM TodoItems WHERE {0} = {1};", CreditId.Name, creditId);
 
          using (DbCommand command = createCommand(selectTodoItemsQuery))
          {
@@ -204,10 +241,10 @@ namespace Buzzer.DataAccess.Repository
                      TodoItem.Create(
                         Convert.ToInt32(reader[Id.Name]),
                         Convert.ToInt32(reader[CreditId.Name]),
-                        Convert.ToString(reader[Description.Name]),
+                        Convert.ToString(reader[TodoItemDescription.Name]),
                         getTodoItemState(Convert.ToInt32(reader[TodoItemState.Name])),
-                        Convert.ToInt32(reader[NotificationCount.Name]),
-                        getNullable(reader[NotificationDate.Name], Convert.ToDateTime)
+                        Convert.ToInt32(reader[TodoItemNotificationCount.Name]),
+                        getNullable(reader[TodoItemNotificationDate.Name], Convert.ToDateTime)
                         )
                      );
                }
@@ -220,6 +257,37 @@ namespace Buzzer.DataAccess.Repository
       private TodoItemState getTodoItemState(int todoItemState)
       {
          return (TodoItemState) todoItemState;
+      }
+
+      private IEnumerable<RequiredDocument> getRequiredDocuments(int creditId, Dictionary<int, DocumentType> documentTypesById)
+      {
+         string selectRequiredDocuments =
+            string.Format("SELECT * FROM RequiredDocuments WHERE {0} = {1};", CreditId.Name, creditId);
+
+         using (DbCommand command = createCommand(selectRequiredDocuments))
+         using (DbDataReader reader = command.ExecuteReader())
+         {
+            var result = new List<RequiredDocument>();
+
+            while (reader.Read())
+            {
+               result.Add(
+                  RequiredDocument.Create(
+                     Convert.ToInt32(reader[Id.Name]),
+                     Convert.ToInt32(reader[CreditId.Name]),
+                     documentTypesById[Convert.ToInt32(reader[RequiredDocumentType.Name])],
+                     getRequiredDocumentState(Convert.ToInt32(reader[RequiredDocumentState.Name]))
+                     )
+                  );
+            }
+
+            return result;
+         }
+      }
+
+      private RequiredDocumentState getRequiredDocumentState(int requiredDocumentState)
+      {
+         return (RequiredDocumentState) requiredDocumentState;
       }
 
       private sealed class QueryPersonInfoResult

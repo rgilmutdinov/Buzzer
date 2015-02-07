@@ -1,17 +1,40 @@
-﻿CREATE TEMP TABLE ID (Value integer);
+﻿CREATE TEMP TABLE ID (Value integer, CT1 integer, CT2 integer, DT1 integer, DT2 integer, DT3 integer);
+
+INSERT INTO CreditTypes (Name) VALUES ('SC_CT1');
+INSERT INTO ID (Value, CT1, CT2, DT1, DT2, DT3) VALUES (0, (SELECT last_insert_rowid()), 0, 0, 0, 0);
+
+INSERT INTO CreditTypes (Name) VALUES ('SC_CT2');
+UPDATE ID SET CT2 = (SELECT last_insert_rowid());
+
+INSERT INTO DocumentTypes (Name) VALUES ('SC_DT1');
+UPDATE ID SET DT1 = (SELECT last_insert_rowid());
+
+INSERT INTO DocumentTypes (Name) VALUES ('SC_DT2');
+UPDATE ID SET DT2 = (SELECT last_insert_rowid());
+
+INSERT INTO DocumentTypes (Name) VALUES ('SC_DT3');
+UPDATE ID SET DT3 = (SELECT last_insert_rowid());
 
 INSERT INTO Credits
-	(CreditNumber, CreditAmount, CreditIssueDate, MonthsCount, DiscountRate, EffectiveDiscountRate, ExchangeRate, CreditState)
+	(CreditNumber, CreditAmount, CreditIssueDate, MonthsCount, DiscountRate, EffectiveDiscountRate, ExchangeRate, CreditState,
+	 CreditTypeID, NotificationDescription, NotificationCount, NotificationDate)
 VALUES
-	('CNE1', 100000, '2013-12-31', 12, 0.36, 0.24, 45, 1);
+	('CNE1', 100000, '2013-12-31', 12, 0.36, 0.24, 45, 1, 
+	 (SELECT CT2 FROM ID LIMIT 1), 'Notification description', 1, '2015-02-06');
 
-INSERT INTO ID VALUES ((SELECT last_insert_rowid()));
+UPDATE ID SET Value = (SELECT last_insert_rowid());
 
 INSERT INTO TodoItems
 	(CreditID, Description, State, NotificationCount, NotificationDate)
 VALUES
 	((SELECT Value FROM ID LIMIT 1), 'Todo item 1', 0, 0, null),
 	((SELECT Value FROM ID LIMIT 1), 'Todo item 2', 0, 0, null);
+
+INSERT INTO RequiredDocuments
+	(CreditID, DocumentTypeID, State)
+VALUES
+	((SELECT Value FROM ID LIMIT 1), (SELECT DT1 FROM ID LIMIT 1), 0),
+	((SELECT Value FROM ID LIMIT 1), (SELECT DT2 FROM ID LIMIT 1), 0);
 
 INSERT INTO Persons
 	(CreditID, PersonalNumber, Name, RegistrationAddress, FactAddress, PassportNumber, PassportIssueDate, PassportIssuer, PersonType)

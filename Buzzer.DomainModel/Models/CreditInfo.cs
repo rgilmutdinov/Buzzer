@@ -14,7 +14,8 @@ namespace Buzzer.DomainModel.Models
       private decimal? _effectiveDiscountRate;
       private decimal? _exchangeRate;
       private List<PersonInfo> _guarantors;
-      private List<TodoItem> _todoList; 
+      private List<TodoItem> _todoList;
+      private List<RequiredDocument> _requiredDocuments; 
 
       private CreditInfo()
       {
@@ -33,7 +34,12 @@ namespace Buzzer.DomainModel.Models
                                _guarantors = new List<PersonInfo>(),
                                PaymentsSchedule = new PaymentInfo[0],
                                RowState = RowState.Modified,
-                               _todoList = new List<TodoItem>()
+                               CreditType = null,
+                               NotificationDescription = string.Empty,
+                               NotificationDate = null,
+                               NotificationCount = 0,
+                               _todoList = new List<TodoItem>(),
+                               _requiredDocuments = new List<RequiredDocument>()
                             };
          newCredit.Borrower.IsBorrower = true;
          return newCredit;
@@ -54,9 +60,14 @@ namespace Buzzer.DomainModel.Models
          string refusalReason,
          RowState rowState,
          PersonInfo borrower,
+         CreditType creditType,
+         string notificationDescription,
+         int notificationCount,
+         DateTime? notificationDate,
          IEnumerable<PersonInfo> guarantors,
          IEnumerable<PaymentInfo> payments,
-         IEnumerable<TodoItem> todoList 
+         IEnumerable<TodoItem> todoList,
+         IEnumerable<RequiredDocument> requiredDocuments 
          )
       {
          var paymentsSchedule = payments.OrderBy(item => item.PaymentDate).ToArray();
@@ -77,9 +88,14 @@ namespace Buzzer.DomainModel.Models
                       RefusalReason = refusalReason,
                       RowState = rowState,
                       Borrower = borrower,
+                      CreditType = creditType,
+                      NotificationDescription = notificationDescription,
+                      NotificationCount = notificationCount,
+                      NotificationDate = notificationDate,
                       _guarantors = guarantors.ToList(),
                       PaymentsSchedule = paymentsSchedule,
-                      _todoList = todoList.ToList()
+                      _todoList = todoList.ToList(),
+                      _requiredDocuments = requiredDocuments.ToList()
                    };
       }
 
@@ -153,6 +169,24 @@ namespace Buzzer.DomainModel.Models
          get { return _todoList.AsReadOnly(); } 
       }
 
+      // Тип кредита.
+      public CreditType CreditType { get; set; }
+      
+      // Примечание оповещения о требуемых документах.
+      public string NotificationDescription { get; set; }
+
+      // Количество оповещений.
+      public int NotificationCount { get; set; }
+
+      // Дата последнего оповещения.
+      public DateTime? NotificationDate { get; set; }
+
+      // Список требуемых документов.
+      public ReadOnlyCollection<RequiredDocument> RequiredDocuments
+      {
+         get { return _requiredDocuments.AsReadOnly(); }
+      } 
+
       public PersonInfo AddGuarantor()
       {
          var newGuarantor = PersonInfo.CreateNew(Id);
@@ -176,6 +210,18 @@ namespace Buzzer.DomainModel.Models
       public void RemoveTodoItem(TodoItem todoItem)
       {
          _todoList.Remove(todoItem);
+      }
+
+      public RequiredDocument AddRequiredDocument(DocumentType documentType)
+      {
+         RequiredDocument requiredDocument = RequiredDocument.CreateNew(Id, documentType);
+         _requiredDocuments.Add(requiredDocument);
+         return requiredDocument;
+      }
+
+      public void RemoveRequiredDocument(RequiredDocument requiredDocument)
+      {
+         _requiredDocuments.Remove(requiredDocument);
       }
 
       public bool CanBuildPaymentsSchedule()
