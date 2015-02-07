@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -18,16 +17,7 @@ namespace Buzzer.DomainModel.Models
                    };
       }
 
-      public static RequiredCreditDocuments CreateNew(CreditType creditType)
-      {
-         return new RequiredCreditDocuments
-                   {
-                      CreditType = creditType,
-                      _documentTypes = new List<DocumentType>()
-                   };
-      }
-
-      public CreditType CreditType { get; set; }
+      public CreditType CreditType { get; private set; }
 
       public ReadOnlyCollection<DocumentType> DocumentTypes
       {
@@ -47,13 +37,12 @@ namespace Buzzer.DomainModel.Models
 
       protected override string getErrorInfo(string columnName)
       {
-         throw new NotImplementedException();
+         return null;
       }
 
       protected override IEnumerable<string> getRequiredFields()
       {
-         throw new NotImplementedException();
+         return Enumerable.Empty<string>();
       }
-
    }
 }

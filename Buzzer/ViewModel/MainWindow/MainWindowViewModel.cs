@@ -13,6 +13,7 @@ using Buzzer.ViewModel.CreditsList;
 using Buzzer.ViewModel.NotificationLog;
 using Buzzer.ViewModel.PaymentNotificationList;
 using Buzzer.ViewModel.RegistrationLog;
+using Buzzer.ViewModel.RequiredCreditDocumentsList;
 using Common;
 
 namespace Buzzer.ViewModel.MainWindow
@@ -81,6 +82,11 @@ namespace Buzzer.ViewModel.MainWindow
                      new CommandViewModel(
                         Resources.MainWindowViewModel_RegistrationLog,
                         new CommandDelegate(showRegistrationLog)
+                        ), 
+
+                     new CommandViewModel(
+                        Resources.MainWindowViewModel_RequiredCreditDocuments,
+                        new CommandDelegate(showRequiredCreditDocuments)
                         ), 
                   };
 
@@ -171,6 +177,16 @@ namespace Buzzer.ViewModel.MainWindow
 
          if (workspace == null)
             addWorkspace(new RegistrationLogViewModel(_buzzerDatabase, this));
+         else
+            setActiveWorkspace(workspace);
+      }
+
+      private void showRequiredCreditDocuments()
+      {
+         var workspace = Workspaces.FirstOrDefault(item => item is RequiredCreditDocumentsListViewModel);
+
+         if (workspace == null)
+            addWorkspace(new RequiredCreditDocumentsListViewModel(_buzzerDatabase));
          else
             setActiveWorkspace(workspace);
       }

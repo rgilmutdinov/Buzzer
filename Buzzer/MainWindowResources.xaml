@@ -5,7 +5,8 @@
                     xmlns:CreditsList="clr-namespace:Buzzer.ViewModel.CreditsList"
                     xmlns:PaymentNotificationList="clr-namespace:Buzzer.ViewModel.PaymentNotificationList"
                     xmlns:NotificationLog="clr-namespace:Buzzer.ViewModel.NotificationLog"
-                    xmlns:RegistrationLog="clr-namespace:Buzzer.ViewModel.RegistrationLog">
+                    xmlns:RegistrationLog="clr-namespace:Buzzer.ViewModel.RegistrationLog"
+                    xmlns:RequiredCreditDocumentsList="clr-namespace:Buzzer.ViewModel.RequiredCreditDocumentsList">
 
    <!-- DataTemplates -->
    <DataTemplate DataType="{x:Type CreditContract:CreditContractViewModel}">
@@ -30,6 +31,10 @@
    
    <DataTemplate DataType="{x:Type RegistrationLog:RegistrationLogViewModel}">
       <View:RegistrationLogView />
+   </DataTemplate>
+
+   <DataTemplate DataType="{x:Type RequiredCreditDocumentsList:RequiredCreditDocumentsListViewModel}">
+      <View:RequiredCreditDocumentsListView />
    </DataTemplate>
 
    <DataTemplate x:Key="ErrorDataTemplate" DataType="{x:Type ValidationError}">

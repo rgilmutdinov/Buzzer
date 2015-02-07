@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Buzzer.DomainModel.Properties;
 
 namespace Buzzer.DomainModel.Models
 {
@@ -23,12 +24,23 @@ namespace Buzzer.DomainModel.Models
 
       protected override string getErrorInfo(string columnName)
       {
-         throw new NotImplementedException();
+         if (columnName == "Name")
+            return validateName();
+
+         throw new ArgumentException(columnName, "columnName");
       }
 
       protected override IEnumerable<string> getRequiredFields()
       {
-         throw new NotImplementedException();
+         return new[] {"Name"};
+      }
+
+      private string validateName()
+      {
+         if (Name.SafeGetLength() > 255)
+            return string.Format(Resources.MaxLengthExceeded, 255);
+
+         return string.IsNullOrEmpty(Name) ? Resources.FieldMustBeFilled : null;
       }
    }
 }

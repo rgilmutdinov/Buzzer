@@ -93,6 +93,10 @@
     <Compile Include="ViewModel\PaymentNotificationList\SmsReceiverViewModel.cs" />
     <Compile Include="ViewModel\RegistrationLog\RegistrationLogItemViewModel.cs" />
     <Compile Include="ViewModel\RegistrationLog\RegistrationLogViewModel.cs" />
+    <Compile Include="ViewModel\RequiredCreditDocumentsList\CheckedDocumentTypeViewModel.cs" />
+    <Compile Include="ViewModel\RequiredCreditDocumentsList\DocumentTypeViewModel.cs" />
+    <Compile Include="ViewModel\RequiredCreditDocumentsList\RequiredCreditDocumentsListViewModel.cs" />
+    <Compile Include="ViewModel\RequiredCreditDocumentsList\RequiredCreditDocumentViewModel.cs" />
     <Compile Include="View\BooleanToBrushConverter.cs" />
     <Compile Include="View\CreditContractView.xaml.cs">
       <DependentUpon>CreditContractView.xaml</DependentUpon>
@@ -123,6 +127,9 @@
     <Compile Include="View\PhoneNumberConverter.cs" />
     <Compile Include="View\RegistrationLogView.xaml.cs">
       <DependentUpon>RegistrationLogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\RequiredCreditDocumentsListView.xaml.cs">
+      <DependentUpon>RequiredCreditDocumentsListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\TodoItemStateConverter.cs" />
     <Page Include="MainWindow.xaml">
@@ -170,6 +177,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\RegistrationLogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\RequiredCreditDocumentsListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

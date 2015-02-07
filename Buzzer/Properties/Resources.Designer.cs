@@ -187,6 +187,15 @@ namespace Buzzer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Требуемые документы.
+        /// </summary>
+        internal static string MainWindowViewModel_RequiredCreditDocuments {
+            get {
+                return ResourceManager.GetString("MainWindowViewModel_RequiredCreditDocuments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Новый кредит.
         /// </summary>
         internal static string NewCreditTabCaption {
@@ -237,6 +246,15 @@ namespace Buzzer.Properties {
         internal static string RegistrationLogViewModel_DeleteRegistrationLogItemMessageBoxMessage {
             get {
                 return ResourceManager.GetString("RegistrationLogViewModel_DeleteRegistrationLogItemMessageBoxMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Настройка требуемых документов.
+        /// </summary>
+        internal static string RequiredCreditDocumentsViewModel_Caption {
+            get {
+                return ResourceManager.GetString("RequiredCreditDocumentsViewModel_Caption", resourceCulture);
             }
         }
         

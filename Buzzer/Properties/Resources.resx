@@ -183,4 +183,10 @@
   <data name="RegistrationLogViewModel_DeleteRegistrationLogItemMessageBoxMessage" xml:space="preserve">
     <value>Вы уверены,что хотите удалить выбранную запись?</value>
   </data>
+  <data name="MainWindowViewModel_RequiredCreditDocuments" xml:space="preserve">
+    <value>Требуемые документы</value>
+  </data>
+  <data name="RequiredCreditDocumentsViewModel_Caption" xml:space="preserve">
+    <value>Настройка требуемых документов</value>
+  </data>
 </root>

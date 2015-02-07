@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Buzzer.DataAccess.Repository;
@@ -31,7 +32,7 @@ namespace Buzzer.Tests.DatabaseTests
       public void SaveNewRequiredCreditDocumentsTest()
       {
          RequiredCreditDocuments requiredCreditDocuments =
-            RequiredCreditDocuments.CreateNew(getCreditTypeByName("CT3"));
+            RequiredCreditDocuments.Create(getCreditTypeByName("CT3"), new DocumentType[0]);
          requiredCreditDocuments.AddDocumentType(getDocumentTypeByName("DT2"));
 
          _buzzerDatabase.SaveRequiredCreditDocuments(requiredCreditDocuments);

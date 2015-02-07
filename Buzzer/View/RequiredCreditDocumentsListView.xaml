@@ -1,0 +1,96 @@
+﻿<UserControl x:Class="Buzzer.View.RequiredCreditDocumentsListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:RequiredCreditDocumentsList="clr-namespace:Buzzer.ViewModel.RequiredCreditDocumentsList"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance RequiredCreditDocumentsList:RequiredCreditDocumentsListViewModel}">
+
+   <UserControl.Resources>
+      <ResourceDictionary Source="/MainWindowResources.xaml" />
+   </UserControl.Resources>
+
+   <Grid>
+      <Grid.ColumnDefinitions>
+         <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+         <RowDefinition Height="Auto" />
+         <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+
+      <GroupBox Grid.Row="0" Grid.Column="0" Header="Документы">
+         <StackPanel>
+            <ListBox ItemsSource="{Binding Path=DocumentTypes, Mode=OneWay, ValidatesOnDataErrors=True}"
+                     Margin="5" MaxHeight="400">
+               <ListBox.ItemTemplate>
+                  <DataTemplate>
+                     <StackPanel Orientation="Horizontal">
+                        <TextBox Text="{Binding Path=Name, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                                 x:Name="textBoxDocumentTypeName"
+                                 Style="{StaticResource TextBoxStyle}"
+                                 Width="400" MaxLength="255" 
+                                 />
+                        <ContentPresenter Style="{StaticResource ContentPresenterStyle}"
+                                          ContentTemplate="{StaticResource ErrorDataTemplate}"
+                                          Content="{Binding ElementName=textBoxDocumentTypeName, Path=(Validation.Errors).CurrentItem}"
+                                          />
+                     </StackPanel>
+                  </DataTemplate>
+               </ListBox.ItemTemplate>
+            </ListBox>
+            
+            <StackPanel Orientation="Horizontal">
+               <Button Content="+" Command="{Binding Path=AddDocumentType, Mode=OneWay}" Width="20" Margin="5,0,2,5" />
+               <Button Content="Сохранить" Command="{Binding Path=SaveDocumentTypes, Mode=OneWay}" Margin="5,0,2,5" />
+            </StackPanel>
+         </StackPanel>
+      </GroupBox>
+
+      <GroupBox Grid.Row="1" Grid.Column="0" Header="Кредиты">
+         <StackPanel>
+            <ListBox ItemsSource="{Binding Path=RequiredCreditDocuments, Mode=OneWay, ValidatesOnDataErrors=True}"
+                     Margin="5" MaxHeight="400">
+               <ListBox.ItemTemplate>
+                  <DataTemplate>
+                     <StackPanel Orientation="Horizontal">
+                        <StackPanel>
+                           <TextBox Text="{Binding Path=CreditTypeName, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                                    x:Name="textBoxCreditTypeName"
+                                    Style="{StaticResource TextBoxStyle}"
+                                    Width="400" MaxLength="255" 
+                                    />
+                           <ContentPresenter Style="{StaticResource ContentPresenterStyle}"
+                                             ContentTemplate="{StaticResource ErrorDataTemplate}"
+                                             Content="{Binding ElementName=textBoxCreditTypeName, Path=(Validation.Errors).CurrentItem}"
+                                             />
+                        </StackPanel>
+
+                        <ListBox ItemsSource="{Binding Path=CheckedDocumentTypes, Mode=OneWay, ValidatesOnDataErrors=True}"
+                                 Margin="5" MaxHeight="400">
+                           <ListBox.ItemTemplate>
+                              <DataTemplate>
+                                 <CheckBox IsChecked="{Binding Path=IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                           Content="{Binding Path=Name, Mode=OneWay}" Margin="2"/>
+                              </DataTemplate>
+                           </ListBox.ItemTemplate>
+                        </ListBox>
+                        
+                     </StackPanel>
+                  </DataTemplate>
+               </ListBox.ItemTemplate>
+            </ListBox>
+            
+            <StackPanel>
+               <StackPanel Orientation="Horizontal">
+                  <Button Content="+" Command="{Binding Path=AddRequiredCreditDocuments, Mode=OneWay}" Width="20" Margin="5,0,2,5" />
+                  <Button Content="Сохранить" Command="{Binding Path=SaveRequiredCreditDocuments, Mode=OneWay}" Margin="5,0,2,5" />
+               </StackPanel>
+            </StackPanel>
+         </StackPanel>
+      </GroupBox>
+
+   </Grid>
+</UserControl>
