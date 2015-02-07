@@ -94,7 +94,6 @@ namespace Buzzer.DatabaseConverter.Properties {
         ///
         ///create table RequiredCreditDocuments
         ///(
-        ///	ID integer primary key autoincrement not null,
         ///	CreditTypeID integer not null,
         ///	DocumentTypeID integer not null,
         ///	foreign key(CreditTypeID) references CreditTypes(ID),
@@ -141,6 +140,24 @@ namespace Buzzer.DatabaseConverter.Properties {
         internal static string AddRefusalReasonColumnToCreditsTable {
             get {
                 return ResourceManager.GetString("AddRefusalReasonColumnToCreditsTable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to create table TodoItems
+        ///(
+        ///	ID integer primary key autoincrement not null,
+        ///	CreditID integer not null,
+        ///	Description nvarchar(255) not null,
+        ///	State integer not null,
+        ///	NotificationCount integer not null default 0,
+        ///	NotificationDate date,
+        ///	foreign key(CreditID) references Credits(ID)
+        ///);.
+        /// </summary>
+        internal static string AddRequiredDocumentsTable {
+            get {
+                return ResourceManager.GetString("AddRequiredDocumentsTable", resourceCulture);
             }
         }
         

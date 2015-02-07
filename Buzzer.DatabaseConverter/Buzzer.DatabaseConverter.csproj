@@ -49,6 +49,7 @@
     <Compile Include="Converters\AddNotificationLogConverter.cs" />
     <Compile Include="CommandFactory.cs" />
     <Compile Include="Converters\AddRefusalReasonColumnToCreditsTableConverter.cs" />
+    <Compile Include="Converters\AddRequiredDocumentsTableConverter.cs" />
     <Compile Include="Converters\AddRowStateColumnToCreditsTableConverter.cs" />
     <Compile Include="Converters\AddTodoItemsTableConverter.cs" />
     <Compile Include="Converters\AddUsersTableConverter.cs" />
@@ -83,6 +84,7 @@
     <Content Include="ConverterScripts\AddCreditTypesAndDocumentTypesTables.sql" />
     <Content Include="ConverterScripts\AddNotificationLogTable.sql" />
     <Content Include="ConverterScripts\AddRefusalReasonColumnToCreditsTable.sql" />
+    <Content Include="ConverterScripts\AddRequiredDocumentsTable.sql" />
     <Content Include="ConverterScripts\AddRowStateColumnToCreditsTable.sql" />
     <Content Include="ConverterScripts\AddTodoItemsTable.sql" />
     <Content Include="ConverterScripts\AddUsersTable.sql" />
