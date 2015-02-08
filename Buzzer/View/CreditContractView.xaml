@@ -7,7 +7,7 @@
              xmlns:View="clr-namespace:Buzzer.View"
              xmlns:CreditContract="clr-namespace:Buzzer.ViewModel.CreditContract"
              mc:Ignorable="d" 
-             d:DesignHeight="900" d:DesignWidth="850"
+             d:DesignHeight="1100" d:DesignWidth="850"
              d:DataContext="{d:DesignInstance CreditContract:CreditContractViewModel}">
 
    <UserControl.Resources>
@@ -41,6 +41,7 @@
                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
+               <RowDefinition Height="Auto"/>
                <RowDefinition Height="Auto"/>
                <RowDefinition Height="Auto"/>
                <RowDefinition Height="Auto"/>
@@ -309,7 +310,7 @@
             </GroupBox>
          
             <!-- Поручители -->
-            <GroupBox Grid.Row="2" Grid.Column="1" Header="Поручители">
+            <GroupBox Grid.Row="2" Grid.Column="0" Header="Поручители">
                <StackPanel>
                   <ListBox
                      ItemsSource="{Binding Path=Guarantors, Mode=OneWay, ValidatesOnDataErrors=True}"
@@ -342,7 +343,57 @@
                </StackPanel>
             </GroupBox>
 
-            <Expander Grid.Row="3" Grid.Column="1"
+            <GroupBox Grid.Row="3" Grid.Column="0" Header="Документы">
+               <StackPanel HorizontalAlignment="Left">
+                  <StackPanel Orientation="Horizontal">
+                     <Label Style="{StaticResource LabelStyle}" Content="Тип кредита:"/>
+                     <ComboBox ItemsSource="{Binding Path=CreditTypes, Mode=OneWay}"
+                               SelectedItem="{Binding Path=SelectedCreditType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                               DisplayMemberPath="Name"
+                               Margin="5" Width="200"/>
+                  </StackPanel>
+                  
+                  <ListBox ItemsSource="{Binding Path=RequiredDocuments, Mode=OneWay}"
+                           Margin="5,0,5,5" MaxHeight="400">
+                     <ListBox.ItemTemplate>
+                        <DataTemplate>
+                           <CheckBox IsChecked="{Binding Path=State, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource requiredDocumentStateConverter}}"
+                                     Content="{Binding Path=DocumentType.Name, Mode=OneWay}" Margin="2"/>
+                        </DataTemplate>
+                     </ListBox.ItemTemplate>
+                  </ListBox>
+
+                  <Label Content="Примечание:" Margin="5,10,5,0"/>
+                  
+                  <TextBox Text="{Binding Path=NotificationDescription, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                           AcceptsReturn="True" TextWrapping="Wrap"
+                           Width="500" Height="100" Margin="5"
+                           ScrollViewer.VerticalScrollBarVisibility="Auto"
+                           ScrollViewer.CanContentScroll="True"
+                           />
+                  
+                  <StackPanel Orientation="Horizontal">
+                     <ComboBox ItemsSource="{Binding Path=PhoneNumbers, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                               SelectedItem="{Binding Path=SelectedPhoneNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                               Width="120" Margin="5">
+                        <ComboBox.ItemTemplate>
+                           <DataTemplate>
+                              <TextBlock Text="{Binding Converter={StaticResource phoneNumberConverter}}"/>
+                           </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                     </ComboBox>
+
+                     <Button Content="{Binding Path=NotificationCount, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                             ContentStringFormat="SMS (Отправлено: {0})"
+                             Command="{Binding Path=SendSms, Mode=OneWay}"
+                             HorizontalAlignment="Left" Margin="5"
+                             />
+                  </StackPanel>
+
+               </StackPanel>
+            </GroupBox>
+
+            <Expander Grid.Row="4" Grid.Column="0"
                       Header="TODO list"
                       BorderBrush="#FFD5DFE5" BorderThickness="1"
                       Margin="1,5,1,5"

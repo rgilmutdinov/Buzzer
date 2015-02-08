@@ -273,7 +273,20 @@ namespace Buzzer.DomainModel.Models
       {
          RowState = RowState.Deleted;
       }
-      
+
+      public void Notified()
+      {
+         if (NotificationDate.HasValue && NotificationDate.Value == DateTime.Today)
+         {
+            NotificationCount++;
+         }
+         else
+         {
+            NotificationDate = DateTime.Today;
+            NotificationCount = 1;
+         }
+      }
+
       protected override string getErrorInfo(string columnName)
       {
          switch (columnName)

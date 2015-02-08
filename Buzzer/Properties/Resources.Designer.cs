@@ -70,6 +70,24 @@ namespace Buzzer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Изменение типа кредита.
+        /// </summary>
+        internal static string CreditContractViewModel_ChangeCreditTypeMessageBoxCaption {
+            get {
+                return ResourceManager.GetString("CreditContractViewModel_ChangeCreditTypeMessageBoxCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Вы уверены, что хотите изменить тип кредита? Это приведет к тому, что текущие документы будут удалены..
+        /// </summary>
+        internal static string CreditContractViewModel_ChangeCreditTypeMessageBoxMessage {
+            get {
+                return ResourceManager.GetString("CreditContractViewModel_ChangeCreditTypeMessageBoxMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Отказ в выдаче кредита.
         /// </summary>
         internal static string CreditContractViewModel_RefuseCreditMessageBoxCaption {

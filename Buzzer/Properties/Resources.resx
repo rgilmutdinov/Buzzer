@@ -189,4 +189,10 @@
   <data name="RequiredCreditDocumentsViewModel_Caption" xml:space="preserve">
     <value>Настройка требуемых документов</value>
   </data>
+  <data name="CreditContractViewModel_ChangeCreditTypeMessageBoxCaption" xml:space="preserve">
+    <value>Изменение типа кредита</value>
+  </data>
+  <data name="CreditContractViewModel_ChangeCreditTypeMessageBoxMessage" xml:space="preserve">
+    <value>Вы уверены, что хотите изменить тип кредита? Это приведет к тому, что текущие документы будут удалены.</value>
+  </data>
 </root>

@@ -57,6 +57,7 @@
     <Compile Include="Repository\BuzzerDatabase.cs" />
     <Compile Include="Repository\PersonTypes.cs" />
     <Compile Include="Repository\SaveCreditCommand.cs" />
+    <Compile Include="Repository\SaveCreditNotificationInfoCommand.cs" />
     <Compile Include="Repository\SaveCreditTypeCommand.cs" />
     <Compile Include="Repository\SaveDocumentTypeCommand.cs" />
     <Compile Include="Repository\SaveNotificationLogItemCommand.cs" />

@@ -131,6 +131,7 @@
     <Compile Include="View\RequiredCreditDocumentsListView.xaml.cs">
       <DependentUpon>RequiredCreditDocumentsListView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\RequiredDocumentStateConverter.cs" />
     <Compile Include="View\TodoItemStateConverter.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

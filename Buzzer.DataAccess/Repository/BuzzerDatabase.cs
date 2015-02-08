@@ -204,5 +204,18 @@ namespace Buzzer.DataAccess.Repository
             }
          }
       }
+
+      public void SaveCreditNotificationInfo(CreditInfo creditInfo)
+      {
+         using (DbConnection connection = createConnection())
+         {
+            using (DbTransaction transaction = createTransaction(connection))
+            {
+               var saveCommand = new SaveCreditNotificationInfoCommand(connection, transaction, creditInfo);
+               saveCommand.Execute();
+               transaction.Commit();
+            }
+         }
+      }
    }
 }

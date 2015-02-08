@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Windows;
 using System.Windows.Input;
 using Buzzer.DataAccess.Repository;
 using Buzzer.DomainModel.Models;
+using Buzzer.DomainModel.Services;
 using Buzzer.Properties;
 using Buzzer.ViewModel.Common;
 using Common;
@@ -21,6 +23,8 @@ namespace Buzzer.ViewModel.CreditContract
       private readonly CreditInfo _creditInfo;
       private readonly PersonInfo _borrower;
       private bool _isUsdRateEnabled;
+
+      private readonly RequiredCreditDocuments[] _requiredCreditDocuments;
 
       private ICommand _buildPaymentsScheduleCommand;
       private ICommand _addGuarantorCommand;
@@ -45,6 +49,11 @@ namespace Buzzer.ViewModel.CreditContract
          Guarantors = getGuarantors();
          PaymentsSchedule = getPaymentsSchedule();
          TodoList = getTodoList();
+         CreditTypes = getCreditTypes();
+
+         _requiredCreditDocuments = getRequiredCreditDocuments();
+
+         SelectedPhoneNumber = Borrower.PhoneNumbers.FirstOrDefault();
 
          DisplayName = getDisplayName();
       }
@@ -183,6 +192,32 @@ namespace Buzzer.ViewModel.CreditContract
          }
       }
 
+      public string NotificationDescription
+      {
+         get { return _creditInfo.NotificationDescription; }
+         set
+         {
+            if (_creditInfo.NotificationDescription == value)
+               return;
+
+            _creditInfo.NotificationDescription = value;
+            propertyChanged("NotificationDescription");
+         }
+      }
+
+      public int NotificationCount
+      {
+         get
+         {
+            DateTime? notificationDate = _creditInfo.NotificationDate;
+
+            if (notificationDate.HasValue && notificationDate.Value == DateTime.Today)
+               return _creditInfo.NotificationCount;
+
+            return 0;
+         }
+      }
+
       public PersonInfoViewModel SelectedGuarantor { get; set; }
 
       public ObservableCollection<PersonInfoViewModel> Guarantors { get; private set; }
@@ -192,6 +227,51 @@ namespace Buzzer.ViewModel.CreditContract
       public TodoItemViewModel SelectedTodoItem { get; set; }
 
       public ObservableCollection<TodoItemViewModel> TodoList { get; private set; }
+
+      public CreditType[] CreditTypes { get; private set; }
+
+      public CreditType SelectedCreditType
+      {
+         get
+         {
+            CreditType creditType = _creditInfo.CreditType;
+
+            if (creditType == null)
+               return null;
+
+            return CreditTypes.Single(item => item.Id == creditType.Id);
+         }
+         set
+         {
+            CreditType creditType = _creditInfo.CreditType;
+
+            if (creditType != null && creditType.Id == value.Id)
+               return;
+
+            if (!userAcceptsChangingCreditType())
+               return;
+
+            _creditInfo.CreditType = value;
+
+            removeOldDocuments();
+            addNewDocuments();
+
+            propertyChanged("SelectedCreditType");
+            propertyChanged("RequiredDocuments");
+         }
+      }
+
+      public IEnumerable<RequiredDocument> RequiredDocuments
+      {
+         get { return _creditInfo.RequiredDocuments; }
+      }
+
+      public PhoneNumberViewModel SelectedPhoneNumber { get; set; }
+
+      public ObservableCollection<PhoneNumberViewModel> PhoneNumbers
+      {
+         get { return Borrower.PhoneNumbers; }
+      }
 
       #endregion
       
@@ -281,6 +361,20 @@ namespace Buzzer.ViewModel.CreditContract
          }
       }
 
+      private ICommand _sendSmsCommand;
+
+      public ICommand SendSms
+      {
+         get
+         {
+            if (_sendSmsCommand != null)
+               return _sendSmsCommand;
+
+            _sendSmsCommand = new CommandDelegate(sendSms, canSendSms);
+            return _sendSmsCommand;
+         }
+      }
+
       #endregion
 
       #region IDataErrorInfo Members
@@ -319,7 +413,7 @@ namespace Buzzer.ViewModel.CreditContract
       {
          get { return null; }
       }
-      
+
       #endregion
 
       private ObservableCollection<PersonInfoViewModel> getGuarantors()
@@ -352,9 +446,46 @@ namespace Buzzer.ViewModel.CreditContract
             );
       }
 
+      private CreditType[] getCreditTypes()
+      {
+         return _buzzerDatabase.GetAllCreditTypes();
+      }
+
+      private RequiredCreditDocuments[] getRequiredCreditDocuments()
+      {
+         return _buzzerDatabase.GetAllRequiredCreditDocuments();
+      }
+
       private string getDisplayName()
       {
          return _creditInfo.IsNew ? Resources.NewCreditTabCaption : _creditInfo.CreditNumber;
+      }
+
+      private bool userAcceptsChangingCreditType()
+      {
+         MessageBoxResult answer =
+            MessageBox.Show(Resources.CreditContractViewModel_ChangeCreditTypeMessageBoxMessage,
+                            Resources.CreditContractViewModel_ChangeCreditTypeMessageBoxCaption,
+                            MessageBoxButton.YesNo,
+                            MessageBoxImage.Question);
+
+         return answer == MessageBoxResult.Yes;
+      }
+
+      private void removeOldDocuments()
+      {
+         foreach (RequiredDocument requiredDocument in _creditInfo.RequiredDocuments.ToArray())
+            _creditInfo.RemoveRequiredDocument(requiredDocument);
+      }
+
+      private void addNewDocuments()
+      {
+         RequiredCreditDocuments requiredCreditDocuments =
+            _requiredCreditDocuments
+               .Single(item => item.CreditType.Id == _creditInfo.CreditType.Id);
+
+         foreach (DocumentType documentType in requiredCreditDocuments.DocumentTypes)
+            _creditInfo.AddRequiredDocument(documentType);
       }
 
       private void buildPaymentsSchedule()
@@ -461,6 +592,43 @@ namespace Buzzer.ViewModel.CreditContract
                             MessageBoxImage.Error);
             Logger.Error(e);
          }
+      }
+
+      private void sendSms()
+      {
+         try
+         {
+            const string message = "MKK Standart Kredit. Prosim Vas prinesti " +
+                                   "dokumenty po predostavlennomu kreditu.";
+
+            ISmsSender smsSender = SmsSenderFactory.GetSmsSender(SelectedPhoneNumber.PhoneNumber);
+            smsSender.Send(message);
+
+            _creditInfo.Notified();
+            _buzzerDatabase.SaveCreditNotificationInfo(_creditInfo);
+
+            propertyChanged("NotificationCount");
+         }
+         catch (UnknownMobileProviderException)
+         {
+            MessageBox.Show(Resources.UnknownMobileProvider,
+                            Resources.BuzzerErrorMessageBoxCaption,
+                            MessageBoxButton.OK, MessageBoxImage.Error);
+         }
+         catch (Exception e)
+         {
+            MessageBox.Show(Resources.SendSmsError,
+                            Resources.BuzzerErrorMessageBoxCaption,
+                            MessageBoxButton.OK, MessageBoxImage.Error);
+            Logger.Error(e);
+         }
+      }
+
+      private bool canSendSms()
+      {
+         return SelectedPhoneNumber != null &&
+                SelectedPhoneNumber["SelectedPhoneNumber"] == null &&
+                _creditInfo.Id != NullValues.Id;
       }
    }
 }

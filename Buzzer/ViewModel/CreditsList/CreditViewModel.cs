@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Buzzer.DomainModel.Models;
 using Buzzer.ViewModel.Common;
 using Buzzer.ViewModel.MainWindow;
@@ -21,7 +22,7 @@ namespace Buzzer.ViewModel.CreditsList
          _creditInfo = creditInfo;
          _workspaceManager = workspaceManager;
 
-         CreditNumber = _creditInfo.CreditNumber;
+         CreditNumber = getCreditNumber();
          BorrowerName = _creditInfo.Borrower.PersonName;
          CreditAmount = getCreditAmount();
          CreditIssueDate = _creditInfo.CreditIssueDate;
@@ -65,6 +66,13 @@ namespace Buzzer.ViewModel.CreditsList
          _workspaceManager.ShowCreditInfo(_creditInfo);
       }
 
+      private string getCreditNumber()
+      {
+         const string hasCommitmentsMark = "*";
+         return string.Format("{0}{1}", _creditInfo.CreditNumber,
+                              hasCommitments() ? hasCommitmentsMark : string.Empty);
+      }
+
       private string getCreditAmount()
       {
          return string.Format("{0} KGS", _creditInfo.CreditAmount);
@@ -78,6 +86,21 @@ namespace Buzzer.ViewModel.CreditsList
       private DateTime getCreditEndDate()
       {
          return _creditInfo.CreditIssueDate.AddMonths(_creditInfo.MonthsCount);
+      }
+
+      private bool hasCommitments()
+      {
+         return hasNotCarriedRequiredDocuments() || hasNotFulfiledTodoItems();
+      }
+
+      private bool hasNotCarriedRequiredDocuments()
+      {
+         return _creditInfo.RequiredDocuments.Any(item => item.State == RequiredDocumentState.None);
+      }
+
+      private bool hasNotFulfiledTodoItems()
+      {
+         return _creditInfo.TodoList.Any(item => item.State == TodoItemState.None);
       }
    }
 }

@@ -1,5 +1,5 @@
-using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Buzzer.DomainModel.Models
 {
@@ -43,12 +43,12 @@ namespace Buzzer.DomainModel.Models
 
       protected override string getErrorInfo(string columnName)
       {
-         throw new NotImplementedException();
+         return null;
       }
 
       protected override IEnumerable<string> getRequiredFields()
       {
-         throw new NotImplementedException();
+         return Enumerable.Empty<string>();
       }
    }
 }
