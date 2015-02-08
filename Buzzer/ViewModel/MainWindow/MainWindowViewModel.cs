@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Configuration;
 using System.Linq;
 using System.Windows.Data;
 using Buzzer.DataAccess.Repository;
@@ -24,7 +25,7 @@ namespace Buzzer.ViewModel.MainWindow
       private readonly LoginManager _loginManager;
 
       private ObservableCollection<WorkspaceViewModel> _workspaces;
-      private IEnumerable<CommandViewModel> _commands;
+      private List<CommandViewModel> _commands;
 
       public MainWindowViewModel(BuzzerDatabase buzzerDatabase)
       {
@@ -58,7 +59,7 @@ namespace Buzzer.ViewModel.MainWindow
                return _commands;
 
             _commands =
-               new[]
+               new List<CommandViewModel>
                   {
                      new CommandViewModel(
                         Resources.MainWindowViewModel_CreditsList,
@@ -83,12 +84,17 @@ namespace Buzzer.ViewModel.MainWindow
                         Resources.MainWindowViewModel_RegistrationLog,
                         new CommandDelegate(showRegistrationLog)
                         ), 
-
-                     new CommandViewModel(
-                        Resources.MainWindowViewModel_RequiredCreditDocuments,
-                        new CommandDelegate(showRequiredCreditDocuments)
-                        ), 
                   };
+
+            if (needShowRequiredCreditDocumentsButton())
+            {
+               _commands.Add(
+                  new CommandViewModel(
+                     Resources.MainWindowViewModel_RequiredCreditDocuments,
+                     new CommandDelegate(showRequiredCreditDocuments)
+                     )
+                  );
+            }
 
             return _commands;
          }
@@ -189,6 +195,12 @@ namespace Buzzer.ViewModel.MainWindow
             addWorkspace(new RequiredCreditDocumentsListViewModel(_buzzerDatabase));
          else
             setActiveWorkspace(workspace);
+      }
+
+      private bool needShowRequiredCreditDocumentsButton()
+      {
+         string value = ConfigurationManager.AppSettings["ShowRequiredCreditDocumentsButton"];
+         return !string.IsNullOrEmpty(value) && Convert.ToBoolean(value);
       }
    }
 }
