@@ -24,7 +24,7 @@
       <GroupBox Grid.Row="0" Grid.Column="0" Header="Документы">
          <StackPanel>
             <ListBox ItemsSource="{Binding Path=DocumentTypes, Mode=OneWay, ValidatesOnDataErrors=True}"
-                     Margin="5" MaxHeight="400">
+                     Margin="5" MaxHeight="200" >
                <ListBox.ItemTemplate>
                   <DataTemplate>
                      <StackPanel Orientation="Horizontal">
@@ -52,7 +52,7 @@
       <GroupBox Grid.Row="1" Grid.Column="0" Header="Кредиты">
          <StackPanel>
             <ListBox ItemsSource="{Binding Path=RequiredCreditDocuments, Mode=OneWay, ValidatesOnDataErrors=True}"
-                     Margin="5" MaxHeight="400">
+                     Margin="5" MaxHeight="300">
                <ListBox.ItemTemplate>
                   <DataTemplate>
                      <StackPanel Orientation="Horizontal">
@@ -69,7 +69,7 @@
                         </StackPanel>
 
                         <ListBox ItemsSource="{Binding Path=CheckedDocumentTypes, Mode=OneWay, ValidatesOnDataErrors=True}"
-                                 Margin="5" MaxHeight="400">
+                                 Margin="5" MaxHeight="200">
                            <ListBox.ItemTemplate>
                               <DataTemplate>
                                  <CheckBox IsChecked="{Binding Path=IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
