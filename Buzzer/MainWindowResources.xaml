@@ -8,121 +8,120 @@
                     xmlns:RegistrationLog="clr-namespace:Buzzer.ViewModel.RegistrationLog"
                     xmlns:RequiredCreditDocumentsList="clr-namespace:Buzzer.ViewModel.RequiredCreditDocumentsList">
 
-   <!-- DataTemplates -->
-   <DataTemplate DataType="{x:Type CreditContract:CreditContractViewModel}">
-      <View:CreditContractView />
-   </DataTemplate>
+    <!-- DataTemplates -->
+    <DataTemplate DataType="{x:Type CreditContract:CreditContractViewModel}">
+        <View:CreditContractView />
+    </DataTemplate>
 
-   <DataTemplate DataType="{x:Type CreditsList:CreditsListViewModel}">
-      <View:CreditsListView />
-   </DataTemplate>
+    <DataTemplate DataType="{x:Type CreditsList:CreditsListViewModel}">
+        <View:CreditsListView />
+    </DataTemplate>
 
-   <DataTemplate DataType="{x:Type CreditContract:PersonInfoViewModel}">
-      <View:PersonInfoView />
-   </DataTemplate>
+    <DataTemplate DataType="{x:Type CreditContract:PersonInfoViewModel}">
+        <View:PersonInfoView />
+    </DataTemplate>
 
-   <DataTemplate DataType="{x:Type PaymentNotificationList:PaymentNotificationListViewModel}">
-      <View:PaymentNotificationListView />
-   </DataTemplate>
+    <DataTemplate DataType="{x:Type PaymentNotificationList:PaymentNotificationListViewModel}">
+        <View:PaymentNotificationListView />
+    </DataTemplate>
 
-   <DataTemplate DataType="{x:Type NotificationLog:NotificationLogViewModel}">
-      <View:NotificationLogView />
-   </DataTemplate>
-   
-   <DataTemplate DataType="{x:Type RegistrationLog:RegistrationLogViewModel}">
-      <View:RegistrationLogView />
-   </DataTemplate>
+    <DataTemplate DataType="{x:Type NotificationLog:NotificationLogViewModel}">
+        <View:NotificationLogView />
+    </DataTemplate>
 
-   <DataTemplate DataType="{x:Type RequiredCreditDocumentsList:RequiredCreditDocumentsListViewModel}">
-      <View:RequiredCreditDocumentsListView />
-   </DataTemplate>
+    <DataTemplate DataType="{x:Type RegistrationLog:RegistrationLogViewModel}">
+        <View:RegistrationLogView />
+    </DataTemplate>
 
-   <DataTemplate x:Key="ErrorDataTemplate" DataType="{x:Type ValidationError}">
-      <TextBlock FontStyle="Italic" Foreground="Red" HorizontalAlignment="Left" Text="{Binding Path=ErrorContent}" />
-   </DataTemplate>
+    <DataTemplate DataType="{x:Type RequiredCreditDocumentsList:RequiredCreditDocumentsListViewModel}">
+        <View:RequiredCreditDocumentsListView />
+    </DataTemplate>
 
-   <DataTemplate x:Key="WarningDataTemplate" DataType="{x:Type ValidationError}">
-      <TextBlock FontStyle="Italic" Foreground="Blue" HorizontalAlignment="Left" Text="{Binding Path=ErrorContent}" />
-   </DataTemplate>
+    <DataTemplate x:Key="ErrorDataTemplate" DataType="{x:Type ValidationError}">
+        <TextBlock FontStyle="Italic" Foreground="Red" HorizontalAlignment="Left" Text="{Binding Path=ErrorContent}" />
+    </DataTemplate>
 
-   <DataTemplate x:Key="ClosableTabItemTemplate">
-      <DockPanel Width="Auto" MinWidth="100">
-         <Button 
-            Command="{Binding Path=CloseCommand}"
-            Content="X"
-            Cursor="Hand"
-            DockPanel.Dock="Right"
-            Focusable="False"
-            FontFamily="Courier" 
-            FontSize="9"
-            FontWeight="Bold"  
-            Margin="0,1,0,0"
-            Padding="0"
-            VerticalContentAlignment="Bottom"
-            Width="16" Height="16"
-            />
-         <ContentPresenter
-            Margin="0,0,5,0"
-            DockPanel.Dock="Left"
-            Content="{Binding Path=DisplayName}"
-            VerticalAlignment="Center"
-            />
-      </DockPanel>
-   </DataTemplate>
+    <DataTemplate x:Key="WarningDataTemplate" DataType="{x:Type ValidationError}">
+        <TextBlock FontStyle="Italic" Foreground="Blue" HorizontalAlignment="Left" Text="{Binding Path=ErrorContent}" />
+    </DataTemplate>
 
-   <!-- Styles -->
-   <Style x:Key="ContentPresenterStyle" TargetType="{x:Type ContentPresenter}">
-      <Setter Property="Margin" Value="5" />
-      <Setter Property="HorizontalAlignment" Value="Left" />
-      <Setter Property="VerticalAlignment" Value="Center" />
-   </Style>
+    <DataTemplate x:Key="ClosableTabItemTemplate">
+        <DockPanel Width="Auto" MinWidth="100">
+            <Button
+                Command="{Binding Path=CloseCommand}"
+                Content="X"
+                Cursor="Hand"
+                DockPanel.Dock="Right"
+                Focusable="False"
+                FontFamily="Courier"
+                FontSize="9"
+                FontWeight="Bold"
+                Margin="0,1,0,0"
+                Padding="0"
+                VerticalContentAlignment="Bottom"
+                Width="16" Height="16" />
+            <ContentPresenter
+                Margin="0,0,5,0"
+                DockPanel.Dock="Left"
+                Content="{Binding Path=DisplayName}"
+                VerticalAlignment="Center" />
+        </DockPanel>
+    </DataTemplate>
 
-   <Style x:Key="LabelStyle" TargetType="{x:Type Label}">
-      <Setter Property="Margin" Value="5" />
-      <Setter Property="HorizontalAlignment" Value="Right" />
-   </Style>
+    <!-- Styles -->
+    <Style x:Key="ContentPresenterStyle" TargetType="{x:Type ContentPresenter}">
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
 
-   <Style x:Key="TextBoxStyle" TargetType="{x:Type TextBox}">
-      <Setter Property="Margin" Value="5" />
-      <Setter Property="Validation.ErrorTemplate" Value="{x:Null}" />
-   </Style>
+    <Style x:Key="LabelStyle" TargetType="{x:Type Label}">
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="HorizontalAlignment" Value="Right" />
+    </Style>
 
-   <Style x:Key="DecimalUpDownStyle" TargetType="{x:Type xctk:DecimalUpDown}">
-      <Setter Property="Margin" Value="5" />
-      <Setter Property="Validation.ErrorTemplate" Value="{x:Null}" />
-   </Style>
+    <Style x:Key="TextBoxStyle" TargetType="{x:Type TextBox}">
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="Validation.ErrorTemplate" Value="{x:Null}" />
+    </Style>
 
-   <Style x:Key="IntegerUpDownStyle" TargetType="{x:Type xctk:IntegerUpDown}">
-      <Setter Property="Margin" Value="5" />
-      <Setter Property="Validation.ErrorTemplate" Value="{x:Null}" />
-   </Style>
+    <Style x:Key="DecimalUpDownStyle" TargetType="{x:Type xctk:DecimalUpDown}">
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="Validation.ErrorTemplate" Value="{x:Null}" />
+    </Style>
 
-   <Style x:Key="DateTimeUpDownStyle" TargetType="{x:Type xctk:DateTimeUpDown}">
-      <Setter Property="Margin" Value="5" />
-      <Setter Property="Validation.ErrorTemplate" Value="{x:Null}" />
-      <Setter Property="Format" Value="Custom" />
-      <Setter Property="FormatString" Value="dd/MM/yyyy" />
-   </Style>
-   
-   <Style x:Key="DatePickerStyle" TargetType="{x:Type DatePicker}">
-      <Setter Property="Margin" Value="5" />
-      <Setter Property="Validation.ErrorTemplate" Value="{x:Null}" />
-   </Style>
+    <Style x:Key="IntegerUpDownStyle" TargetType="{x:Type xctk:IntegerUpDown}">
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="Validation.ErrorTemplate" Value="{x:Null}" />
+    </Style>
 
-   <Style x:Key="DateSelectorStyle" TargetType="{x:Type View:DateSelector}">
-      <Setter Property="Margin" Value="5" />
-      <Setter Property="VerticalAlignment" Value="Center" />
-      <Setter Property="Validation.ErrorTemplate" Value="{x:Null}" />
-   </Style>
+    <Style x:Key="DateTimeUpDownStyle" TargetType="{x:Type xctk:DateTimeUpDown}">
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="Validation.ErrorTemplate" Value="{x:Null}" />
+        <Setter Property="Format" Value="Custom" />
+        <Setter Property="FormatString" Value="dd/MM/yyyy" />
+    </Style>
 
-   <!-- Converters -->
-   <View:DateConverter x:Key="dateConverter" />
-   <View:DateTimeConverter x:Key="dateTimeConverter" />
-   <View:BooleanToBrushConverter x:Key="booleanToBrushConverter"/>
-   <View:CreditStateToBrushConverter x:Key="creditStateToBrushConverter"/>
-   <View:CreditStateToStringConverter x:Key="creditStateToStringConverter"/>
-   <View:CreditStateToStringConverterForRegistrationLog x:Key="creditStateToStringConverterForRegistrationLog" />
-   <View:PhoneNumberConverter x:Key="phoneNumberConverter"/>
-   <View:TodoItemStateConverter x:Key="todoItemStateConverter"/>
-   <View:RequiredDocumentStateConverter x:Key="requiredDocumentStateConverter"/>
+    <Style x:Key="DatePickerStyle" TargetType="{x:Type DatePicker}">
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="Validation.ErrorTemplate" Value="{x:Null}" />
+    </Style>
+
+    <Style x:Key="DateSelectorStyle" TargetType="{x:Type View:DateSelector}">
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Validation.ErrorTemplate" Value="{x:Null}" />
+    </Style>
+
+    <!-- Converters -->
+    <View:DateConverter x:Key="dateConverter" />
+    <View:DateTimeConverter x:Key="dateTimeConverter" />
+    <View:BooleanToBrushConverter x:Key="booleanToBrushConverter" />
+    <View:CreditStateToBrushConverter x:Key="creditStateToBrushConverter" />
+    <View:CreditStateToStringConverter x:Key="creditStateToStringConverter" />
+    <View:CreditStateToStringConverterForRegistrationLog x:Key="creditStateToStringConverterForRegistrationLog" />
+    <View:PhoneNumberConverter x:Key="phoneNumberConverter" />
+    <View:TodoItemStateConverter x:Key="todoItemStateConverter" />
+    <View:RequiredDocumentStateConverter x:Key="requiredDocumentStateConverter" />
+    <View:PaymentStateToBrushConverter x:Key="paymentStateToBrushConverter"/>
 </ResourceDictionary>

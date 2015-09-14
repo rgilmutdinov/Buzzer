@@ -58,6 +58,7 @@ namespace Buzzer.DataAccess.Repository
                   IEnumerable<PaymentInfo> payments = getPayments(creditId);
                   IEnumerable<TodoItem> todoList = getTodoList(creditId);
                   IEnumerable<RequiredDocument> requiredDocuments = getRequiredDocuments(creditId, documentTypesById);
+                  IEnumerable<PayoffInfo> payoffs = getPayoffs(creditId);
 
                   result.Add(
                      CreditInfo.Create(
@@ -82,7 +83,8 @@ namespace Buzzer.DataAccess.Repository
                         queryResult.Guarantors,
                         payments,
                         todoList,
-                        requiredDocuments
+                        requiredDocuments,
+                        payoffs
                         )
                      );
                }
@@ -92,7 +94,35 @@ namespace Buzzer.DataAccess.Repository
          }
       }
 
-      private IEnumerable<CreditType> getCreditTypes()
+       private IEnumerable<PayoffInfo> getPayoffs(int creditId)
+       {
+           string selectPayoffsQuery =
+            string.Format("SELECT * FROM Payoffs WHERE {0} = {1};", CreditId.Name, creditId);
+
+           using (DbCommand command = createCommand(selectPayoffsQuery))
+           {
+               using (DbDataReader reader = command.ExecuteReader())
+               {
+                   var result = new List<PayoffInfo>();
+
+                   while (reader.Read())
+                   {
+                       result.Add(
+                          PayoffInfo.Create(
+                             Convert.ToInt32(reader[Id.Name]),
+                             Convert.ToInt32(reader[CreditId.Name]),
+                             Convert.ToDecimal(reader[PayoffAmount.Name]),
+                             Convert.ToDateTime(reader[PayoffDate.Name]),
+                             Convert.ToString(reader[Remarks.Name]))
+                          );
+                   }
+
+                   return result;
+               }
+           }
+       }
+
+       private IEnumerable<CreditType> getCreditTypes()
       {
          var selectCommand = new SelectCreditTypesCommand(Connection, Transaction);
          return selectCommand.Execute();

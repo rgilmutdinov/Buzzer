@@ -1,464 +1,568 @@
 ﻿<UserControl x:Class="Buzzer.View.CreditContractView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:View="clr-namespace:Buzzer.View"
              xmlns:CreditContract="clr-namespace:Buzzer.ViewModel.CreditContract"
-             mc:Ignorable="d" 
+             xmlns:models="clr-namespace:Buzzer.DomainModel.Models;assembly=Buzzer.DomainModel"
+             mc:Ignorable="d"
              d:DesignHeight="1100" d:DesignWidth="850"
              d:DataContext="{d:DesignInstance CreditContract:CreditContractViewModel}">
 
-   <UserControl.Resources>
-      <ResourceDictionary Source="/MainWindowResources.xaml" />
-   </UserControl.Resources>
+    <UserControl.Resources>
+        <ResourceDictionary Source="/MainWindowResources.xaml" />
+    </UserControl.Resources>
 
-   <Grid>
-      <Grid.ColumnDefinitions>
-         <ColumnDefinition Width="*"/>
-      </Grid.ColumnDefinitions>
-      <Grid.RowDefinitions>
-         <RowDefinition Height="Auto"/>
-         <RowDefinition Height="*"/>
-      </Grid.RowDefinitions>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
-      <DockPanel Grid.Row="0" Grid.Column="0" >
-         <Button Content="Сохранить" Command="{Binding Path=Save, Mode=OneWay}" Margin="5"/>
-         <Button Content="Отказать" Command="{Binding Path=Refuse, Mode=OneWay}" Margin="50,5,5,5" />
+        <DockPanel Grid.Row="0" Grid.Column="0">
+            <Button Content="Сохранить" Command="{Binding Path=Save, Mode=OneWay}" Margin="5" />
+            <Button Content="Отказать" Command="{Binding Path=Refuse, Mode=OneWay}" Margin="50,5,5,5" />
 
-         <Label
-            Style="{StaticResource LabelStyle}"
-            Content="{Binding Path=CreditState, Mode=OneWay, Converter={StaticResource ResourceKey=creditStateToStringConverter}}"
-            FontWeight="Bold"
-            />
-      </DockPanel>
-      
-      <ScrollViewer Grid.Row="1" Grid.Column="0" Margin="0,4,0,0" x:Name="_scrollViewer">
-      
-         <Grid Margin="4">
-            <Grid.ColumnDefinitions>
-               <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-               <RowDefinition Height="Auto"/>
-               <RowDefinition Height="Auto"/>
-               <RowDefinition Height="Auto"/>
-               <RowDefinition Height="Auto"/>
-               <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
+            <Label
+                Style="{StaticResource LabelStyle}"
+                Content="{Binding Path=CreditState, Mode=OneWay, Converter={StaticResource ResourceKey=creditStateToStringConverter}}"
+                FontWeight="Bold" />
+        </DockPanel>
 
-            <Grid Grid.Row="0" Grid.Column="0">
-               <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="*"/>
-                  <ColumnDefinition Width="Auto"/>
-               </Grid.ColumnDefinitions>
-               <Grid.RowDefinitions>
-                  <RowDefinition Height="Auto"/>
-               </Grid.RowDefinitions>
+        <ScrollViewer Grid.Row="1" Grid.Column="0" Margin="0,4,0,0" x:Name="_scrollViewer">
 
-               <!-- Кредит -->
-               <GroupBox Grid.Row="0" Grid.Column="0" Header="Кредит">
-                  <Grid Margin="4">
-                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="210"/>
-                        <ColumnDefinition Width="210"/>
-                        <ColumnDefinition Width="*"/>
-                     </Grid.ColumnDefinitions>
-                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                     </Grid.RowDefinitions>
+            <Grid Margin="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
 
-                     <!-- Номер кредитного договора -->
-                     <Label
-                        Grid.Row="0" Grid.Column="0"
-                        Style="{StaticResource LabelStyle}"
-                        Content="Номер кредитного договора:"
-                        />
-                     <TextBox
-                        Grid.Row="0" Grid.Column="1"
-                        Style="{StaticResource TextBoxStyle}"
-                        x:Name="textBoxCreditNumber"
-                        Text="{Binding Path=CreditNumber, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                        MaxLength="100"
-                        />
-                     <ContentPresenter
-                        Grid.Row="0" Grid.Column="2"
-                        Style="{StaticResource ContentPresenterStyle}"
-                        ContentTemplate="{StaticResource ErrorDataTemplate}"
-                        Content="{Binding ElementName=textBoxCreditNumber, Path=(Validation.Errors).CurrentItem}"
-                        />
+                <Grid Grid.Row="0" Grid.Column="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
 
-                     <!-- Дата подачи заявления -->
-                     <Label
-                        Grid.Row="1" Grid.Column="0"
-                        Style="{StaticResource LabelStyle}"
-                        Content="Дата подачи заявления:"
-                        />
-                     <View:DateSelector
-                        Grid.Row="1" Grid.Column="1"
-                        Style="{StaticResource DateSelectorStyle}"
-                        x:Name="dateSelectorApplicationDate"
-                        SelectedDate="{Binding Path=ApplicationDate, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                        />
-                     <ContentPresenter
-                        Grid.Row="1" Grid.Column="2"
-                        Style="{StaticResource ContentPresenterStyle}"
-                        ContentTemplate="{StaticResource ErrorDataTemplate}"
-                        Content="{Binding ElementName=dateSelectorApplicationDate, Path=(Validation.Errors).CurrentItem}"
-                        />
-                     
-                     <!-- Сумма кредита -->
-                     <Label
-                        Grid.Row="2" Grid.Column="0"
-                        Style="{StaticResource LabelStyle}"
-                        Content="Сумма кредита:"
-                        />
-                     <xctk:DecimalUpDown
-                        Grid.Row="2" Grid.Column="1"
-                        Style="{StaticResource DecimalUpDownStyle}"
-                        x:Name="decimalUpDownCreditAmount"
-                        Value="{Binding Path=CreditAmount, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                        />
-                     <ContentPresenter
-                        Grid.Row="2" Grid.Column="2"
-                        Style="{StaticResource ContentPresenterStyle}"
-                        ContentTemplate="{StaticResource ErrorDataTemplate}"
-                        Content="{Binding ElementName=decimalUpDownCreditAmount, Path=(Validation.Errors).CurrentItem}"
-                        />
+                    <!-- Кредит -->
+                    <GroupBox Grid.Row="0" Grid.Column="0" Header="Кредит">
+                        <Grid Margin="4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="210" />
+                                <ColumnDefinition Width="210" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
 
-                     <!-- Дата выдачи -->
-                     <Label
-                        Grid.Row="3" Grid.Column="0"
-                        Style="{StaticResource LabelStyle}"
-                        Content="Дата выдачи:"
-                        />
-                     <View:DateSelector
-                        Grid.Row="3" Grid.Column="1"
-                        Style="{StaticResource DateSelectorStyle}"
-                        x:Name="dateSelectorIssueDate"
-                        SelectedDate="{Binding Path=CreditIssueDate, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                        />
-                     <ContentPresenter
-                        Grid.Row="3" Grid.Column="2"
-                        Style="{StaticResource ContentPresenterStyle}"
-                        ContentTemplate="{StaticResource ErrorDataTemplate}"
-                        Content="{Binding ElementName=dateSelectorIssueDate, Path=(Validation.Errors).CurrentItem}"
-                        />
+                            <!-- Номер кредитного договора -->
+                            <Label
+                                Grid.Row="0" Grid.Column="0"
+                                Style="{StaticResource LabelStyle}"
+                                Content="Номер кредитного договора:" />
+                            <TextBox
+                                Grid.Row="0" Grid.Column="1"
+                                Style="{StaticResource TextBoxStyle}"
+                                x:Name="textBoxCreditNumber"
+                                Text="{Binding Path=CreditNumber, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                                MaxLength="100" />
+                            <ContentPresenter
+                                Grid.Row="0" Grid.Column="2"
+                                Style="{StaticResource ContentPresenterStyle}"
+                                ContentTemplate="{StaticResource ErrorDataTemplate}"
+                                Content="{Binding ElementName=textBoxCreditNumber, Path=(Validation.Errors).CurrentItem}" />
 
-                     <!-- Число месяцев -->
-                     <Label
-                        Grid.Row="4" Grid.Column="0"
-                        Style="{StaticResource LabelStyle}"
-                        Content="Число месяцев:"
-                        />
-                     <xctk:IntegerUpDown
-                        Grid.Row="4" Grid.Column="1"
-                        Style="{StaticResource IntegerUpDownStyle}"
-                        x:Name="integerUpDownMonthsCount"
-                        Value="{Binding Path=MonthsCount, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                        />
-                     <ContentPresenter
-                        Grid.Row="4" Grid.Column="2"
-                        Style="{StaticResource ContentPresenterStyle}"
-                        ContentTemplate="{StaticResource ErrorDataTemplate}"
-                        Content="{Binding ElementName=integerUpDownMonthsCount, Path=(Validation.Errors).CurrentItem}"
-                        />
+                            <!-- Дата подачи заявления -->
+                            <Label
+                                Grid.Row="1" Grid.Column="0"
+                                Style="{StaticResource LabelStyle}"
+                                Content="Дата подачи заявления:" />
+                            <View:DateSelector
+                                Grid.Row="1" Grid.Column="1"
+                                Style="{StaticResource DateSelectorStyle}"
+                                x:Name="dateSelectorApplicationDate"
+                                SelectedDate="{Binding Path=ApplicationDate, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <ContentPresenter
+                                Grid.Row="1" Grid.Column="2"
+                                Style="{StaticResource ContentPresenterStyle}"
+                                ContentTemplate="{StaticResource ErrorDataTemplate}"
+                                Content="{Binding ElementName=dateSelectorApplicationDate, Path=(Validation.Errors).CurrentItem}" />
 
-                     <!-- Процентная ставка -->
-                     <Label
-                        Grid.Row="5" Grid.Column="0"
-                        Style="{StaticResource LabelStyle}"
-                        Content="Процентная ставка:"
-                        />
-                     <xctk:DecimalUpDown
-                        Grid.Row="5" Grid.Column="1"
-                        Style="{StaticResource DecimalUpDownStyle}"
-                        x:Name="decimalUpDownDiscountRate"
-                        Value="{Binding Path=DiscountRate, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                        />
-                     <ContentPresenter
-                        Grid.Row="5" Grid.Column="2"
-                        Style="{StaticResource ContentPresenterStyle}"
-                        ContentTemplate="{StaticResource ErrorDataTemplate}"
-                        Content="{Binding ElementName=decimalUpDownDiscountRate, Path=(Validation.Errors).CurrentItem}"
-                        />
+                            <!-- Сумма кредита -->
+                            <Label
+                                Grid.Row="2" Grid.Column="0"
+                                Style="{StaticResource LabelStyle}"
+                                Content="Сумма кредита:" />
+                            <xctk:DecimalUpDown
+                                Grid.Row="2" Grid.Column="1"
+                                Style="{StaticResource DecimalUpDownStyle}"
+                                x:Name="decimalUpDownCreditAmount"
+                                Value="{Binding Path=CreditAmount, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <ContentPresenter
+                                Grid.Row="2" Grid.Column="2"
+                                Style="{StaticResource ContentPresenterStyle}"
+                                ContentTemplate="{StaticResource ErrorDataTemplate}"
+                                Content="{Binding ElementName=decimalUpDownCreditAmount, Path=(Validation.Errors).CurrentItem}" />
 
-                     <!-- Эффективная процентная ставка -->
-                     <Label
-                        Grid.Row="6" Grid.Column="0"
-                        Style="{StaticResource LabelStyle}"
-                        Content="Эффективная процентная ставка:"
-                        />
-                     <xctk:DecimalUpDown
-                        Grid.Row="6" Grid.Column="1"
-                        Style="{StaticResource DecimalUpDownStyle}"
-                        x:Name="decimalUpDownEffectiveDiscountRate"
-                        Value="{Binding Path=EffectiveDiscountRate, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                        />
-                     <ContentPresenter
-                        Grid.Row="6" Grid.Column="2"
-                        Style="{StaticResource ContentPresenterStyle}"
-                        ContentTemplate="{StaticResource ErrorDataTemplate}"
-                        Content="{Binding ElementName=decimalUpDownEffectiveDiscountRate, Path=(Validation.Errors).CurrentItem}"
-                        />
+                            <!-- Дата выдачи -->
+                            <Label
+                                Grid.Row="3" Grid.Column="0"
+                                Style="{StaticResource LabelStyle}"
+                                Content="Дата выдачи:" />
+                            <View:DateSelector
+                                Grid.Row="3" Grid.Column="1"
+                                Style="{StaticResource DateSelectorStyle}"
+                                x:Name="dateSelectorIssueDate"
+                                SelectedDate="{Binding Path=CreditIssueDate, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <ContentPresenter
+                                Grid.Row="3" Grid.Column="2"
+                                Style="{StaticResource ContentPresenterStyle}"
+                                ContentTemplate="{StaticResource ErrorDataTemplate}"
+                                Content="{Binding ElementName=dateSelectorIssueDate, Path=(Validation.Errors).CurrentItem}" />
 
-                     <!-- Курс доллара США -->
-                     <Label
-                        Grid.Row="7" Grid.Column="0"
-                        Style="{StaticResource LabelStyle}"
-                        Content="Курс доллара США:"
-                        />
-                     <Grid Grid.Row="7" Grid.Column="1">
+                            <!-- Число месяцев -->
+                            <Label
+                                Grid.Row="4" Grid.Column="0"
+                                Style="{StaticResource LabelStyle}"
+                                Content="Число месяцев:" />
+                            <xctk:IntegerUpDown
+                                Grid.Row="4" Grid.Column="1"
+                                Style="{StaticResource IntegerUpDownStyle}"
+                                x:Name="integerUpDownMonthsCount"
+                                Value="{Binding Path=MonthsCount, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <ContentPresenter
+                                Grid.Row="4" Grid.Column="2"
+                                Style="{StaticResource ContentPresenterStyle}"
+                                ContentTemplate="{StaticResource ErrorDataTemplate}"
+                                Content="{Binding ElementName=integerUpDownMonthsCount, Path=(Validation.Errors).CurrentItem}" />
+
+                            <!-- Процентная ставка -->
+                            <Label
+                                Grid.Row="5" Grid.Column="0"
+                                Style="{StaticResource LabelStyle}"
+                                Content="Процентная ставка:" />
+                            <xctk:DecimalUpDown
+                                Grid.Row="5" Grid.Column="1"
+                                Style="{StaticResource DecimalUpDownStyle}"
+                                x:Name="decimalUpDownDiscountRate"
+                                Value="{Binding Path=DiscountRate, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <ContentPresenter
+                                Grid.Row="5" Grid.Column="2"
+                                Style="{StaticResource ContentPresenterStyle}"
+                                ContentTemplate="{StaticResource ErrorDataTemplate}"
+                                Content="{Binding ElementName=decimalUpDownDiscountRate, Path=(Validation.Errors).CurrentItem}" />
+
+                            <!-- Эффективная процентная ставка -->
+                            <Label
+                                Grid.Row="6" Grid.Column="0"
+                                Style="{StaticResource LabelStyle}"
+                                Content="Эффективная процентная ставка:" />
+                            <xctk:DecimalUpDown
+                                Grid.Row="6" Grid.Column="1"
+                                Style="{StaticResource DecimalUpDownStyle}"
+                                x:Name="decimalUpDownEffectiveDiscountRate"
+                                Value="{Binding Path=EffectiveDiscountRate, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <ContentPresenter
+                                Grid.Row="6" Grid.Column="2"
+                                Style="{StaticResource ContentPresenterStyle}"
+                                ContentTemplate="{StaticResource ErrorDataTemplate}"
+                                Content="{Binding ElementName=decimalUpDownEffectiveDiscountRate, Path=(Validation.Errors).CurrentItem}" />
+
+                            <!-- Курс доллара США -->
+                            <Label
+                                Grid.Row="7" Grid.Column="0"
+                                Style="{StaticResource LabelStyle}"
+                                Content="Курс доллара США:" />
+                            <Grid Grid.Row="7" Grid.Column="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <CheckBox
+                                    Grid.Row="0" Grid.Column="0"
+                                    Margin="5,5,0,5"
+                                    VerticalAlignment="Center"
+                                    IsChecked="{Binding Path=IsUsdRateEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                <xctk:DecimalUpDown
+                                    Grid.Row="0" Grid.Column="1"
+                                    Style="{StaticResource DecimalUpDownStyle}"
+                                    x:Name="decimalUpDownUsdRate"
+                                    Value="{Binding Path=UsdRate, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                                    IsEnabled="{Binding Path=IsUsdRateEnabled, Mode=OneWay}" />
+                            </Grid>
+                            <ContentPresenter
+                                Grid.Row="7" Grid.Column="2"
+                                Style="{StaticResource ContentPresenterStyle}"
+                                ContentTemplate="{StaticResource ErrorDataTemplate}"
+                                Content="{Binding ElementName=decimalUpDownUsdRate, Path=(Validation.Errors).CurrentItem}" />
+                        </Grid>
+                    </GroupBox>
+
+                    <!-- График погашений -->
+                    <GroupBox Header="График погашений" Grid.Row="0" Grid.Column="1" Width="350">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <Button
+                                Grid.Row="0" Grid.Column="0"
+                                Margin="5"
+                                Width="Auto"
+                                HorizontalAlignment="Left"
+                                Content="Построить график погашений"
+                                Command="{Binding Path=BuildPaymentsSchedule, Mode=OneWay}" />
+
+                            <DataGrid
+                                Grid.Row="1" Grid.Column="0"
+                                Margin="5"
+                                Height="250"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                ItemsSource="{Binding Path=PaymentsSchedule, Mode=OneWay}"
+                                AutoGenerateColumns="False"
+                                SelectionMode="Single"
+                                CanUserAddRows="False"
+                                CanUserDeleteRows="False"
+                                CanUserSortColumns="False">
+
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn
+                                        Header="№"
+                                        Binding="{Binding Path=Number, Mode=OneWay}"
+                                        Width="30" />
+                                    <DataGridTextColumn
+                                        Header="Дата"
+                                        Binding="{Binding Path=PaymentDate, Mode=OneWay, Converter={StaticResource dateConverter}}"
+                                        Width="*" />
+                                    <DataGridTextColumn
+                                        Header="Сумма"
+                                        Binding="{Binding Path=PaymentAmount, Mode=OneWay}"
+                                        Width="*" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                    </GroupBox>
+
+                </Grid>
+
+                <!-- Заемщик -->
+                <GroupBox Grid.Row="1" Grid.Column="0" Header="Заемщик" Width="Auto">
+                    <View:PersonInfoView
+                        DataContext="{Binding Path=Borrower, Mode=OneWay}" />
+                </GroupBox>
+
+                <!-- Поручители -->
+                <GroupBox Grid.Row="2" Grid.Column="0" Header="Поручители">
+                    <StackPanel>
+                        <ListBox
+                            ItemsSource="{Binding Path=Guarantors, Mode=OneWay, ValidatesOnDataErrors=True}"
+                            SelectedItem="{Binding Path=SelectedGuarantor, Mode=TwoWay}"
+                            Validation.ErrorTemplate="{x:Null}"
+                            x:Name="listBoxGuarantors"
+                            Margin="5"
+                            MaxHeight="400" />
+
+                        <StackPanel Orientation="Horizontal">
+                            <Button
+                                Content="+"
+                                Width="20"
+                                Margin="5,0,2,5"
+                                Command="{Binding Path=AddGuarantor}" />
+                            <Button
+                                Content="-"
+                                Width="20"
+                                Margin="2,0,5,5"
+                                Command="{Binding Path=RemoveGuarantor}" />
+                            <ContentPresenter
+                                Style="{StaticResource ContentPresenterStyle}"
+                                ContentTemplate="{StaticResource WarningDataTemplate}"
+                                Content="{Binding ElementName=listBoxGuarantors, Path=(Validation.Errors).CurrentItem}" />
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox Grid.Row="3" Grid.Column="0" Header="Документы">
+                    <StackPanel HorizontalAlignment="Left">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Style="{StaticResource LabelStyle}" Content="Тип кредита:" />
+                            <ComboBox ItemsSource="{Binding Path=CreditTypes, Mode=OneWay}"
+                                      SelectedItem="{Binding Path=SelectedCreditType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      DisplayMemberPath="Name"
+                                      Margin="5" Width="200" />
+                        </StackPanel>
+
+                        <ListBox ItemsSource="{Binding Path=RequiredDocuments, Mode=OneWay}"
+                                 Margin="5,0,5,5" MaxHeight="400">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <CheckBox
+                                        IsChecked="{Binding Path=State, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource requiredDocumentStateConverter}}"
+                                        Content="{Binding Path=DocumentType.Name, Mode=OneWay}" Margin="2" />
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+
+                        <Label Content="Примечание:" Margin="5,10,5,0" />
+
+                        <TextBox
+                            Text="{Binding Path=NotificationDescription, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                            AcceptsReturn="True" TextWrapping="Wrap"
+                            Width="500" Height="100" Margin="5"
+                            ScrollViewer.VerticalScrollBarVisibility="Auto"
+                            ScrollViewer.CanContentScroll="True" />
+
+                        <StackPanel Orientation="Horizontal">
+                            <ComboBox
+                                ItemsSource="{Binding Path=PhoneNumbers, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                SelectedItem="{Binding Path=SelectedPhoneNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                Width="120" Margin="5">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Converter={StaticResource phoneNumberConverter}}" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+
+                            <Button
+                                Content="{Binding Path=NotificationCount, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                ContentStringFormat="SMS (Отправлено: {0})"
+                                Command="{Binding Path=SendSms, Mode=OneWay}"
+                                HorizontalAlignment="Left" Margin="5" />
+                        </StackPanel>
+
+                    </StackPanel>
+                </GroupBox>
+
+                <Expander Grid.Row="4" Grid.Column="0"
+                          Header="TODO list"
+                          BorderBrush="#FFD5DFE5" BorderThickness="1"
+                          Margin="1,5,1,5"
+                          Expanded="expanderExpanded">
+                    <StackPanel>
+                        <ListBox ItemsSource="{Binding Path=TodoList, Mode=OneWay, ValidatesOnDataErrors=True}"
+                                 SelectedItem="{Binding Path=SelectedTodoItem, Mode=TwoWay}"
+                                 Margin="5" MaxHeight="400">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <CheckBox
+                                            IsChecked="{Binding Path=State, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource todoItemStateConverter}}"
+                                            VerticalAlignment="Top" Margin="5" />
+
+                                        <TextBox
+                                            Text="{Binding Path=Description, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                                            AcceptsReturn="True" TextWrapping="Wrap"
+                                            MaxLength="255" Width="500" Height="55" Margin="5"
+                                            ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                            ScrollViewer.CanContentScroll="True" />
+
+                                        <ComboBox
+                                            ItemsSource="{Binding Path=PhoneNumbers, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                            SelectedItem="{Binding Path=SelectedPhoneNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            DisplayMemberPath="PhoneNumber"
+                                            VerticalAlignment="Top"
+                                            Width="120" Margin="5">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock
+                                                        Text="{Binding Converter={StaticResource phoneNumberConverter}}" />
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+
+                                        <Button
+                                            Content="{Binding Path=NotificationCount, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                            ContentStringFormat="SMS (Отправлено: {0})"
+                                            Command="{Binding Path=SendSms, Mode=OneWay}"
+                                            VerticalAlignment="Top" Margin="5" />
+
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+
+                        <StackPanel Orientation="Horizontal">
+                            <Button
+                                Content="+"
+                                Width="20"
+                                Margin="5,0,2,5"
+                                Command="{Binding Path=AddTodoItem}" />
+                            <Button
+                                Content="-"
+                                Width="20"
+                                Margin="2,0,5,5"
+                                Command="{Binding Path=RemoveTodoItem}" />
+                        </StackPanel>
+                    </StackPanel>
+                </Expander>
+
+                <GroupBox Header="Платежи" Grid.Row="5" Grid.Column="0" Width="Auto">
+                    <Grid>
                         <Grid.ColumnDefinitions>
-                           <ColumnDefinition Width="Auto"/>
-                           <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="3*" />
                         </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                           <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-               
-                        <CheckBox
-                           Grid.Row="0" Grid.Column="0"
-                           Margin="5,5,0,5"
-                           VerticalAlignment="Center"
-                           IsChecked="{Binding Path=IsUsdRateEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                           />
-                        <xctk:DecimalUpDown
-                           Grid.Row="0" Grid.Column="1"
-                           Style="{StaticResource DecimalUpDownStyle}"
-                           x:Name="decimalUpDownUsdRate"
-                           Value="{Binding Path=UsdRate, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                           IsEnabled="{Binding Path=IsUsdRateEnabled, Mode=OneWay}"
-                           />
-                     </Grid>
-                     <ContentPresenter
-                        Grid.Row="7" Grid.Column="2"
-                        Style="{StaticResource ContentPresenterStyle}"
-                        ContentTemplate="{StaticResource ErrorDataTemplate}"
-                        Content="{Binding ElementName=decimalUpDownUsdRate, Path=(Validation.Errors).CurrentItem}"
-                        />
-                  </Grid>
-               </GroupBox>
+                        <HeaderedContentControl Grid.Column="0">
+                            <HeaderedContentControl.Header>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <TextBlock Margin="2">
+                                        <Hyperlink Command="{Binding Path=AddPayoff}">Добавить</Hyperlink> |
+                                        <Hyperlink Command="{Binding Path=UpdatePayoff}">Изменить</Hyperlink> |
+                                        <Hyperlink Command="{Binding Path=RemovePayoff}">Удалить</Hyperlink>
+                                    </TextBlock>
+                                </StackPanel>
+                            </HeaderedContentControl.Header>
+                            <DataGrid
+                                Margin="5"
+                                Height="250"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                ItemsSource="{Binding Path=Payoffs}"
+                                SelectedItem="{Binding Path=SelectedPayoff, Mode=TwoWay}"
+                                AutoGenerateColumns="False"
+                                SelectionMode="Single"
+                                CanUserAddRows="False"
+                                CanUserDeleteRows="False"
+                                CanUserSortColumns="False">
 
-               <!-- График погашений -->
-               <GroupBox Header="График погашений" Grid.Row="0" Grid.Column="1" Width="350" >
-                  <Grid>
-                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                     </Grid.ColumnDefinitions>
-                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                     </Grid.RowDefinitions>
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn
+                                        Header="Дата"
+                                        Binding="{Binding Path=PayoffDate, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource dateConverter}}"
+                                        Width="*" />
+                                    <DataGridTextColumn
+                                        Header="Сумма"
+                                        Binding="{Binding Path=PayoffAmountText, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                        Width="*" />
+                                    <DataGridTextColumn
+                                        Header="Примечание"
+                                        Binding="{Binding Path=Remarks, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                        Width="2*" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </HeaderedContentControl>
+                        <HeaderedContentControl Grid.Column="2">
+                            <HeaderedContentControl.Header>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <TextBlock Margin="2">
+                                        Состояние кредита
+                                    </TextBlock>
+                                </StackPanel>
+                            </HeaderedContentControl.Header>
+                            <DataGrid
+                                Margin="5"
+                                Height="250"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                ItemsSource="{Binding Path=PaymentsProgress, Mode=OneWay}"
+                                AutoGenerateColumns="False"
+                                SelectionMode="Single"
+                                IsReadOnly="True"
+                                CanUserAddRows="False"
+                                CanUserDeleteRows="False"
+                                CanUserSortColumns="False">
 
-                     <Button
-                        Grid.Row="0" Grid.Column="0"
-                        Margin="5"
-                        Width="Auto"
-                        HorizontalAlignment="Left"
-                        Content="Построить график погашений"
-                        Command="{Binding Path=BuildPaymentsSchedule, Mode=OneWay}"
-                        />
+                                <DataGrid.RowStyle>
+                                    <Style TargetType="DataGridRow">
+                                        <Setter
+                                            Property="Background"
+                                            Value="{Binding Path=State, Mode=OneWay, Converter={StaticResource paymentStateToBrushConverter}}" />
+                                    </Style>
+                                </DataGrid.RowStyle>
 
-                     <DataGrid
-                        Grid.Row="1" Grid.Column="0"
-                        Margin="5"
-                        Height="250"
-                        ScrollViewer.VerticalScrollBarVisibility="Auto"
-                        ItemsSource="{Binding Path=PaymentsSchedule, Mode=OneWay}"                      
-                        AutoGenerateColumns="False"
-                        SelectionMode="Single"                      
-                        CanUserAddRows="False"
-                        CanUserDeleteRows="False"
-                        CanUserSortColumns="False">
-                     
-                        <DataGrid.Columns>
-                           <DataGridTextColumn
-                              Header="№"
-                              Binding="{Binding Path=Number, Mode=OneWay}"
-                              Width="30"
-                              />
-                           <DataGridTextColumn
-                              Header="Дата"
-                              Binding="{Binding Path=PaymentDate, Mode=OneWay, Converter={StaticResource dateConverter}}"
-                              Width="*"
-                              />
-                           <DataGridTextColumn
-                              Header="Сумма"
-                              Binding="{Binding Path=PaymentAmount, Mode=OneWay}"
-                              Width="*"/>
-                        </DataGrid.Columns>
-                     </DataGrid>
-                  </Grid>
-               </GroupBox>
-
+                                <DataGrid.CellStyle>
+                                    <Style TargetType="{x:Type DataGridCell}">
+                                        <Setter Property="Foreground" Value="Black" />
+                                        <Style.Triggers>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter Property="Background" Value="{x:Null}" />
+                                                <Setter Property="BorderBrush" Value="{x:Null}" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </DataGrid.CellStyle>
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn
+                                        Header="Срок платежа"
+                                        Binding="{Binding Path=DueDate, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource dateConverter}}"
+                                        Width="*" />
+                                    <!--
+                                    <DataGridTextColumn
+                                        Header="Сумма выданного займа"
+                                        Binding="{Binding Path=CreditSum, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                        Width="*" />
+                                    -->
+                                    <DataGridTextColumn
+                                        Header="Основной долг"
+                                        Binding="{Binding Path=BaseSum, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                        Width="*" />
+                                    <DataGridTextColumn
+                                        Header="Проценты"
+                                        Binding="{Binding Path=PercentSum, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                        Width="*" />
+                                    <!--
+                                    <DataGridTextColumn
+                                        Header="Итого к оплате"
+                                        Binding="{Binding Path=TotalSum, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                        Width="*" />
+                                    -->
+                                    <DataGridTextColumn
+                                        Header="Налог"
+                                        Binding="{Binding Path=Tax, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                        Width="*" />
+                                    <!--
+                                    <DataGridTextColumn
+                                        Header="Всего к оплате"
+                                        Binding="{Binding Path=PaymentAmount, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                        Width="*" />
+                                    -->
+                                    <DataGridTextColumn
+                                        Header="Штраф"
+                                        Binding="{Binding Path=Penalty, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                        Width="*" />
+                                    <DataGridTextColumn
+                                        Header="Баланс"
+                                        Binding="{Binding Path=Balance, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                        Width="*" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </HeaderedContentControl>
+                        <GridSplitter Grid.Row="0" Grid.Column="1" Width="5" VerticalAlignment="Stretch"
+                                      HorizontalAlignment="Center" />
+                    </Grid>
+                </GroupBox>
             </Grid>
 
-            <!-- Заемщик -->
-            <GroupBox Grid.Row="1" Grid.Column="0" Header="Заемщик" Width="Auto">
-               <View:PersonInfoView
-                  DataContext="{Binding Path=Borrower, Mode=OneWay}"
-                  />
-            </GroupBox>
-         
-            <!-- Поручители -->
-            <GroupBox Grid.Row="2" Grid.Column="0" Header="Поручители">
-               <StackPanel>
-                  <ListBox
-                     ItemsSource="{Binding Path=Guarantors, Mode=OneWay, ValidatesOnDataErrors=True}"
-                     SelectedItem="{Binding Path=SelectedGuarantor, Mode=TwoWay}"
-                     Validation.ErrorTemplate="{x:Null}"
-                     x:Name="listBoxGuarantors"
-                     Margin="5"
-                     MaxHeight="400"
-                  />
+        </ScrollViewer>
 
-                  <StackPanel Orientation="Horizontal">
-                     <Button
-                        Content="+"
-                        Width="20"
-                        Margin="5,0,2,5"
-                        Command="{Binding Path=AddGuarantor}"
-                        />
-                     <Button
-                        Content="-"
-                        Width="20"
-                        Margin="2,0,5,5"
-                        Command="{Binding Path=RemoveGuarantor}"
-                        />
-                     <ContentPresenter
-                        Style="{StaticResource ContentPresenterStyle}"
-                        ContentTemplate="{StaticResource WarningDataTemplate}"
-                        Content="{Binding ElementName=listBoxGuarantors, Path=(Validation.Errors).CurrentItem}"
-                        />
-                  </StackPanel>
-               </StackPanel>
-            </GroupBox>
-
-            <GroupBox Grid.Row="3" Grid.Column="0" Header="Документы">
-               <StackPanel HorizontalAlignment="Left">
-                  <StackPanel Orientation="Horizontal">
-                     <Label Style="{StaticResource LabelStyle}" Content="Тип кредита:"/>
-                     <ComboBox ItemsSource="{Binding Path=CreditTypes, Mode=OneWay}"
-                               SelectedItem="{Binding Path=SelectedCreditType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                               DisplayMemberPath="Name"
-                               Margin="5" Width="200"/>
-                  </StackPanel>
-                  
-                  <ListBox ItemsSource="{Binding Path=RequiredDocuments, Mode=OneWay}"
-                           Margin="5,0,5,5" MaxHeight="400">
-                     <ListBox.ItemTemplate>
-                        <DataTemplate>
-                           <CheckBox IsChecked="{Binding Path=State, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource requiredDocumentStateConverter}}"
-                                     Content="{Binding Path=DocumentType.Name, Mode=OneWay}" Margin="2"/>
-                        </DataTemplate>
-                     </ListBox.ItemTemplate>
-                  </ListBox>
-
-                  <Label Content="Примечание:" Margin="5,10,5,0"/>
-                  
-                  <TextBox Text="{Binding Path=NotificationDescription, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                           AcceptsReturn="True" TextWrapping="Wrap"
-                           Width="500" Height="100" Margin="5"
-                           ScrollViewer.VerticalScrollBarVisibility="Auto"
-                           ScrollViewer.CanContentScroll="True"
-                           />
-                  
-                  <StackPanel Orientation="Horizontal">
-                     <ComboBox ItemsSource="{Binding Path=PhoneNumbers, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                               SelectedItem="{Binding Path=SelectedPhoneNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                               Width="120" Margin="5">
-                        <ComboBox.ItemTemplate>
-                           <DataTemplate>
-                              <TextBlock Text="{Binding Converter={StaticResource phoneNumberConverter}}"/>
-                           </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                     </ComboBox>
-
-                     <Button Content="{Binding Path=NotificationCount, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                             ContentStringFormat="SMS (Отправлено: {0})"
-                             Command="{Binding Path=SendSms, Mode=OneWay}"
-                             HorizontalAlignment="Left" Margin="5"
-                             />
-                  </StackPanel>
-
-               </StackPanel>
-            </GroupBox>
-
-            <Expander Grid.Row="4" Grid.Column="0"
-                      Header="TODO list"
-                      BorderBrush="#FFD5DFE5" BorderThickness="1"
-                      Margin="1,5,1,5"
-                      Expanded="expanderExpanded">
-               <StackPanel>
-                  <ListBox ItemsSource="{Binding Path=TodoList, Mode=OneWay, ValidatesOnDataErrors=True}"
-                           SelectedItem="{Binding Path=SelectedTodoItem, Mode=TwoWay}"
-                           Margin="5" MaxHeight="400">
-                     <ListBox.ItemTemplate>
-                        <DataTemplate>
-                           <StackPanel Orientation="Horizontal">
-                              <CheckBox IsChecked="{Binding Path=State, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource todoItemStateConverter}}"
-                                        VerticalAlignment="Top" Margin="5"
-                                        />
-                              
-                              <TextBox Text="{Binding Path=Description, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                                       AcceptsReturn="True" TextWrapping="Wrap"
-                                       MaxLength="255" Width="500" Height="55" Margin="5"
-                                       ScrollViewer.VerticalScrollBarVisibility="Auto"
-                                       ScrollViewer.CanContentScroll="True"
-                                       />
-                              
-                              <ComboBox ItemsSource="{Binding Path=PhoneNumbers, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                        SelectedItem="{Binding Path=SelectedPhoneNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                        DisplayMemberPath="PhoneNumber"
-                                        VerticalAlignment="Top"
-                                        Width="120" Margin="5">
-                                 <ComboBox.ItemTemplate>
-                                    <DataTemplate>
-                                       <TextBlock Text="{Binding Converter={StaticResource phoneNumberConverter}}"/>
-                                    </DataTemplate>
-                                 </ComboBox.ItemTemplate>
-                              </ComboBox>
-
-                              <Button Content="{Binding Path=NotificationCount, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                      ContentStringFormat="SMS (Отправлено: {0})"
-                                      Command="{Binding Path=SendSms, Mode=OneWay}"
-                                      VerticalAlignment="Top" Margin="5"
-                                      />
-                              
-                           </StackPanel>
-                        </DataTemplate>
-                     </ListBox.ItemTemplate>
-                  </ListBox>
-
-                  <StackPanel Orientation="Horizontal">
-                     <Button
-                        Content="+"
-                        Width="20"
-                        Margin="5,0,2,5"
-                        Command="{Binding Path=AddTodoItem}"
-                        />
-                     <Button
-                        Content="-"
-                        Width="20"
-                        Margin="2,0,5,5"
-                        Command="{Binding Path=RemoveTodoItem}"
-                        />
-                  </StackPanel>
-               </StackPanel>
-            </Expander>
-         
-         </Grid>
-      
-      </ScrollViewer>
-
-   </Grid>
+    </Grid>
 </UserControl>

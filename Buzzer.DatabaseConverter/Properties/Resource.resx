@@ -133,6 +133,9 @@
   <data name="AddRefusalReasonColumnToCreditsTable" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\ConverterScripts\AddRefusalReasonColumnToCreditsTable.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
   </data>
+  <data name="AddPayoffsTable" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ConverterScripts\AddPayoffsTable.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
   <data name="AddRequiredDocumentsTable" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\ConverterScripts\AddRequiredDocumentsTable.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
   </data>

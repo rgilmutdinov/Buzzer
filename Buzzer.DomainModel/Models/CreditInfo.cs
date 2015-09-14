@@ -15,7 +15,8 @@ namespace Buzzer.DomainModel.Models
       private decimal? _exchangeRate;
       private List<PersonInfo> _guarantors;
       private List<TodoItem> _todoList;
-      private List<RequiredDocument> _requiredDocuments; 
+      private List<RequiredDocument> _requiredDocuments;
+      private List<PayoffInfo> _payoffs;
 
       private CreditInfo()
       {
@@ -24,23 +25,24 @@ namespace Buzzer.DomainModel.Models
       public static CreditInfo CreatNew()
       {
          var newCredit = new CreditInfo
-                            {
-                               Id = NullValues.Id,
-                               ApplicationDate = DateTime.Today,
-                               ProtocolDate = null,
-                               CreditIssueDate = NullValues.DateTime,
-                               CreditState = CreditState.Consideration,
-                               Borrower = PersonInfo.CreateNew(NullValues.Id),
-                               _guarantors = new List<PersonInfo>(),
-                               PaymentsSchedule = new PaymentInfo[0],
-                               RowState = RowState.Modified,
-                               CreditType = null,
-                               NotificationDescription = string.Empty,
-                               NotificationDate = null,
-                               NotificationCount = 0,
-                               _todoList = new List<TodoItem>(),
-                               _requiredDocuments = new List<RequiredDocument>()
-                            };
+         {
+            Id = NullValues.Id,
+            ApplicationDate = DateTime.Today,
+            ProtocolDate = null,
+            CreditIssueDate = NullValues.DateTime,
+            CreditState = CreditState.Consideration,
+            Borrower = PersonInfo.CreateNew(NullValues.Id),
+            _guarantors = new List<PersonInfo>(),
+            PaymentsSchedule = new PaymentInfo[0],
+            RowState = RowState.Modified,
+            CreditType = null,
+            NotificationDescription = string.Empty,
+            NotificationDate = null,
+            NotificationCount = 0,
+            _todoList = new List<TodoItem>(),
+            _requiredDocuments = new List<RequiredDocument>(),
+            _payoffs = new List<PayoffInfo>()
+         };
          newCredit.Borrower.IsBorrower = true;
          return newCredit;
       }
@@ -67,36 +69,38 @@ namespace Buzzer.DomainModel.Models
          IEnumerable<PersonInfo> guarantors,
          IEnumerable<PaymentInfo> payments,
          IEnumerable<TodoItem> todoList,
-         IEnumerable<RequiredDocument> requiredDocuments 
+         IEnumerable<RequiredDocument> requiredDocuments,
+         IEnumerable<PayoffInfo> payoffs
          )
       {
          var paymentsSchedule = payments.OrderBy(item => item.PaymentDate).ToArray();
 
          return new CreditInfo
-                   {
-                      Id = id,
-                      CreditNumber = creditNumber,
-                      ApplicationDate = applicationDate,
-                      ProtocolDate = protocolDate,
-                      CreditAmount = creditAmount,
-                      CreditIssueDate = creditIssueDate,
-                      MonthsCount = monthsCount,
-                      DiscountRate = discountRate,
-                      EffectiveDiscountRate = effectiveDiscountRate,
-                      ExchangeRate = exchangeRate,
-                      CreditState = creditState,
-                      RefusalReason = refusalReason,
-                      RowState = rowState,
-                      Borrower = borrower,
-                      CreditType = creditType,
-                      NotificationDescription = notificationDescription,
-                      NotificationCount = notificationCount,
-                      NotificationDate = notificationDate,
-                      _guarantors = guarantors.ToList(),
-                      PaymentsSchedule = paymentsSchedule,
-                      _todoList = todoList.ToList(),
-                      _requiredDocuments = requiredDocuments.ToList()
-                   };
+         {
+            Id = id,
+            CreditNumber = creditNumber,
+            ApplicationDate = applicationDate,
+            ProtocolDate = protocolDate,
+            CreditAmount = creditAmount,
+            CreditIssueDate = creditIssueDate,
+            MonthsCount = monthsCount,
+            DiscountRate = discountRate,
+            EffectiveDiscountRate = effectiveDiscountRate,
+            ExchangeRate = exchangeRate,
+            CreditState = creditState,
+            RefusalReason = refusalReason,
+            RowState = rowState,
+            Borrower = borrower,
+            CreditType = creditType,
+            NotificationDescription = notificationDescription,
+            NotificationCount = notificationCount,
+            NotificationDate = notificationDate,
+            _guarantors = guarantors.ToList(),
+            PaymentsSchedule = paymentsSchedule,
+            _todoList = todoList.ToList(),
+            _requiredDocuments = requiredDocuments.ToList(),
+            _payoffs = payoffs.ToList()
+         };
       }
 
       // Номер кредитного договора.
@@ -163,15 +167,23 @@ namespace Buzzer.DomainModel.Models
       // График погашений платежей.
       public PaymentInfo[] PaymentsSchedule { get; private set; }
 
+      public PaymentAdvance[] PaymentsProgress { get; private set; }
+
       // Список заданий/действий, которые нужно выполнить.
       public ReadOnlyCollection<TodoItem> TodoList
       {
-         get { return _todoList.AsReadOnly(); } 
+         get { return _todoList.AsReadOnly(); }
+      }
+
+      // Список платежей по кредиту
+      public ReadOnlyCollection<PayoffInfo> Payoffs
+      {
+         get { return _payoffs.AsReadOnly(); }
       }
 
       // Тип кредита.
       public CreditType CreditType { get; set; }
-      
+
       // Примечание оповещения о требуемых документах.
       public string NotificationDescription { get; set; }
 
@@ -185,7 +197,7 @@ namespace Buzzer.DomainModel.Models
       public ReadOnlyCollection<RequiredDocument> RequiredDocuments
       {
          get { return _requiredDocuments.AsReadOnly(); }
-      } 
+      }
 
       public PersonInfo AddGuarantor()
       {
@@ -202,7 +214,7 @@ namespace Buzzer.DomainModel.Models
 
       public TodoItem AddTodoItem()
       {
-         TodoItem todoItem = TodoItem.CreateNew(Id);
+         var todoItem = TodoItem.CreateNew(Id);
          _todoList.Add(todoItem);
          return todoItem;
       }
@@ -212,9 +224,19 @@ namespace Buzzer.DomainModel.Models
          _todoList.Remove(todoItem);
       }
 
+      public void InsertPayoff(PayoffInfo payoff)
+      {
+         _payoffs.Add(payoff);
+      }
+
+      public void RemovePayoff(PayoffInfo payoff)
+      {
+         _payoffs.Remove(payoff);
+      }
+
       public RequiredDocument AddRequiredDocument(DocumentType documentType)
       {
-         RequiredDocument requiredDocument = RequiredDocument.CreateNew(Id, documentType);
+         var requiredDocument = RequiredDocument.CreateNew(Id, documentType);
          _requiredDocuments.Add(requiredDocument);
          return requiredDocument;
       }
@@ -237,8 +259,22 @@ namespace Buzzer.DomainModel.Models
 
       public void BuildPaymentsSchedule()
       {
-         CreditPayment[] payments = CreditCalculator.Annuity(CreditAmount, MonthsCount, DiscountRate, ExchangeRate);
-         PaymentsSchedule = PaymentScheduleBuilder.Build(payments, CreditIssueDate, MonthsCount, ExchangeRate.HasValue);
+         var payments = CreditCalculator.Annuity(CreditAmount, MonthsCount, DiscountRate, ExchangeRate);
+         PaymentsSchedule = PaymentScheduleBuilder.Build(payments, CreditIssueDate, MonthsCount,
+            ExchangeRate.HasValue);
+      }
+
+      public void BuildPaymentsProgress()
+      {
+         if (!CanBuildPaymentsSchedule())
+         {
+            PaymentsProgress = new PaymentAdvance[0];
+            return;
+         }
+
+         List<PayoffInfo> timelinePayoffs = Payoffs.OrderBy(payoff => payoff.PayoffDate).ToList();
+         PaymentsProgress = AmortizationBuilder.Build(
+            CreditAmount, CreditIssueDate, MonthsCount, DiscountRate, ExchangeRate, timelinePayoffs);
       }
 
       public override bool IsValid()
@@ -256,8 +292,8 @@ namespace Buzzer.DomainModel.Models
          if (CreditState != CreditState.Repayed && CreditState != CreditState.Refused)
          {
             CreditState = string.IsNullOrEmpty(CreditNumber)
-                             ? CreditState.Consideration
-                             : CreditState.Current;
+               ? CreditState.Consideration
+               : CreditState.Current;
          }
       }
 
@@ -328,13 +364,13 @@ namespace Buzzer.DomainModel.Models
       protected override IEnumerable<string> getRequiredFields()
       {
          return new[]
-                   {
-                      "CreditNumber",
-                      "CreditAmount",
-                      "CreditIssueDate",
-                      "MonthsCount",
-                      "DiscountRate"
-                   };
+         {
+            "CreditNumber",
+            "CreditAmount",
+            "CreditIssueDate",
+            "MonthsCount",
+            "DiscountRate"
+         };
       }
 
       #region Validation methods

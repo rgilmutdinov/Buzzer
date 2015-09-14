@@ -71,6 +71,7 @@ namespace Buzzer.DatabaseConverter
                   {10, () => new AddTodoItemsTableConverter(commandFactory)},
                   {11, () => new AddCreditTypesAndDocumentTypesTablesConverter(commandFactory)},
                   {12, () => new AddRequiredDocumentsTableConverter(commandFactory)},
+                  {13, () => new AddPayoffsTableConverter(commandFactory)}
                };
 
          return

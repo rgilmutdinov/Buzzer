@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\AddApplicationDateAndProtocolDateColumnsConverter.cs" />
+    <Compile Include="Converters\AddPayoffsTableConverter.cs" />
     <Compile Include="Converters\AddCreditStateColumnToCreditsTableConverter.cs" />
     <Compile Include="Converters\AddCreditTypesAndDocumentTypesTablesConverter.cs" />
     <Compile Include="Converters\AddNotificationLogConverter.cs" />
@@ -76,6 +77,7 @@
     <EmbeddedResource Include="Properties\Resource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -84,6 +86,7 @@
     <Content Include="ConverterScripts\AddCreditTypesAndDocumentTypesTables.sql" />
     <Content Include="ConverterScripts\AddNotificationLogTable.sql" />
     <Content Include="ConverterScripts\AddRefusalReasonColumnToCreditsTable.sql" />
+    <Content Include="ConverterScripts\AddPayoffsTable.sql" />
     <Content Include="ConverterScripts\AddRequiredDocumentsTable.sql" />
     <Content Include="ConverterScripts\AddRowStateColumnToCreditsTable.sql" />
     <Content Include="ConverterScripts\AddTodoItemsTable.sql" />

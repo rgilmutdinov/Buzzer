@@ -49,6 +49,10 @@ namespace Buzzer.DataAccess.Repository
       protected static readonly FieldInfo PaymentDate = new FieldInfo("PaymentDate", DbType.Date);
       protected static readonly FieldInfo IsNotified = new FieldInfo("IsNotified", DbType.Boolean);
 
+      protected static readonly FieldInfo PayoffAmount = new FieldInfo("PayoffAmount", DbType.Decimal);
+      protected static readonly FieldInfo PayoffDate = new FieldInfo("PayoffDate", DbType.Date);
+      protected static readonly FieldInfo Remarks = new FieldInfo("Remarks", DbType.String, true);
+
       protected static readonly FieldInfo TodoItemDescription = new FieldInfo("Description", DbType.String);
       protected static readonly FieldInfo TodoItemState = new FieldInfo("State", DbType.Int32);
       protected static readonly FieldInfo TodoItemNotificationCount = new FieldInfo("NotificationCount", DbType.Int32);

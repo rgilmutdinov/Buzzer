@@ -15,7 +15,8 @@ namespace Buzzer.DomainModel.Services
          {
             // Beeline.
             case "770": case "771": case "772": case "773":
-            case "775": case "777": case "778": case "779":
+            case "775": case "776": case "777": case "778": 
+            case "779":
                return new BeelineSmsSender(phone);
 
             // Megacom.

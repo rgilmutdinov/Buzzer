@@ -62,6 +62,7 @@
     <Compile Include="Repository\SaveDocumentTypeCommand.cs" />
     <Compile Include="Repository\SaveNotificationLogItemCommand.cs" />
     <Compile Include="Repository\SavePaymentCommand.cs" />
+    <Compile Include="Repository\SavePayoffCommand.cs" />
     <Compile Include="Repository\SaveRequiredCreditDocumentsCommand.cs" />
     <Compile Include="Repository\SaveTodoItemCommand.cs" />
     <Compile Include="Repository\SelectCreditsCommand.cs" />

@@ -42,6 +42,7 @@ namespace Buzzer.DataAccess.Repository
          int[] paymentsIds = insertPayments(paymentsSchedule, creditId);
 
          int[] todoItemsIds = insertTodoItems(_credit.TodoList, creditId);
+         int[] payoffs = insertPayoffs(_credit.Payoffs, creditId);
          int[] requiredDocumentsIds = insertRequiredDocuments(creditId);
 
          _credit.Id = creditId;
@@ -52,6 +53,7 @@ namespace Buzzer.DataAccess.Repository
 
          fillPaymentsIds(paymentsIds);
          fillTodoItemsIds(todoItemsIds, creditId);
+         fillPayoffsIds(payoffs, creditId);
          fillRequiredDocumentsIds(requiredDocumentsIds, creditId);
       }
 
@@ -103,6 +105,8 @@ namespace Buzzer.DataAccess.Repository
          }
 
          saveTodoList(_credit.TodoList, original.TodoList);
+         savePayoffs(_credit.Payoffs, original.Payoffs);
+
          saveRequiredDocuments(original.RequiredDocuments);
 
          int i = 0;
@@ -177,6 +181,16 @@ namespace Buzzer.DataAccess.Repository
          return todoItemsIds;
       }
 
+      private int[] insertPayoffs(ReadOnlyCollection<PayoffInfo> payoffs, int creditId)
+      {
+         var payoffsIds = new int[payoffs.Count];
+
+         for (int i = 0; i < payoffs.Count; i++)
+            payoffsIds[i] = insertPayoff(payoffs[i], creditId);
+
+         return payoffsIds;
+      }
+
       private int[] insertRequiredDocuments(int creditId)
       {
          ReadOnlyCollection<RequiredDocument> requiredDocuments = _credit.RequiredDocuments;
@@ -200,6 +214,15 @@ namespace Buzzer.DataAccess.Repository
          {
             _credit.TodoList[i].Id = todoItemsIds[i];
             _credit.TodoList[i].CreditId = creditId;
+         }
+      }
+
+      private void fillPayoffsIds(int[] payoffsIds, int creditId)
+      {
+         for (int i = 0; i < payoffsIds.Length; i++)
+         {
+            _credit.Payoffs[i].Id = payoffsIds[i];
+            _credit.Payoffs[i].CreditId = creditId;
          }
       }
 
@@ -230,6 +253,26 @@ namespace Buzzer.DataAccess.Repository
                .Where(o => current.All(c => c.Id != o.Id))
                .ToList();
          deletedTodoItems.ForEach(deleteTodoItem);
+      }
+
+      private void savePayoffs(ReadOnlyCollection<PayoffInfo> current, ReadOnlyCollection<PayoffInfo> original)
+      {
+         foreach (PayoffInfo payoff in current)
+         {
+            if (payoff.IsNew)
+            {
+               int id = insertPayoff(payoff, _credit.Id);
+               payoff.Id = id;
+            }
+            else
+               updatePayoff(payoff);
+         }
+
+         List<PayoffInfo> deletedPayoffs =
+            original
+               .Where(o => current.All(c => c.Id != o.Id))
+               .ToList();
+         deletedPayoffs.ForEach(deletePayoff);
       }
 
       private void saveRequiredDocuments(ReadOnlyCollection<RequiredDocument> original)
@@ -659,6 +702,69 @@ namespace Buzzer.DataAccess.Repository
          using (DbCommand command = createCommand(deleteRequiredDocument))
          {
             command.AddParameter(requiredDocument.Id, Id);
+            command.ExecuteNonQuery();
+         }
+      }
+
+      #endregion
+
+      #region Payoffs
+
+      private int insertPayoff(PayoffInfo payoff, int creditId)
+      {
+         var insertPayoffQuery =
+            string.Format(
+               "INSERT INTO Payoffs ({0}, {1}, {2}, {3}) VALUES ({4}, {5}, {6}, {7});" +
+               "SELECT last_insert_rowid();",
+
+               CreditId.Name, PayoffDate.Name,
+               PayoffAmount.Name, Remarks.Name,
+
+               CreditId.ParameterName, PayoffDate.ParameterName,
+               PayoffAmount.ParameterName, Remarks.ParameterName);
+
+         using (var command = createCommand(insertPayoffQuery))
+         {
+            command.AddParameter(creditId, CreditId);
+            command.AddParameter(payoff.PayoffDate, PayoffDate);
+            command.AddParameter(payoff.PayoffAmount, PayoffAmount);
+            command.AddParameter(payoff.Remarks, Remarks);
+
+            return Convert.ToInt32(command.ExecuteScalar());
+         }
+      }
+
+      private void updatePayoff(PayoffInfo payoff)
+      {
+         var updatePayoffQuery =
+            string.Format(
+               "UPDATE Payoffs SET {0}={1}, {2}={3}, {4}={5} WHERE {6}={7};",
+
+               PayoffDate.Name, PayoffDate.ParameterName,
+               PayoffAmount.Name, PayoffAmount.ParameterName,
+
+               Remarks.Name, Remarks.ParameterName,
+               Id.Name, Id.ParameterName);
+
+         using (var command = createCommand(updatePayoffQuery))
+         {
+            command.AddParameter(payoff.PayoffDate, PayoffDate);
+            command.AddParameter(payoff.PayoffAmount, PayoffAmount);
+            command.AddParameter(payoff.Remarks, Remarks);
+            command.AddParameter(payoff.Id, Id);
+
+            command.ExecuteNonQuery();
+         }
+      }
+
+      private void deletePayoff(PayoffInfo payoff)
+      {
+         string deletePayoffsQuery =
+            string.Format("DELETE FROM Payoffs WHERE {0}={1};", Id.Name, Id.ParameterName);
+
+         using (DbCommand command = createCommand(deletePayoffsQuery))
+         {
+            command.AddParameter(payoff.Id, Id);
             command.ExecuteNonQuery();
          }
       }

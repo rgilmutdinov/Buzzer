@@ -73,7 +73,8 @@ namespace Buzzer.Tests.DomainModelTests
          PersonInfo[] guarantors,
          PaymentInfo[] paymentsSchedule,
          TodoItem[] todoList,
-         RequiredDocument[] requiredDocuments
+         RequiredDocument[] requiredDocuments,
+         PayoffInfo[] payoffs
          )
       {
          // Arrange/Act.
@@ -100,7 +101,8 @@ namespace Buzzer.Tests.DomainModelTests
                guarantors,
                paymentsSchedule,
                todoList,
-               requiredDocuments
+               requiredDocuments,
+               payoffs
                );
 
          // Assert.
@@ -226,13 +228,15 @@ namespace Buzzer.Tests.DomainModelTests
                      RequiredDocument.Create(2, id, DocumentType.Create(1, "DT2"), RequiredDocumentState.Carried)
                   };
 
+               PayoffInfo[] payoffs = new PayoffInfo[0];
+
                var testCaseData =
                   new TestCaseData(
                      id, creditNumber, applicationDate, protocolDate, creditAmount,
                      creditIssueDate, monthsCount, discountRate, effectiveDiscountRate,
                      exchangeRate, creditState, refusalReason, rowState, borrower,
                      creditType, notificationDescription, notificationCount, notificationDate,
-                     guarantors, paymentsSchedule, todoList, requiredDocuments
+                     guarantors, paymentsSchedule, todoList, requiredDocuments, payoffs
                      );
                testCaseData.SetName("CreateValidCreditInfoTest");
 

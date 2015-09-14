@@ -43,6 +43,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\AmortizationBuilder.cs" />
+    <Compile Include="Models\PaymentAdvance.cs" />
     <Compile Include="Models\CreditCalculator.cs" />
     <Compile Include="Models\CreditInfo.cs" />
     <Compile Include="Models\CreditPayment.cs" />
@@ -56,6 +58,7 @@
     <Compile Include="Models\PersonInfo.cs" />
     <Compile Include="Models\PhoneNumberInfo.cs" />
     <Compile Include="Models\DomainObject.cs" />
+    <Compile Include="Models\PayoffInfo.cs" />
     <Compile Include="Models\RequiredCreditDocuments.cs" />
     <Compile Include="Models\RequiredDocument.cs" />
     <Compile Include="Models\RequiredDocumentState.cs" />
@@ -83,6 +86,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -91,6 +95,7 @@
       <Name>Common</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
